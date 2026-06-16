@@ -77,9 +77,9 @@ jeweiligen Eintrags in `data/seen_listings.json` erneut angezeigt werden.
 
 Die GitHub Action erstellt oder aktualisiert automatisch ein Issue mit dem
 Titel `Neue Wohnungsangebote`, wenn neue passende Treffer gefunden werden.
-Neue Kommentare erwaehnen `@stewalpp`, damit GitHub Mobile eine direkte
-Benachrichtigung ausloesen kann. Jeder Treffer wird nur einmal kommentiert,
-weil seine ID im Seen-State gespeichert wird.
+Neue Kommentare erwaehnen `@stewalpp` und `@gishaa-create`, damit GitHub
+Mobile direkte Benachrichtigungen ausloesen kann. Jeder Treffer wird nur
+einmal kommentiert, weil seine ID im Seen-State gespeichert wird.
 
 Optional kann der Suchlauf neue Treffer zusaetzlich per E-Mail oder SMS
 verschicken. Die Werte werden nicht im Code gespeichert, sondern als GitHub

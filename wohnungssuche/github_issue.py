@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import urllib.error
 import urllib.request
 
@@ -20,8 +21,8 @@ def post_report_to_issue(markdown: str, title: str = ISSUE_TITLE) -> str | None:
     if not token or not repository:
         return None
 
-    mention = os.environ.get("GITHUB_NOTIFICATION_USER", "").strip().lstrip("@")
-    body = f"@{mention}\n\n{markdown}" if mention else markdown
+    mentions = notification_mentions()
+    body = f"{mentions}\n\n{markdown}" if mentions else markdown
     issue_number = find_or_create_issue(repository, token, title)
     request_json(
         "POST",
@@ -30,6 +31,18 @@ def post_report_to_issue(markdown: str, title: str = ISSUE_TITLE) -> str | None:
         {"body": body},
     )
     return f"https://github.com/{repository}/issues/{issue_number}"
+
+
+def notification_mentions() -> str:
+    raw_value = os.environ.get("GITHUB_NOTIFICATION_USERS") or os.environ.get(
+        "GITHUB_NOTIFICATION_USER", ""
+    )
+    users = []
+    for user in re.split(r"[\s,]+", raw_value):
+        normalized = user.strip().lstrip("@")
+        if normalized and normalized not in users:
+            users.append(normalized)
+    return " ".join(f"@{user}" for user in users)
 
 
 def find_or_create_issue(repository: str, token: str, title: str) -> int:
