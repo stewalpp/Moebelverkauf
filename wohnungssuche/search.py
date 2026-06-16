@@ -5,6 +5,7 @@ import os
 import sys
 from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import requests
 import yaml
@@ -165,7 +166,7 @@ def format_report(
     floor_review_matches: list[tuple[Listing, MatchResult]],
     errors: list[str],
 ) -> str:
-    today = datetime.now().strftime("%Y-%m-%d %H:%M")
+    today = datetime.now(ZoneInfo("Europe/Berlin")).strftime("%Y-%m-%d %H:%M")
     lines = [f"# Neue Wohnungsangebote ({today})", ""]
 
     if not matches and not floor_review_matches:
