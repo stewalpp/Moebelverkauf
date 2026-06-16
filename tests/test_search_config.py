@@ -16,7 +16,6 @@ class SearchConfigTests(unittest.TestCase):
             "Kleinanzeigen Gehrden 3 Zimmer": "l14210",
             "Kleinanzeigen Wennigsen 3 Zimmer": "l14212",
             "Kleinanzeigen Ronnenberg 3 Zimmer": "l2902",
-            "Kleinanzeigen Seelze 3 Zimmer": "l2920",
         }
 
         for source_name, location_id in expected_fragments.items():
@@ -29,10 +28,8 @@ class SearchConfigTests(unittest.TestCase):
         expected_sources = [
             "Immowelt Gehrden 3 Zimmer",
             "Immowelt Ronnenberg 3 Zimmer",
-            "Immowelt Seelze 3 Zimmer",
             "Immowelt Wennigsen 3 Zimmer",
             "Immobilo Barsinghausen 3 Zimmer",
-            "Immobilo Seelze 3 Zimmer",
             "Wohnungsboerse Barsinghausen 3 Zimmer",
             "Wohnungsboerse Ronnenberg 3 Zimmer",
         ]
@@ -40,6 +37,18 @@ class SearchConfigTests(unittest.TestCase):
         for source_name in expected_sources:
             with self.subTest(source=source_name):
                 self.assertIn(source_name, sources)
+
+    def test_seelze_is_excluded(self):
+        config = yaml.safe_load(Path("config/search.yml").read_text(encoding="utf-8"))
+        criteria = config["criteria"]
+        sources = self.load_sources()
+
+        self.assertFalse(
+            any("Seelze" in name for name in sources),
+            "no Seelze search source should remain",
+        )
+        self.assertNotIn("seelze", criteria["allowed_location_terms"])
+        self.assertIn("seelze", criteria["excluded_location_terms"])
 
 
 if __name__ == "__main__":

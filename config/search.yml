@@ -29,16 +29,12 @@ criteria:
     - wennigsen
     - ronnenberg
     - empelde
-    - seelze
-    - letter
-    - lohnde
     - sorsum
     - weetzen
-    - velber
-    - harenberg
     - lenthe
     - benthe
   excluded_location_terms:
+    - seelze
     - ", hannover"
     - "hannover ("
     - "hannover,"
@@ -95,11 +91,6 @@ sources:
     type: html
     url: https://www.immowelt.de/suche/mieten/wohnung/zimmer-3/niedersachsen/ronnenberg-30952/ad08de1311
 
-  - name: Immowelt Seelze 3 Zimmer
-    enabled: true
-    type: html
-    url: https://www.immowelt.de/suche/mieten/wohnung/zimmer-3/niedersachsen/seelze-30926/ad08de1312
-
   - name: Immowelt Wennigsen 3 Zimmer
     enabled: true
     type: html
@@ -135,11 +126,6 @@ sources:
     type: html
     url: https://www.kleinanzeigen.de/s-wohnung-mieten/ronnenberg/3-zimmer-wohnung/k0c203l2902
 
-  - name: Kleinanzeigen Seelze 3 Zimmer
-    enabled: true
-    type: html
-    url: https://www.kleinanzeigen.de/s-wohnung-mieten/seelze/3-zimmer-wohnung/k0c203l2920
-
   - name: Immobilo Barsinghausen 3 Zimmer
     enabled: true
     type: html
@@ -154,11 +140,6 @@ sources:
     enabled: true
     type: html
     url: https://www.immobilo.de/mieten/wohnung/ronnenberg/3-zimmer
-
-  - name: Immobilo Seelze 3 Zimmer
-    enabled: true
-    type: html
-    url: https://www.immobilo.de/mieten/wohnung/seelze/3-zimmer
 
   - name: Immobilo Wennigsen 3 Zimmer
     enabled: true
@@ -179,11 +160,6 @@ sources:
     enabled: true
     type: html
     url: https://www.wohnungsboerse.net/Ronnenberg/3-zimmer-wohnung-mieten
-
-  - name: Wohnungsboerse Seelze 3 Zimmer
-    enabled: true
-    type: html
-    url: https://www.wohnungsboerse.net/Seelze/3-zimmer-wohnung-mieten
 
   - name: Wohnungsboerse Wennigsen 3 Zimmer
     enabled: true

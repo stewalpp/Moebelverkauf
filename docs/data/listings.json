@@ -1,37 +1,17 @@
 {
   "schema": 1,
-  "generated_at": "2026-06-16T21:55:44+02:00",
+  "generated_at": "2026-06-16T22:27:34+02:00",
   "criteria": {
     "min_rooms": 3,
     "min_area_sqm": 70,
     "max_total_rent_eur": 1000
   },
   "counts": {
-    "total": 36,
-    "match": 27,
-    "review": 9
+    "total": 25,
+    "match": 19,
+    "review": 6
   },
   "listings": [
-    {
-      "id": "f19f6c74b54ec835",
-      "title": "Wohnung zur Miete 3 Zimmer, 80 qm, Geschoss 1/2",
-      "url": "https://www.immowelt.de/expose/26udla3l3nvi",
-      "source": "Immowelt Seelze 3 Zimmer",
-      "portal": "immowelt",
-      "price_eur": 850.0,
-      "area_sqm": 80.0,
-      "rooms": 3.0,
-      "location": null,
-      "floor": "1. geschoss",
-      "image": "https://mms.immowelt.de/4/f/c/b/4fcbaa20-3689-4d52-9f9b-df2fc3a99d98.jpg?ci_seal=184b02012dbc38932bd39a397f78564dc516fb9c&w=525&h=394",
-      "status": "review",
-      "reasons": [
-        "kein EG/Parterre: 1. geschoss"
-      ],
-      "review_notes": [],
-      "first_seen": "2026-06-16T19:55:44.432689+00:00",
-      "last_seen": "2026-06-16T19:55:44.432712+00:00"
-    },
     {
       "id": "c2c2c7eac5fc9a6d",
       "title": "Wohnung zur Miete 3 Zimmer, 78,2 qm Müh",
@@ -122,168 +102,6 @@
       ],
       "review_notes": [],
       "first_seen": "2026-06-16T14:48:24.184659+00:00",
-      "last_seen": "2026-06-16T19:55:44.432712+00:00"
-    },
-    {
-      "id": "59a70640d8284893",
-      "title": "Maisonette-Wohnung in Kirchwehren",
-      "url": "https://www.immowelt.de/expose/5d6237f7-f5bc-4e04-902c-e0ca322aeb69",
-      "source": "Immobilo Seelze 3 Zimmer",
-      "portal": "immowelt",
-      "price_eur": 559.47,
-      "area_sqm": null,
-      "rooms": 3.0,
-      "location": "30926 Seelze",
-      "floor": null,
-      "image": null,
-      "status": "match",
-      "reasons": [
-        "3 Zimmer",
-        "559.47 EUR"
-      ],
-      "review_notes": [
-        "Etage pruefen",
-        "Wohnflaeche pruefen"
-      ],
-      "first_seen": "2026-06-16T14:48:24.184659+00:00",
-      "last_seen": "2026-06-16T19:55:44.432712+00:00"
-    },
-    {
-      "id": "a8ba9d8f78bdde56",
-      "title": "Helle 3 Zimmer Wohnung in Lohnde",
-      "url": "https://www.kleinanzeigen.de/s-anzeige/helle-3-zimmer-wohnung-in-lohnde/3435064449-203-2921",
-      "source": "Kleinanzeigen Seelze 3 Zimmer",
-      "portal": "kleinanzeigen",
-      "price_eur": 600.0,
-      "area_sqm": 80.0,
-      "rooms": 3.0,
-      "location": "30926 Seelze Helle",
-      "floor": "1.og",
-      "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/9b/9b8c5c3a-dc5a-4240-be59-6a4c7bfafffb?rule=$_2.AUTO",
-      "status": "review",
-      "reasons": [
-        "kein EG/Parterre: 1.og"
-      ],
-      "review_notes": [],
-      "first_seen": "2026-06-16T14:22:06.114015+00:00",
-      "last_seen": "2026-06-16T19:55:44.432712+00:00"
-    },
-    {
-      "id": "a58cf2ec63cfe366",
-      "title": "Ansprechende 3 5 Zimmer Wohnung mit Tageslichtbad und Balkon",
-      "url": "https://www.kleinanzeigen.de/s-anzeige/ansprechende-3-5-zimmer-wohnung-mit-tageslichtbad-und-balkon/3421193758-203-2921",
-      "source": "Kleinanzeigen Seelze 3 Zimmer",
-      "portal": "kleinanzeigen",
-      "price_eur": 759.0,
-      "area_sqm": 77.2,
-      "rooms": 3.5,
-      "location": "30926 Seelze Ansprechende",
-      "floor": null,
-      "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/da/dada1a0c-d3fd-4996-bc6a-ebbb49555b8c?rule=$_2.AUTO",
-      "status": "match",
-      "reasons": [
-        "3.5 Zimmer",
-        "77.2 qm",
-        "759 EUR"
-      ],
-      "review_notes": [
-        "Etage pruefen"
-      ],
-      "first_seen": "2026-06-16T14:22:06.114015+00:00",
-      "last_seen": "2026-06-16T19:55:44.432712+00:00"
-    },
-    {
-      "id": "9d300ba06d25b48a",
-      "title": "3 Zimmer Eg Wohnung am Ortsrand mit Garten Pferdehaltung Moegl",
-      "url": "https://www.kleinanzeigen.de/s-anzeige/3-zimmer-eg-wohnung-am-ortsrand-mit-garten-pferdehaltung-moegl-/3430080621-203-2921",
-      "source": "Kleinanzeigen Seelze 3 Zimmer",
-      "portal": "kleinanzeigen",
-      "price_eur": 976.0,
-      "area_sqm": 84.0,
-      "rooms": 3.0,
-      "location": "30926 Seelze",
-      "floor": "eg",
-      "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/43/43d331d3-a815-40b1-b8f1-ed650c8e3b2e?rule=$_2.AUTO",
-      "status": "match",
-      "reasons": [
-        "3 Zimmer",
-        "84 qm",
-        "976 EUR",
-        "EG/Parterre-Hinweis gefunden"
-      ],
-      "review_notes": [],
-      "first_seen": "2026-06-16T14:22:06.114015+00:00",
-      "last_seen": "2026-06-16T19:55:44.432712+00:00"
-    },
-    {
-      "id": "937a736a9dd28161",
-      "title": "Renovierte 3 Zimmer Wohnung mit Gaeste Wc in Harenberg",
-      "url": "https://www.kleinanzeigen.de/s-anzeige/renovierte-3-zimmer-wohnung-mit-gaeste-wc-in-harenberg/3349733687-203-2921",
-      "source": "Kleinanzeigen Seelze 3 Zimmer",
-      "portal": "kleinanzeigen",
-      "price_eur": 850.0,
-      "area_sqm": 87.0,
-      "rooms": 3.0,
-      "location": "30926 Seelze Renovierte",
-      "floor": null,
-      "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/a5/a5b13e9f-4e38-4070-8610-ea245c8b46bf?rule=$_2.AUTO",
-      "status": "match",
-      "reasons": [
-        "3 Zimmer",
-        "87 qm",
-        "850 EUR"
-      ],
-      "review_notes": [
-        "Etage pruefen"
-      ],
-      "first_seen": "2026-06-16T14:22:06.114015+00:00",
-      "last_seen": "2026-06-16T19:55:44.432712+00:00"
-    },
-    {
-      "id": "76d2ef7695ba2613",
-      "title": "Wo Das Leben So Spielt Ruhige 3 Zimmer Wohnung mit Balkon",
-      "url": "https://www.kleinanzeigen.de/s-anzeige/wo-das-leben-so-spielt-ruhige-3-zimmer-wohnung-mit-balkon/3421193556-203-2921",
-      "source": "Kleinanzeigen Seelze 3 Zimmer",
-      "portal": "kleinanzeigen",
-      "price_eur": 728.0,
-      "area_sqm": 72.0,
-      "rooms": 3.0,
-      "location": "30926 Seelze Wo das Leben so spielt - ruhi",
-      "floor": null,
-      "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/62/62c2d718-384f-4c4b-850e-49f0beb41c36?rule=$_2.AUTO",
-      "status": "match",
-      "reasons": [
-        "3 Zimmer",
-        "72 qm",
-        "728 EUR"
-      ],
-      "review_notes": [
-        "Etage pruefen"
-      ],
-      "first_seen": "2026-06-16T14:22:06.114015+00:00",
-      "last_seen": "2026-06-16T19:55:44.432712+00:00"
-    },
-    {
-      "id": "7297956522363c59",
-      "title": "3 Z Wohnung Erdgeschoss Balkon Inkl Garage in Seelze Hannover",
-      "url": "https://www.kleinanzeigen.de/s-anzeige/3-z-wohnung-erdgeschoss-balkon-inkl-garage-in-seelze-hannover-/3429344720-203-2921",
-      "source": "Kleinanzeigen Seelze 3 Zimmer",
-      "portal": "kleinanzeigen",
-      "price_eur": 975.0,
-      "area_sqm": 70.0,
-      "rooms": 3.0,
-      "location": "30926 Seelze",
-      "floor": "erdgeschoss",
-      "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/4f/4f4e5471-209c-4a09-9581-6ba766e1c0c8?rule=$_2.AUTO",
-      "status": "match",
-      "reasons": [
-        "3 Zimmer",
-        "70 qm",
-        "975 EUR",
-        "EG/Parterre-Hinweis gefunden"
-      ],
-      "review_notes": [],
-      "first_seen": "2026-06-16T14:22:06.114015+00:00",
       "last_seen": "2026-06-16T19:55:44.432712+00:00"
     },
     {
@@ -379,26 +197,6 @@
       "review_notes": [
         "Etage pruefen"
       ],
-      "first_seen": "2026-06-16T14:22:06.114015+00:00",
-      "last_seen": "2026-06-16T19:55:44.432712+00:00"
-    },
-    {
-      "id": "3e68f5cc62738b8c",
-      "title": "Renovierte 3 Zi Wohnung im 1 Og mit Balkon und Stellplatz in Letter",
-      "url": "https://www.kleinanzeigen.de/s-anzeige/renovierte-3-zi-wohnung-im-1-og-mit-balkon-und-stellplatz-in-letter/3414551916-203-2921",
-      "source": "Kleinanzeigen Seelze 3 Zimmer",
-      "portal": "kleinanzeigen",
-      "price_eur": 750.0,
-      "area_sqm": 75.0,
-      "rooms": 3.0,
-      "location": "30926 Seelze renovierte",
-      "floor": "1. og",
-      "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/f4/f43dc455-ccd5-4ca1-8b7f-30e8465f38e1?rule=$_2.AUTO",
-      "status": "review",
-      "reasons": [
-        "kein EG/Parterre: 1. og"
-      ],
-      "review_notes": [],
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
       "last_seen": "2026-06-16T19:55:44.432712+00:00"
     },
@@ -639,30 +437,6 @@
       "last_seen": "2026-06-16T19:55:44.432712+00:00"
     },
     {
-      "id": "e4ad55637515d10e",
-      "title": "Wohnung in Seelze",
-      "url": "https://www.immowelt.de/expose/a08ad840-bc16-4801-aa81-50ecba610cf1",
-      "source": "Immobilo Seelze 3 Zimmer",
-      "portal": "immowelt",
-      "price_eur": 635.39,
-      "area_sqm": null,
-      "rooms": 3.0,
-      "location": "30926 Seelze",
-      "floor": null,
-      "image": null,
-      "status": "match",
-      "reasons": [
-        "3 Zimmer",
-        "635.39 EUR"
-      ],
-      "review_notes": [
-        "Etage pruefen",
-        "Wohnflaeche pruefen"
-      ],
-      "first_seen": "2026-06-16T07:37:14.605931+00:00",
-      "last_seen": "2026-06-16T19:55:44.432712+00:00"
-    },
-    {
       "id": "bd780341c0d19730",
       "title": "Wohnung zur Miete 3 Zimmer, 78 qm, Geschoss 3/3",
       "url": "https://www.immowelt.de/expose/26yymgwzmldu",
@@ -787,30 +561,6 @@
         "kein EG/Parterre: 1. geschoss"
       ],
       "review_notes": [],
-      "first_seen": "2026-06-16T07:37:14.605931+00:00",
-      "last_seen": "2026-06-16T19:55:44.432712+00:00"
-    },
-    {
-      "id": "1387dfe40f50e2e3",
-      "title": "Wohnung mit Balkon",
-      "url": "https://www.immowelt.de/expose/8e294093-346c-44a9-8967-daa3ebb898b7",
-      "source": "Immobilo Seelze 3 Zimmer",
-      "portal": "immowelt",
-      "price_eur": 715.38,
-      "area_sqm": null,
-      "rooms": 3.0,
-      "location": "30926 Seelze",
-      "floor": null,
-      "image": null,
-      "status": "match",
-      "reasons": [
-        "3 Zimmer",
-        "715.38 EUR"
-      ],
-      "review_notes": [
-        "Etage pruefen",
-        "Wohnflaeche pruefen"
-      ],
       "first_seen": "2026-06-16T07:37:14.605931+00:00",
       "last_seen": "2026-06-16T19:55:44.432712+00:00"
     },
