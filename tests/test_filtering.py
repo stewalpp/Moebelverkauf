@@ -28,6 +28,10 @@ class FilteringTests(unittest.TestCase):
         self.assertEqual(parse_area(text), 70.6)
         self.assertEqual(parse_floor("Geschoss 6/7"), "6. geschoss")
 
+    def test_parse_price_after_image_counter(self):
+        self.assertEqual(parse_price("1 / 9 800 EUR Kaltmiete"), 800)
+        self.assertEqual(parse_price("1 / 2 980 € Kaltmiete"), 980)
+
     def test_rejects_too_expensive_listing(self):
         listing = build_listing(
             "test",

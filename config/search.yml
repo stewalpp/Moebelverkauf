@@ -4,6 +4,7 @@ criteria:
   max_total_rent_eur: 1000
   require_ground_floor: true
   allow_unknown_floor: true
+  include_floor_review_candidates: true
   strict_location: true
   allowed_location_terms:
     - hannover

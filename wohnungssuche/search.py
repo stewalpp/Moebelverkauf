@@ -33,6 +33,7 @@ def main(argv: list[str] | None = None) -> int:
         return 2
 
     all_matches: list[tuple[Listing, MatchResult]] = []
+    floor_review_matches: list[tuple[Listing, MatchResult]] = []
     errors: list[str] = []
 
     for source in sources:
@@ -44,15 +45,21 @@ def main(argv: list[str] | None = None) -> int:
 
         for listing in listings:
             result = evaluate_listing(listing, criteria)
-            if result.accepted and not is_seen(state, listing):
+            if is_seen(state, listing):
+                continue
+            if result.accepted:
                 all_matches.append((listing, result))
+            elif should_include_floor_review(result, criteria):
+                floor_review_matches.append((listing, result))
 
     all_matches = dedupe_matches(all_matches)
-    markdown = format_report(all_matches, errors)
+    floor_review_matches = dedupe_matches(floor_review_matches)
+    markdown = format_report(all_matches, floor_review_matches, errors)
     print(markdown)
     append_step_summary(markdown)
 
-    if all_matches:
+    reported_listings = [listing for listing, _ in all_matches + floor_review_matches]
+    if reported_listings:
         if args.github_issue:
             issue_url = post_report_to_issue(markdown)
             if issue_url:
@@ -62,7 +69,7 @@ def main(argv: list[str] | None = None) -> int:
         for report_path in report_paths:
             print(f"Report geschrieben: {report_path}")
 
-        mark_seen(state, [listing for listing, _ in all_matches])
+        mark_seen(state, reported_listings)
         save_state(args.state, state)
         print(f"Seen-State aktualisiert: {args.state}")
 
@@ -127,11 +134,21 @@ def dedupe_matches(
     )
 
 
-def format_report(matches: list[tuple[Listing, MatchResult]], errors: list[str]) -> str:
+def should_include_floor_review(result: MatchResult, criteria: dict) -> bool:
+    if not criteria.get("include_floor_review_candidates", False):
+        return False
+    return any(reason.startswith("kein EG/Parterre") for reason in result.reasons)
+
+
+def format_report(
+    matches: list[tuple[Listing, MatchResult]],
+    floor_review_matches: list[tuple[Listing, MatchResult]],
+    errors: list[str],
+) -> str:
     today = datetime.now().strftime("%Y-%m-%d %H:%M")
     lines = [f"# Neue Wohnungsangebote ({today})", ""]
 
-    if not matches:
+    if not matches and not floor_review_matches:
         lines.extend(
             [
                 "Keine neuen passenden Inserate gefunden.",
@@ -140,11 +157,24 @@ def format_report(matches: list[tuple[Listing, MatchResult]], errors: list[str])
             ]
         )
     else:
-        lines.append(f"{len(matches)} neue passende Inserate gefunden.")
-        lines.append("")
-        for index, (listing, result) in enumerate(matches, start=1):
-            lines.extend(format_listing(index, listing, result))
+        if matches:
+            lines.append(f"{len(matches)} neue passende Inserate gefunden.")
             lines.append("")
+            for index, (listing, result) in enumerate(matches, start=1):
+                lines.extend(format_listing(index, listing, result, review_candidate=False))
+                lines.append("")
+
+        if floor_review_matches:
+            lines.append("## Pruefkandidaten: Etage passt wahrscheinlich nicht")
+            lines.append("")
+            lines.append(
+                "Diese Wohnungen passen bei Preis, Groesse, Zimmerzahl und Lage, "
+                "liegen aber laut Suchseite nicht im EG/Parterre."
+            )
+            lines.append("")
+            for index, (listing, result) in enumerate(floor_review_matches, start=1):
+                lines.extend(format_listing(index, listing, result, review_candidate=True))
+                lines.append("")
 
     if errors:
         lines.append("## Quellen mit Fehlern")
@@ -156,7 +186,9 @@ def format_report(matches: list[tuple[Listing, MatchResult]], errors: list[str])
     return "\n".join(lines).rstrip() + "\n"
 
 
-def format_listing(index: int, listing: Listing, result: MatchResult) -> list[str]:
+def format_listing(
+    index: int, listing: Listing, result: MatchResult, review_candidate: bool
+) -> list[str]:
     price = f"{listing.price_eur:g} EUR" if listing.price_eur is not None else "Miete offen"
     area = f"{listing.area_sqm:g} qm" if listing.area_sqm is not None else "Flaeche offen"
     rooms = f"{listing.rooms:g} Zimmer" if listing.rooms is not None else "Zimmer offen"
@@ -164,6 +196,7 @@ def format_listing(index: int, listing: Listing, result: MatchResult) -> list[st
     notes = ", ".join(result.review_notes) if result.review_notes else "keine"
     reasons = ", ".join(result.reasons) if result.reasons else "Kriterien teilweise im Text erkannt"
 
+    reason_label = "Warum nicht perfekt" if review_candidate else "Warum passend"
     return [
         f"## {index}. {listing.title}",
         "",
@@ -171,7 +204,7 @@ def format_listing(index: int, listing: Listing, result: MatchResult) -> list[st
         f"- Link: {listing.url}",
         f"- Eckdaten: {price}, {area}, {rooms}",
         f"- Lage: {location}",
-        f"- Warum passend: {reasons}",
+        f"- {reason_label}: {reasons}",
         f"- Bitte pruefen: {notes}",
     ]
 
@@ -199,4 +232,3 @@ def append_step_summary(markdown: str) -> None:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

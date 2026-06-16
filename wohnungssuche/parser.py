@@ -39,6 +39,9 @@ def parse_price(text: str) -> float | None:
         if "/m" in tail or "pro m" in tail:
             continue
         whole, cents = match.groups()
+        prefix = text[max(0, match.start() - 6) : match.start()]
+        if "/" in prefix and " " in whole and "." not in whole:
+            whole = whole.split()[-1]
         value = parse_decimal(f"{whole},{cents}" if cents else whole)
         if 50 <= value <= 10000:
             return value

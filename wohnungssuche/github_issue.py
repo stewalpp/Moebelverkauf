@@ -20,12 +20,14 @@ def post_report_to_issue(markdown: str, title: str = ISSUE_TITLE) -> str | None:
     if not token or not repository:
         return None
 
+    mention = os.environ.get("GITHUB_NOTIFICATION_USER", "").strip().lstrip("@")
+    body = f"@{mention}\n\n{markdown}" if mention else markdown
     issue_number = find_or_create_issue(repository, token, title)
     request_json(
         "POST",
         f"/repos/{repository}/issues/{issue_number}/comments",
         token,
-        {"body": markdown},
+        {"body": body},
     )
     return f"https://github.com/{repository}/issues/{issue_number}"
 
@@ -72,4 +74,3 @@ def request_json(method: str, path: str, token: str, payload: dict | None = None
     except urllib.error.HTTPError as exc:
         detail = exc.read().decode("utf-8", errors="replace")
         raise GitHubIssueError(f"GitHub API failed ({exc.code}): {detail}") from exc
-
