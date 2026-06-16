@@ -19,7 +19,8 @@
     { key: 'neu', label: 'Neu' },
     { key: 'match', label: 'Passt' },
     { key: 'review', label: 'Etage prüfen' },
-    { key: 'favoriten', label: 'Favoriten' }
+    { key: 'favoriten', label: 'Favoriten' },
+    { key: 'aussortiert', label: 'Aussortiert' }
   ];
 
   var STATUS_OPTIONS = [
@@ -126,22 +127,31 @@
     return App.el('span', 'badge badge-green', 'Passt');
   }
 
-  // Fill a .listing-image wrapper with the photo (lazy) or a house placeholder;
-  // falls back to the placeholder if the image fails to load (hotlink/404).
+  // Free image proxy fallback (caches + bypasses hotlink/expiry issues).
+  function proxiedImage(url, width) {
+    return 'https://images.weserv.nl/?url=' + encodeURIComponent(url.replace(/^https?:\/\//, '')) +
+      '&w=' + (width || 600) + '&output=webp&q=72';
+  }
+
+  // Fill a .listing-image wrapper with the photo (lazy) or a house placeholder.
+  // On load failure, retry once via the image proxy, then fall back to the
+  // placeholder (handles hotlink blocks / expired signed URLs).
   function setListingImage(wrap, url) {
     wrap.classList.remove('is-placeholder');
     if (url) {
       var img = document.createElement('img');
       img.className = 'listing-photo';
-      img.src = url;
       img.alt = '';
       img.loading = 'lazy';
       img.decoding = 'async';
+      var triedProxy = false;
       img.addEventListener('error', function () {
+        if (!triedProxy) { triedProxy = true; img.src = proxiedImage(url, 600); return; }
         if (img.parentNode) img.parentNode.removeChild(img);
         wrap.classList.add('is-placeholder');
         wrap.insertBefore(App.icon('building', 40), wrap.firstChild);
       });
+      img.src = url;
       wrap.appendChild(img);
     } else {
       wrap.classList.add('is-placeholder');
@@ -169,6 +179,42 @@
     btn.disabled = true;
     btn.addEventListener('click', function (e) { e.stopPropagation(); });
     return btn;
+  }
+
+  function scoreBadge(listing) {
+    var s = Score.score(listing);
+    var b = App.el('span', 'score-badge score-' + Score.tone(s.total), String(s.total));
+    b.setAttribute('aria-label', 'Wertung ' + s.total + ' von 100');
+    b.title = 'Wertung ' + s.total + '/100';
+    return b;
+  }
+
+  function scoreSection(listing) {
+    var s = Score.score(listing);
+    var wrap = App.el('div', 'score-section');
+    var head = App.el('div', 'score-head');
+    var ring = App.el('div', 'score-ring score-' + Score.tone(s.total));
+    ring.appendChild(App.el('span', 'score-ring-num', String(s.total)));
+    head.appendChild(ring);
+    var ht = App.el('div', 'score-head-text');
+    ht.appendChild(App.el('div', 'score-head-title', 'Wertung ' + s.total + ' / 100'));
+    ht.appendChild(App.el('div', 'score-head-sub', 'aus euren Filter-Einstellungen berechnet'));
+    head.appendChild(ht);
+    wrap.appendChild(head);
+    s.parts.forEach(function (p) {
+      var row = App.el('div', 'score-part');
+      var lab = App.el('div', 'score-part-label');
+      lab.appendChild(App.el('span', 'score-part-name', p.label));
+      lab.appendChild(App.el('span', 'score-part-note', p.note || ''));
+      row.appendChild(lab);
+      var bar = App.el('div', 'score-bar');
+      var fill = App.el('div', 'score-bar-fill');
+      fill.style.width = Math.round(p.got / p.max * 100) + '%';
+      bar.appendChild(fill);
+      row.appendChild(bar);
+      wrap.appendChild(row);
+    });
+    return wrap;
   }
 
   // -------- listing card
@@ -200,8 +246,10 @@
     var title = App.el('div', 'listing-title', listing.title || 'Wohnung');
     card.appendChild(title);
 
-    var price = App.el('div', 'listing-price', App.fmtEUR(listing.price_eur));
-    card.appendChild(price);
+    var priceRow = App.el('div', 'listing-price-row');
+    priceRow.appendChild(App.el('div', 'listing-price', App.fmtEUR(listing.price_eur)));
+    priceRow.appendChild(scoreBadge(listing));
+    card.appendChild(priceRow);
 
     var meta = App.el('div', 'listing-meta');
     var sub = [];
@@ -216,8 +264,11 @@
     loc.appendChild(App.el('span', null, listing.location || 'Lage im Inserat prüfen'));
     card.appendChild(loc);
 
+    // free, data-driven highlight line
+    card.appendChild(App.el('div', 'listing-blurb', Score.blurb(listing)));
+
     var srcline = App.el('div', 'listing-src');
-    srcline.textContent = (listing.source || listing.portal || '') + ' · ' + App.fmtRelTime(listing.first_seen);
+    srcline.textContent = (listing.source || listing.portal || '') + ' · gefunden ' + App.fmtDateTime(listing.first_seen);
     card.appendChild(srcline);
 
     var sChip = statusChip(listing);
@@ -253,15 +304,21 @@
     if (listing.image) {
       var photo = document.createElement('img');
       photo.className = 'detail-photo';
-      photo.src = listing.image;
       photo.alt = '';
       photo.loading = 'lazy';
-      photo.addEventListener('error', function () { if (photo.parentNode) photo.parentNode.removeChild(photo); });
+      var triedProxy = false;
+      photo.addEventListener('error', function () {
+        if (!triedProxy) { triedProxy = true; photo.src = proxiedImage(listing.image, 800); return; }
+        if (photo.parentNode) photo.parentNode.removeChild(photo);
+      });
+      photo.src = listing.image;
       c.appendChild(photo);
     }
 
     var price = App.el('div', 'detail-price', App.fmtEUR(listing.price_eur));
     c.appendChild(price);
+
+    c.appendChild(App.el('div', 'detail-blurb', Score.blurb(listing)));
 
     var grid = App.el('div', 'detail-grid');
     addDetail(grid, 'door', App.fmtRooms(listing.rooms) || '–', 'Zimmer');
@@ -277,7 +334,11 @@
       c.appendChild(infoLine('Bitte prüfen', listing.review_notes.join(', '), 'warn'));
     }
     c.appendChild(infoLine('Quelle', listing.source || listing.portal || '–', null));
-    c.appendChild(infoLine('Zuerst gesehen', App.fmtDateTime(listing.first_seen), null));
+    c.appendChild(infoLine('Gefunden', App.fmtDateTime(listing.first_seen) + ' (' + App.fmtRelTime(listing.first_seen) + ')', null));
+
+    // score breakdown
+    c.appendChild(App.el('div', 'section-title', 'Wertung'));
+    c.appendChild(scoreSection(listing));
 
     // ratings
     var rl = App.el('div', 'section-title', 'Eure Bewertung');
@@ -334,6 +395,35 @@
       saveNote();
     });
     c.appendChild(note);
+
+    // generated viewing request (free, from the listing data + your names)
+    c.appendChild(App.el('div', 'section-title', 'Besichtigungsanfrage'));
+    var members = Store.getSettings().members;
+    var inq = document.createElement('textarea');
+    inq.className = 'input';
+    inq.style.minHeight = '156px';
+    inq.style.fontFamily = 'inherit';
+    inq.style.fontSize = '15px';
+    inq.value = Score.inquiry(listing, members[0] && members[0].name, members[1] && members[1].name);
+    c.appendChild(inq);
+    var copyBtn = App.el('button', 'btn btn-secondary', 'Anfrage kopieren');
+    copyBtn.type = 'button';
+    copyBtn.style.marginTop = '8px';
+    copyBtn.appendChild(App.icon('check', 15));
+    copyBtn.addEventListener('click', function () {
+      var text = inq.value;
+      function ok() { App.toast('Anfrage kopiert ✓'); }
+      function fallback() {
+        inq.focus(); inq.select();
+        var done = false;
+        try { done = document.execCommand('copy'); } catch (e) {}
+        App.toast(done ? 'Anfrage kopiert ✓' : 'Bitte Text markieren und kopieren');
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(ok).catch(fallback);
+      } else { fallback(); }
+    });
+    c.appendChild(copyBtn);
 
     // actions
     var open = openLink(listing, 'btn btn-primary');
@@ -425,7 +515,7 @@
     sortRow.appendChild(info);
     var sortSel = document.createElement('select');
     sortSel.className = 'sort-select';
-    [['neu', 'Neueste zuerst'], ['preis', 'Günstigste zuerst'], ['flaeche', 'Größte zuerst']].forEach(function (o) {
+    [['neu', 'Neueste zuerst'], ['score', 'Beste Treffer'], ['preis', 'Günstigste zuerst'], ['flaeche', 'Größte zuerst']].forEach(function (o) {
       var opt = document.createElement('option');
       opt.value = o[0]; opt.textContent = o[1];
       if (state.sort === o[0]) opt.selected = true;
@@ -516,7 +606,8 @@
   }
 
   function hasActiveFilters(state) {
-    return !!(state.maxPrice || state.ort || state.withImage || state.unratedOnly);
+    return !!(state.priceMin || state.priceMax || state.areaMin || state.areaMax ||
+      state.roomsMin || state.roomsMax || state.ort || state.withImage || state.unratedOnly);
   }
 
   function switchControl(checked, onChange) {
@@ -530,26 +621,50 @@
     return sw;
   }
 
+  function parseIntOrNull(s) { var v = parseInt(s, 10); return isFinite(v) && v >= 0 ? v : null; }
+  function parseFloatOrNull(s) { var v = parseFloat(String(s).replace(',', '.')); return isFinite(v) && v >= 0 ? v : null; }
+
+  function rangeField(label, minKey, maxKey, parse) {
+    var state = ListFilter.getState();
+    var f = App.el('div', 'filter-field');
+    f.appendChild(App.el('div', 'form-label', label));
+    var row = App.el('div', 'range-row');
+    function mk(key, ph) {
+      var inp = document.createElement('input');
+      inp.type = 'number'; inp.inputMode = 'numeric'; inp.className = 'input';
+      inp.placeholder = ph;
+      inp.value = state[key] != null ? String(state[key]) : '';
+      inp.addEventListener('change', function () {
+        var patch = {}; patch[key] = parse(inp.value);
+        ListFilter.setState(patch); App.rerender();
+      });
+      return inp;
+    }
+    row.appendChild(mk(minKey, 'von'));
+    row.appendChild(App.el('span', 'range-sep', '–'));
+    row.appendChild(mk(maxKey, 'bis'));
+    f.appendChild(row);
+    return f;
+  }
+
+  function switchRow(label, key, defaultOn) {
+    var state = ListFilter.getState();
+    var checked = defaultOn ? state[key] !== false : !!state[key];
+    var row = App.el('div', 'filter-switch-row');
+    row.appendChild(App.el('span', null, label));
+    row.appendChild(switchControl(checked, function (on) {
+      var p = {}; p[key] = on; ListFilter.setState(p); App.rerender();
+    }));
+    return row;
+  }
+
   function openFilterSheet(container) {
     var state = ListFilter.getState();
     var c = App.el('div', 'filter-sheet');
 
-    // max rent
-    var pf = App.el('div', 'filter-field');
-    pf.appendChild(App.el('div', 'form-label', 'Höchstmiete (€)'));
-    var priceInput = document.createElement('input');
-    priceInput.type = 'number';
-    priceInput.inputMode = 'numeric';
-    priceInput.className = 'input';
-    priceInput.placeholder = 'z. B. 900';
-    priceInput.value = state.maxPrice != null ? String(state.maxPrice) : '';
-    priceInput.addEventListener('change', function () {
-      var v = parseInt(priceInput.value, 10);
-      ListFilter.setState({ maxPrice: isFinite(v) && v > 0 ? v : null });
-      App.rerender();
-    });
-    pf.appendChild(priceInput);
-    c.appendChild(pf);
+    c.appendChild(rangeField('Miete (€)', 'priceMin', 'priceMax', parseIntOrNull));
+    c.appendChild(rangeField('Wohnfläche (m²)', 'areaMin', 'areaMax', parseFloatOrNull));
+    c.appendChild(rangeField('Zimmer', 'roomsMin', 'roomsMax', parseFloatOrNull));
 
     // town / search area
     var towns = {};
@@ -570,28 +685,28 @@
     of.appendChild(ortSel);
     c.appendChild(of);
 
-    // toggles
-    var row1 = App.el('div', 'filter-switch-row');
-    row1.appendChild(App.el('span', null, 'Nur mit Foto'));
-    row1.appendChild(switchControl(state.withImage, function (on) { ListFilter.setState({ withImage: on }); App.rerender(); }));
-    c.appendChild(row1);
+    c.appendChild(switchRow('Nur mit Foto', 'withImage', false));
+    c.appendChild(switchRow('Nur unbewertete', 'unratedOnly', false));
 
-    var row2 = App.el('div', 'filter-switch-row');
-    row2.appendChild(App.el('span', null, 'Nur unbewertete'));
-    row2.appendChild(switchControl(state.unratedOnly, function (on) { ListFilter.setState({ unratedOnly: on }); App.rerender(); }));
-    c.appendChild(row2);
+    // scoring preferences (also feed the Score)
+    c.appendChild(App.el('div', 'section-title', 'Für die Wertung'));
+    c.appendChild(switchRow('Erdgeschoss wichtig', 'groundFloorImportant', true));
+    c.appendChild(switchRow('Gute ÖPNV-Anbindung wichtig', 'transitImportant', true));
 
     var reset = App.el('button', 'btn btn-secondary', 'Filter zurücksetzen');
     reset.type = 'button';
     reset.style.marginTop = '16px';
     reset.addEventListener('click', function () {
-      ListFilter.setState({ maxPrice: null, ort: '', withImage: false, unratedOnly: false });
+      ListFilter.setState({
+        priceMin: null, priceMax: null, areaMin: null, areaMax: null,
+        roomsMin: null, roomsMax: null, ort: '', withImage: false, unratedOnly: false
+      });
       App.rerender();
       openFilterSheet(container);
     });
     c.appendChild(reset);
 
-    App.showSheet({ title: 'Filter', content: c });
+    App.showSheet({ title: 'Filter & Wertung', content: c });
   }
 
   Views.listings = {

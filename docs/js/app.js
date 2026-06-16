@@ -9,7 +9,7 @@
 
   var App = window.App = window.App || {};
 
-  App.currentTab = 'listings';
+  App.currentTab = 'dashboard';
   App.lastSeen = null;   // high-water mark: newest first_seen the user acknowledged
 
   var REFRESH_MS = 5 * 60 * 1000;
@@ -52,7 +52,7 @@
     var actions = document.getElementById('header-actions');
     if (!actions) return;
     actions.innerHTML = '';
-    if (App.currentTab === 'listings' || App.currentTab === 'favorites') {
+    if (App.currentTab === 'dashboard' || App.currentTab === 'listings' || App.currentTab === 'favorites') {
       var btn = App.el('button', 'icon-btn');
       btn.type = 'button';
       btn.setAttribute('aria-label', 'Aktualisieren');
@@ -217,7 +217,7 @@
     Store.onChange(App.rerender);
     Feed.onChange(App.rerender);
     if (!Store.getSettings().onboarded) showOnboarding();
-    App.switchTab('listings');
+    App.switchTab('dashboard');
     updateTabBadge();
     Feed.refresh();
     startAutoRefresh();

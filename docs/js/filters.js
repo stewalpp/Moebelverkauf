@@ -9,13 +9,20 @@
   var LS_FILTER = 'ws.filter';
 
   var DEFAULT = {
-    scope: 'alle',      // 'alle' | 'neu' | 'match' | 'review' | 'favoriten'
+    scope: 'alle',      // 'alle'|'neu'|'match'|'review'|'favoriten'|'aussortiert'
     query: '',
-    sort: 'neu',        // 'neu' | 'preis' | 'flaeche'
-    maxPrice: null,     // number or null
+    sort: 'neu',        // 'neu'|'score'|'preis'|'flaeche'
+    priceMin: null,
+    priceMax: null,
+    areaMin: null,
+    areaMax: null,
+    roomsMin: null,
+    roomsMax: null,
     ort: '',            // '' = alle; otherwise a town name (from the source)
     withImage: false,   // only listings that have a photo
-    unratedOnly: false  // only listings neither partner has rated yet
+    unratedOnly: false, // only listings neither partner has rated yet
+    groundFloorImportant: true,  // scoring preference (also used by Score)
+    transitImportant: true       // scoring preference
   };
 
   // Coarse town/search-area for a listing, derived from its source name
@@ -43,6 +50,16 @@
 
   function num(v) { return (v === null || v === undefined || !isFinite(Number(v))) ? null : Number(v); }
 
+  function inRange(value, min, max) {
+    var v = num(value);
+    if (v === null) return true;   // unknown value → don't exclude
+    if (min !== null && min !== undefined && v < min) return false;
+    if (max !== null && max !== undefined && v > max) return false;
+    return true;
+  }
+
+  function bothBad(r) { return r.p1 === 'schlecht' && r.p2 === 'schlecht'; }
+
   // listings: feed array; ctx: { ratings: id->rating, newIds: Set }
   function apply(listings, ctx) {
     ctx = ctx || {};
@@ -52,7 +69,11 @@
 
     var out = listings.filter(function (l) {
       var r = ratings[l.id] || {};
-      // hidden listings are only shown via the favourites scope (never otherwise)
+
+      // Dedicated bin for listings both partners rated "schlecht".
+      if (state.scope === 'aussortiert') return bothBad(r);
+      // Everywhere else they disappear automatically; hidden too (except favourites).
+      if (bothBad(r)) return false;
       if (r.hidden && state.scope !== 'favoriten') return false;
 
       if (state.scope === 'match' && l.status !== 'match') return false;
@@ -60,15 +81,12 @@
       if (state.scope === 'neu' && !newIds.has(l.id)) return false;
       if (state.scope === 'favoriten' && !r.favorite) return false;
 
-      if (state.maxPrice !== null && state.maxPrice !== undefined) {
-        var p = num(l.price_eur);
-        if (p !== null && p > state.maxPrice) return false;
-      }
+      if (!inRange(l.price_eur, state.priceMin, state.priceMax)) return false;
+      if (!inRange(l.area_sqm, state.areaMin, state.areaMax)) return false;
+      if (!inRange(l.rooms, state.roomsMin, state.roomsMax)) return false;
 
       if (state.withImage && !l.image) return false;
-
       if (state.unratedOnly && (r.p1 || r.p2)) return false;
-
       if (state.ort && townOf(l).toLowerCase() !== state.ort.toLowerCase()) return false;
 
       if (q) {
@@ -79,6 +97,9 @@
     });
 
     out.sort(function (a, b) {
+      if (state.sort === 'score' && window.Score) {
+        return Score.score(b).total - Score.score(a).total;
+      }
       if (state.sort === 'preis') {
         var pa = num(a.price_eur), pb = num(b.price_eur);
         if (pa === null && pb === null) return cmpNew(b, a);
