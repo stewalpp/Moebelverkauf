@@ -21,6 +21,10 @@ USER_AGENT = (
     "Mozilla/5.0 (compatible; WohnungssucheBot/0.1; "
     "+https://github.com/stewalpp/Wohnungssuche)"
 )
+RATING_PEOPLE = (
+    ("stewalpp", "Blau", "\U0001F535"),
+    ("gishaa-create", "Gruen", "\U0001F7E2"),
+)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -56,7 +60,7 @@ def main(argv: list[str] | None = None) -> int:
     all_matches = dedupe_matches(all_matches)
     floor_review_matches = dedupe_matches(floor_review_matches)
     markdown = format_report(all_matches, floor_review_matches, errors)
-    print(markdown)
+    print_markdown(markdown)
     append_step_summary(markdown)
 
     reported_listings = [listing for listing, _ in all_matches + floor_review_matches]
@@ -208,7 +212,7 @@ def format_listing(
     reasons = ", ".join(result.reasons) if result.reasons else "Kriterien teilweise im Text erkannt"
 
     reason_label = "Warum nicht perfekt" if review_candidate else "Warum passend"
-    return [
+    lines = [
         f"### {index}. {listing.title}",
         "",
         f"- Quelle: {listing.source_name}",
@@ -220,6 +224,25 @@ def format_listing(
         f"- Bitte pruefen: {notes}",
         f"- Link: {listing.url}",
     ]
+    lines.extend(format_rating_section())
+    return lines
+
+
+def format_rating_section() -> list[str]:
+    lines = [
+        "",
+        "<details>",
+        "<summary>Bewertung 1-10 anklicken</summary>",
+        "",
+        "Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.",
+        "",
+    ]
+    for user, color, marker in RATING_PEOPLE:
+        lines.append(f"**{marker} {user} ({color})**")
+        lines.extend(f"- [ ] {score}" for score in range(1, 11))
+        lines.append("")
+    lines.append("</details>")
+    return lines
 
 
 def write_reports(report_path: Path, markdown: str) -> list[Path]:
@@ -241,6 +264,16 @@ def append_step_summary(markdown: str) -> None:
     with open(summary_path, "a", encoding="utf-8") as handle:
         handle.write(markdown)
         handle.write("\n")
+
+
+def print_markdown(markdown: str) -> None:
+    output = markdown if markdown.endswith("\n") else f"{markdown}\n"
+    try:
+        sys.stdout.write(output)
+    except UnicodeEncodeError:
+        encoding = sys.stdout.encoding or "utf-8"
+        fallback = output.encode(encoding, errors="replace").decode(encoding)
+        sys.stdout.write(fallback)
 
 
 if __name__ == "__main__":
