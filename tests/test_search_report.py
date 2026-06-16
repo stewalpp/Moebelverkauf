@@ -2,7 +2,12 @@ import unittest
 
 from wohnungssuche.filters import MatchResult
 from wohnungssuche.models import Listing
-from wohnungssuche.search import dedupe_report_matches, format_listing, should_fail_run
+from wohnungssuche.search import (
+    dedupe_report_matches,
+    format_listing,
+    format_report,
+    should_fail_run,
+)
 
 
 class SearchReportTests(unittest.TestCase):
@@ -25,6 +30,7 @@ class SearchReportTests(unittest.TestCase):
 
         markdown = "\n".join(format_listing(1, listing, result, review_candidate=False))
 
+        self.assertIn("### \U0001F7E9 NEU 1.", markdown)
         self.assertIn("<summary>Bewertung anklicken</summary>", markdown)
         self.assertIn("Bitte pro Person genau ein Feld markieren.", markdown)
         self.assertIn("\U0001F535 stewalpp (Blau)", markdown)
@@ -70,6 +76,37 @@ class SearchReportTests(unittest.TestCase):
 
         self.assertEqual(exact, [])
         self.assertEqual([listing.id for listing, _ in floor_review], [floor_review_listing.id])
+
+    def test_report_contains_colored_listing_legend(self):
+        listing = Listing(
+            source_name="test",
+            title="Wohnung zur Miete 3 Zimmer, 80 qm, EG",
+            url="https://example.test/listing",
+            text="3 Zimmer 80 qm 900 EUR EG Barsinghausen",
+            rooms=3,
+            area_sqm=80,
+            price_eur=900,
+            floor="eg",
+        )
+        review_listing = Listing(
+            source_name="test",
+            title="Wohnung zur Miete 3 Zimmer, 80 qm, 1. OG",
+            url="https://example.test/review-listing",
+            text="3 Zimmer 80 qm 900 EUR 1. OG Barsinghausen",
+            rooms=3,
+            area_sqm=80,
+            price_eur=900,
+            floor="1. og",
+        )
+        markdown = format_report(
+            [(listing, MatchResult(True, ["3 Zimmer", "80 qm", "900 EUR"], []))],
+            [(review_listing, MatchResult(False, ["kein EG/Parterre: 1. og"], []))],
+            [],
+        )
+
+        self.assertIn("Legende: \U0001F7E9 NEU passt gut", markdown)
+        self.assertIn("### \U0001F7E9 NEU 1.", markdown)
+        self.assertIn("### \U0001F7E8 PRUEFEN 1.", markdown)
 
 
 if __name__ == "__main__":

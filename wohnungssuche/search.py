@@ -27,6 +27,8 @@ RATING_PEOPLE = (
     ("gishaa-create", "Gruen", "\U0001F7E2"),
 )
 RATING_CHOICES = ("Gut", "Vielleicht", "Schlecht")
+NEW_LISTING_MARKER = "\U0001F7E9 NEU"
+REVIEW_LISTING_MARKER = "\U0001F7E8 PRUEFEN"
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -198,6 +200,11 @@ def format_report(
         if matches:
             lines.append(f"{len(matches)} neue passende Inserate gefunden.")
             lines.append("")
+            lines.append(
+                f"Legende: {NEW_LISTING_MARKER} passt gut, "
+                f"{REVIEW_LISTING_MARKER} Etage oder Detail pruefen."
+            )
+            lines.append("")
             for index, (listing, result) in enumerate(matches, start=1):
                 lines.extend(format_listing(index, listing, result, review_candidate=False))
                 lines.append("")
@@ -236,8 +243,9 @@ def format_listing(
     reasons = ", ".join(result.reasons) if result.reasons else "Kriterien teilweise im Text erkannt"
 
     reason_label = "Warum nicht perfekt" if review_candidate else "Warum passend"
+    marker = REVIEW_LISTING_MARKER if review_candidate else NEW_LISTING_MARKER
     lines = [
-        f"### {index}. {listing.title}",
+        f"### {marker} {index}. {listing.title}",
         "",
         f"- Quelle: {listing.source_name}",
         f"- Preis: {price}",

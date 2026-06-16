@@ -98,6 +98,10 @@ eine gruene Zeile fuer `gishaa-create`. Pro Person sollte genau ein Feld
 markiert werden: `Gut`, `Vielleicht` oder `Schlecht`. Zum Aendern einfach
 die alte Auswahl wieder abwaehlen.
 
+Neue Treffer sind in den Ueberschriften farbig markiert: Gruen `NEU` bedeutet
+passendes neues Inserat, Gelb `PRUEFEN` bedeutet neuer Pruefkandidat mit
+unklarer oder wahrscheinlich nicht passender Etage.
+
 Optional kann der Suchlauf neue Treffer zusaetzlich per E-Mail oder SMS
 verschicken. Die Werte werden nicht im Code gespeichert, sondern als GitHub
 Actions Secrets hinterlegt.
