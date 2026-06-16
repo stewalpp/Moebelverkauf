@@ -20,7 +20,7 @@ CRITERIA = {
     "require_ground_floor": True,
     "allow_unknown_floor": True,
     "strict_location": True,
-    "allowed_location_terms": ["barsinghausen", "seelze"],
+    "allowed_location_terms": ["barsinghausen", "seelze", "bad nenndorf", "haste"],
     "excluded_location_terms": [", hannover", "hannover ("],
     "desired_floor_terms": ["erdgeschoss", "eg", "parterre", "hochparterre"],
     "excluded_terms": ["altbau", "dachgeschoss"],
@@ -49,6 +49,16 @@ class FilteringTests(unittest.TestCase):
         self.assertEqual(
             clean_title(title),
             "Wohnung zur Miete 3 Zimmer, 80 qm, 1. Geschoss",
+        )
+
+    def test_clean_title_uses_kleinanzeigen_slug_when_link_text_is_counter(self):
+        self.assertEqual(
+            clean_title(
+                "14",
+                "14 14 31542 Bad Nenndorf Bad Nenndorf, Sonnige 3-Zimmer-Maisonette-Wohnug",
+                "https://www.kleinanzeigen.de/s-anzeige/bad-nenndorf-sonnige-3-zimmer-maisonette-wohnug-/3404385210-203-2859",
+            ),
+            "Bad Nenndorf Sonnige 3 Zimmer Maisonette Wohnung",
         )
 
     def test_rejects_too_expensive_listing(self):
@@ -109,6 +119,18 @@ class FilteringTests(unittest.TestCase):
             "Wohnung zur Miete 3 Zimmer, 80 qm, EG",
             "https://example.test/barsinghausen",
             "3 Zimmer 80 qm 900 EUR EG Barsinghausen (30890), Region Hannover",
+        )
+
+        result = evaluate_listing(listing, CRITERIA)
+
+        self.assertTrue(result.accepted)
+
+    def test_allows_bad_nenndorf_area(self):
+        listing = build_listing(
+            "test",
+            "Wohnung zur Miete 3 Zimmer, 80 qm, EG",
+            "https://example.test/bad-nenndorf",
+            "3 Zimmer 80 qm 900 EUR EG Bad Nenndorf (31542)",
         )
 
         result = evaluate_listing(listing, CRITERIA)

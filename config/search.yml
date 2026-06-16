@@ -15,6 +15,13 @@ criteria:
     - gehrden
     - wennigsen
     - bad nenndorf
+    - haste
+    - hohnhorst
+    - suthfeld
+    - waltringhausen
+    - riepen
+    - horsten
+    - riehe
     - bantorf
     - egestorf
     - kirchdorf
@@ -48,6 +55,7 @@ criteria:
     - nachtspeicherheizung
     - sanierungsbeduerftig
     - denkmal
+    - gesuch
     - energieklasse g
     - energieklasse h
   review_terms:
@@ -69,6 +77,11 @@ sources:
     type: html
     url: https://www.immowelt.de/suche/mieten/wohnung/zimmer-3/niedersachsen/barsinghausen-30890/ad08de1299
 
+  - name: Immowelt Bad Nenndorf 3 Zimmer
+    enabled: true
+    type: html
+    url: https://www.immowelt.de/suche/mieten/wohnung/zimmer-3/niedersachsen/bad-nenndorf-31542/ad08de1502
+
   - name: ImmoScout24 Hannover 3 Zimmer
     enabled: false
     type: html
@@ -83,3 +96,8 @@ sources:
     enabled: true
     type: html
     url: https://www.kleinanzeigen.de/s-wohnung-mieten/hannover/c203l3155
+
+  - name: Kleinanzeigen Bad Nenndorf 3 Zimmer
+    enabled: true
+    type: html
+    url: https://www.kleinanzeigen.de/s-wohnung-mieten/bad-nenndorf/3-zimmer-wohnung/k0c203l10522

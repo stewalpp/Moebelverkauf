@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import re
-from urllib.parse import urljoin
+from urllib.parse import unquote, urljoin, urlparse
 
 import feedparser
 from bs4 import BeautifulSoup
@@ -75,36 +75,84 @@ def parse_location(text: str) -> str | None:
     return None
 
 
-def clean_title(title: str, text: str = "") -> str:
-    value = " ".join((title or "").split()) or " ".join((text or "").split())
-    start = re.search(
-        r"\b(?:wohnung|terrassenwohnung|maisonette|tauschwohnung|erstbezug)\b",
-        value,
-        re.IGNORECASE,
-    )
-    if start:
-        value = value[start.start() :]
+def clean_title(title: str, text: str = "", url: str = "") -> str:
+    value = " ".join((title or "").split())
+    from_url_title = False
+    if is_noisy_title(value):
+        url_title = title_from_url(url)
+        if url_title:
+            value = url_title
+            from_url_title = True
+        else:
+            value = " ".join((text or "").split())
+    if not value:
+        value = " ".join((text or "").split())
+    if not from_url_title:
+        start = re.search(
+            r"\b(?:wohnung|terrassenwohnung|maisonette|tauschwohnung|erstbezug)\b",
+            value,
+            re.IGNORECASE,
+        )
+        if start:
+            value = value[start.start() :]
 
-    stop = re.search(
-        r"\s+(?:frei\s+ab|die\s+wohnung|es\s+h|kaltmiete|warmmiete)\b",
-        value,
-        re.IGNORECASE,
-    )
-    if stop:
-        value = value[: stop.start()]
+        stop = re.search(
+            r"\s+(?:frei\s+ab|die\s+wohnung|es\s+h|kaltmiete|warmmiete)\b",
+            value,
+            re.IGNORECASE,
+        )
+        if stop:
+            value = value[: stop.start()]
 
-    value = re.sub(
-        r"^(?:\d+\s*/\s*\d+\s*)?(?:neu\s*)?(?:[a-h]\+?\s*)?",
-        "",
-        value,
-        flags=re.IGNORECASE,
-    )
+    if not from_url_title:
+        value = re.sub(
+            r"^(?:\d+\s*/\s*\d+\s*)?(?:neu\s*)?(?:[a-h]\+?\s*)?",
+            "",
+            value,
+            flags=re.IGNORECASE,
+        )
     value = re.sub(r"\bm\s*(?:2|\u00b2)\b", "qm", value, flags=re.IGNORECASE)
     value = re.sub(r"\s*(?:[|]|\u00b7)\s*", ", ", value)
     value = re.sub(r"\s+", " ", value).strip(" -,.")
     if len(value) > 95:
         value = value[:92].rstrip(" -,.") + "..."
     return value or "(ohne Titel)"
+
+
+def is_noisy_title(title: str) -> bool:
+    if not title:
+        return True
+    normalized = " ".join(title.split())
+    if re.fullmatch(r"\d+(?:\s*/\s*\d+)?", normalized):
+        return True
+    return re.fullmatch(r"\d{5}\s+[A-Za-zÃ„Ã–ÃœÃ¤Ã¶Ã¼ÃŸ\-\s]{2,35}", normalized) is not None
+
+
+def title_from_url(url: str) -> str:
+    path = unquote(urlparse(url).path)
+    match = re.search(r"/s-anzeige/([^/]+)/", path)
+    if not match:
+        return ""
+    slug = match.group(1).strip("-")
+    value = " ".join(part for part in slug.split("-") if part)
+    replacements = {
+        "ae": "ae",
+        "oe": "oe",
+        "ue": "ue",
+        "zi": "Zi",
+        "zimmer": "Zimmer",
+        "wohnung": "Wohnung",
+        "einbaukueche": "Einbaukueche",
+        "bad": "Bad",
+        "nenndorf": "Nenndorf",
+        "rodenberg": "Rodenberg",
+        "haste": "Haste",
+        "sonnige": "Sonnige",
+        "maisonette": "Maisonette",
+        "wohnug": "Wohnung",
+    }
+    words = [replacements.get(word.lower(), word) for word in value.split()]
+    return " ".join(words).strip()
 
 
 def parse_rss(content: bytes, source: dict) -> list[Listing]:
@@ -207,7 +255,7 @@ def build_listing(source_name: str, title: str, url: str, text: str) -> Listing:
     full_text = " ".join([title or "", text or ""]).strip()
     return Listing(
         source_name=source_name,
-        title=clean_title(title, text),
+        title=clean_title(title, text, url),
         url=url,
         text=full_text,
         price_eur=parse_price(full_text),
