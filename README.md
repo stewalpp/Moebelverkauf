@@ -1,6 +1,6 @@
 # Wohnungssuche Hannover - Barsinghausen
 
-Diese Automation sucht einmal taeglich nach neuen Mietwohnungen zwischen
+Diese Automation sucht dreimal taeglich nach neuen Mietwohnungen zwischen
 Hannover und Barsinghausen. Bereits gemeldete Wohnungen werden in
 `data/seen_listings.json` gespeichert und beim naechsten Lauf nicht erneut
 ausgegeben.
@@ -25,8 +25,8 @@ vollstaendig. Die Automation markiert solche Treffer deshalb mit
 2. Optional: Das GitHub-Repository beobachten, damit neue Issue-Kommentare
    als Benachrichtigung ankommen.
 3. Die GitHub Action unter `.github/workflows/daily-search.yml` laeuft
-   taeglich und kann zusaetzlich manuell ueber `workflow_dispatch` gestartet
-   werden.
+   taeglich um 07:30, 12:30 und 18:30 Uhr deutscher Zeit und kann
+   zusaetzlich manuell ueber `workflow_dispatch` gestartet werden.
 
 ## Lokal testen
 
@@ -63,4 +63,3 @@ Die GitHub Action erstellt oder aktualisiert automatisch ein Issue mit dem
 Titel `Neue Wohnungsangebote`, wenn neue passende Treffer gefunden werden.
 Jeder Treffer wird nur einmal kommentiert, weil seine ID im Seen-State
 gespeichert wird.
-

@@ -1,8 +1,9 @@
-name: Daily apartment search
+name: Apartment search
 
 on:
   schedule:
-    - cron: "30 6 * * *"
+    - cron: "30 7,12,18 * * *"
+      timezone: "Europe/Berlin"
   workflow_dispatch:
 
 permissions:
