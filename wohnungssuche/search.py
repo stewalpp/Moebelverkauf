@@ -10,7 +10,7 @@ import requests
 import yaml
 
 from .filters import MatchResult, evaluate_listing
-from .github_issue import post_report_to_issue
+from .github_issue import post_report_to_issue, post_run_status_to_issue
 from .models import Listing
 from .notifier import send_search_notifications
 from .parser import parse_html, parse_rss
@@ -65,8 +65,13 @@ def main(argv: list[str] | None = None) -> int:
     append_step_summary(markdown)
 
     reported_listings = [listing for listing, _ in all_matches + floor_review_matches]
+    issue_url = None
+    if args.github_issue:
+        issue_url = post_run_status_to_issue(markdown)
+        if issue_url:
+            print(f"\nGitHub Issue Status aktualisiert: {issue_url}")
+
     if reported_listings:
-        issue_url = None
         if args.github_issue:
             issue_url = post_report_to_issue(markdown)
             if issue_url:

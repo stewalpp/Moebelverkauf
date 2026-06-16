@@ -25,6 +25,19 @@ criteria:
     - stemmen
     - wichtringhausen
     - winninghausen
+    - gehrden
+    - wennigsen
+    - ronnenberg
+    - empelde
+    - seelze
+    - letter
+    - lohnde
+    - sorsum
+    - weetzen
+    - velber
+    - harenberg
+    - lenthe
+    - benthe
   excluded_location_terms:
     - ", hannover"
     - "hannover ("
@@ -35,12 +48,6 @@ criteria:
     - hohnhorst
     - suthfeld
     - rodenberg
-    - seelze
-    - letter
-    - ronnenberg
-    - empelde
-    - gehrden
-    - wennigsen
   desired_floor_terms:
     - erdgeschoss
     - eg

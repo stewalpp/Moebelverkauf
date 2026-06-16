@@ -1,9 +1,10 @@
 # Wohnungssuche Hannover - Barsinghausen
 
 Diese Automation sucht viermal taeglich nach neuen Mietwohnungen in
-Barsinghausen und den Barsinghaeuser Ortsteilen. Bereits gemeldete Wohnungen
-werden in `data/seen_listings.json` gespeichert und beim naechsten Lauf nicht
-erneut ausgegeben.
+Barsinghausen, den Barsinghaeuser Ortsteilen und im nahen Suchgebiet Richtung
+Gehrden, Wennigsen, Ronnenberg/Empelde und Seelze/Letter. Bereits gemeldete
+Wohnungen werden in `data/seen_listings.json` gespeichert und beim naechsten
+Lauf nicht erneut ausgegeben.
 
 ## Kriterien
 
@@ -68,7 +69,8 @@ Suchseiten, auf denen die Portalfilter schon gesetzt sind:
 - mindestens 70 qm
 - Ort oder Suchradius in Barsinghausen und den Ortsteilen wie Bantorf,
   Egestorf, Grossgoltern, Gross Munzel, Kirchdorf, Langreder und
-  Winninghausen
+  Winninghausen, plus angrenzende Orte wie Gehrden, Wennigsen,
+  Ronnenberg/Empelde und Seelze/Letter
 
 Wenn ein Portal RSS anbietet, setze `type: rss`. Fuer normale Suchseiten
 nutze `type: html`. Bereits gezeigte Inserate koennen durch Loeschen des
@@ -78,9 +80,12 @@ jeweiligen Eintrags in `data/seen_listings.json` erneut angezeigt werden.
 
 Die GitHub Action erstellt oder aktualisiert automatisch ein Issue mit dem
 Titel `Neue Wohnungsangebote`, wenn neue passende Treffer gefunden werden.
-Neue Kommentare erwaehnen `@stewalpp` und `@gishaa-create`, damit GitHub
-Mobile direkte Benachrichtigungen ausloesen kann. Jeder Treffer wird nur
-einmal kommentiert, weil seine ID im Seen-State gespeichert wird.
+Im Issue gibt es ausserdem einen festen Kommentar `Letzter Suchlauf`, der bei
+jedem Lauf aktualisiert wird. So ist sichtbar, dass die Suche gelaufen ist,
+auch wenn es keine neuen Treffer gab. Neue Treffer-Kommentare erwaehnen
+`@stewalpp` und `@gishaa-create`, damit GitHub Mobile direkte
+Benachrichtigungen ausloesen kann. Jeder Treffer wird nur einmal kommentiert,
+weil seine ID im Seen-State gespeichert wird.
 
 Jedes Inserat enthaelt ausserdem einen aufklappbaren Bereich
 `Bewertung anklicken`. Dort gibt es eine blaue Zeile fuer `stewalpp` und

@@ -9,6 +9,7 @@ import urllib.request
 
 API_ROOT = "https://api.github.com"
 ISSUE_TITLE = "Neue Wohnungsangebote"
+STATUS_COMMENT_MARKER = "<!-- wohnungssuche-status -->"
 
 
 class GitHubIssueError(RuntimeError):
@@ -31,6 +32,64 @@ def post_report_to_issue(markdown: str, title: str = ISSUE_TITLE) -> str | None:
         {"body": body},
     )
     return f"https://github.com/{repository}/issues/{issue_number}"
+
+
+def post_run_status_to_issue(markdown: str, title: str = ISSUE_TITLE) -> str | None:
+    token = os.environ.get("GITHUB_TOKEN")
+    repository = os.environ.get("GITHUB_REPOSITORY")
+    if not token or not repository:
+        return None
+
+    issue_number = find_or_create_issue(repository, token, title)
+    status_body = status_body_from_report(markdown)
+    status_comment_id = find_status_comment(repository, token, issue_number)
+    if status_comment_id is None:
+        request_json(
+            "POST",
+            f"/repos/{repository}/issues/{issue_number}/comments",
+            token,
+            {"body": status_body},
+        )
+    else:
+        request_json(
+            "PATCH",
+            f"/repos/{repository}/issues/comments/{status_comment_id}",
+            token,
+            {"body": status_body},
+        )
+    return f"https://github.com/{repository}/issues/{issue_number}"
+
+
+def find_status_comment(repository: str, token: str, issue_number: int) -> int | None:
+    comments = request_json(
+        "GET",
+        f"/repos/{repository}/issues/{issue_number}/comments?per_page=100",
+        token,
+    )
+    for comment in comments:
+        if STATUS_COMMENT_MARKER in comment.get("body", ""):
+            return int(comment["id"])
+    return None
+
+
+def status_body_from_report(markdown: str) -> str:
+    lines = [line.strip() for line in markdown.splitlines() if line.strip()]
+    title = lines[0].lstrip("# ").strip() if lines else "Wohnungssuche"
+    summary_lines = [
+        line
+        for line in lines[1:]
+        if not line.startswith("#") and not line.startswith("- ")
+    ][:2]
+    summary = " ".join(summary_lines) if summary_lines else "Suchlauf wurde ausgefuehrt."
+
+    return (
+        f"{STATUS_COMMENT_MARKER}\n"
+        "## Letzter Suchlauf\n\n"
+        f"**{title}**\n\n"
+        f"{summary}\n\n"
+        "Neue passende Wohnungen erscheinen weiterhin als eigener Kommentar mit "
+        "Benachrichtigung. Bereits bekannte Inserate werden nicht erneut gepostet."
+    )
 
 
 def notification_mentions() -> str:

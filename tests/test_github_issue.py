@@ -2,7 +2,7 @@ import os
 import unittest
 from unittest.mock import patch
 
-from wohnungssuche.github_issue import notification_mentions
+from wohnungssuche.github_issue import notification_mentions, status_body_from_report
 
 
 class GitHubIssueTests(unittest.TestCase):
@@ -21,6 +21,20 @@ class GitHubIssueTests(unittest.TestCase):
             clear=True,
         ):
             self.assertEqual(notification_mentions(), "@stewalpp")
+
+    def test_status_body_summarizes_last_run_without_mentions(self):
+        markdown = (
+            "# Neue Wohnungsangebote (2026-06-16 16:05)\n\n"
+            "Keine neuen passenden Inserate gefunden.\n\n"
+            "Bereits bekannte Wohnungen wurden ausgeblendet.\n"
+        )
+
+        body = status_body_from_report(markdown)
+
+        self.assertIn("<!-- wohnungssuche-status -->", body)
+        self.assertIn("## Letzter Suchlauf", body)
+        self.assertIn("Keine neuen passenden Inserate gefunden.", body)
+        self.assertNotIn("@stewalpp", body)
 
 
 if __name__ == "__main__":

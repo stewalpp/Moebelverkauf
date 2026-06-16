@@ -20,8 +20,16 @@ CRITERIA = {
     "require_ground_floor": True,
     "allow_unknown_floor": True,
     "strict_location": True,
-    "allowed_location_terms": ["barsinghausen", "bantorf", "goxe", "gross munzel"],
-    "excluded_location_terms": [", hannover", "hannover (", "bad nenndorf", "seelze"],
+    "allowed_location_terms": [
+        "barsinghausen",
+        "bantorf",
+        "goxe",
+        "gross munzel",
+        "gehrden",
+        "wennigsen",
+        "empelde",
+    ],
+    "excluded_location_terms": [", hannover", "hannover (", "bad nenndorf"],
     "desired_floor_terms": ["erdgeschoss", "eg", "parterre", "hochparterre"],
     "excluded_terms": ["altbau", "dachgeschoss"],
 }
@@ -136,6 +144,20 @@ class FilteringTests(unittest.TestCase):
         result = evaluate_listing(listing, CRITERIA)
 
         self.assertTrue(result.accepted)
+
+    def test_allows_nearby_corridor_places(self):
+        for place in ["Gehrden", "Wennigsen", "Empelde"]:
+            with self.subTest(place=place):
+                listing = build_listing(
+                    "test",
+                    "Wohnung zur Miete 3 Zimmer, 80 qm, EG",
+                    f"https://example.test/{place.lower()}",
+                    f"3 Zimmer 80 qm 900 EUR EG {place}",
+                )
+
+                result = evaluate_listing(listing, CRITERIA)
+
+                self.assertTrue(result.accepted)
 
     def test_rejects_bad_nenndorf_outside_scope(self):
         listing = build_listing(

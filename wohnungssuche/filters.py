@@ -74,7 +74,7 @@ def evaluate_listing(listing: Listing, criteria: dict) -> MatchResult:
     if excluded_locations:
         return MatchResult(
             False,
-            [f"ausgeschlossen: Ort ausserhalb Barsinghausen ({', '.join(excluded_locations)})"],
+            [f"ausgeschlossen: Ort ausserhalb Suchgebiet ({', '.join(excluded_locations)})"],
             review_notes,
         )
 
@@ -107,10 +107,10 @@ def evaluate_listing(listing: Listing, criteria: dict) -> MatchResult:
         if criteria.get("strict_location", False):
             return MatchResult(
                 False,
-                ["Lage nicht im Korridor Hannover-Barsinghausen erkannt"],
+                ["Lage nicht im Suchgebiet erkannt"],
                 review_notes,
             )
-        review_notes.append("Lage im Korridor Hannover-Barsinghausen pruefen")
+        review_notes.append("Lage im Suchgebiet pruefen")
 
     if criteria.get("require_ground_floor", False):
         floor_terms = criteria.get("desired_floor_terms", [])
