@@ -1,131 +1,117 @@
-# Neue Wohnungsangebote (2026-06-16 07:37)
+# Neue Wohnungsangebote (2026-06-16 10:26)
+
+1 neue passende Inserate gefunden.
+
+### 1. Wohnung zur Miete 3 Zimmer, 100,3 qm, EG
+
+- Quelle: Immowelt Barsinghausen 3 Zimmer
+- Preis: 959 EUR
+- Groesse/Zimmer: 100.3 qm, 3 Zimmer
+- Etage: eg
+- Lage: Lage aus Inserat pruefen
+- Warum passend: 3 Zimmer, 100.3 qm, 959 EUR, EG/Parterre-Hinweis gefunden
+- Bitte pruefen: keine
+- Link: https://www.immowelt.de/expose/523021a0-bc7a-46cb-9716-6377cbcaf7fb
 
 ## Pruefkandidaten: Etage passt wahrscheinlich nicht
 
 Diese Wohnungen passen bei Preis, Groesse, Zimmerzahl und Lage, liegen aber laut Suchseite nicht im EG/Parterre.
 
-## 1. von privat 1 / 4 Neu 550 € Kaltmiete Wohnung zur Miete 3 Zimmer · 76 m² · Geschoss 6/7 · frei ab 01.08.2026 Egestorf, Ba
+### 1. Wohnung zur Miete 3 Zimmer, 76 qm, Geschoss 6/7
 
 - Quelle: Immowelt Barsinghausen 3 Zimmer
-- Link: https://www.immowelt.de/expose/26xntsmfhqba
-- Eckdaten: 550 EUR, 76 qm, 3 Zimmer
+- Preis: 550 EUR
+- Groesse/Zimmer: 76 qm, 3 Zimmer
+- Etage: 6. geschoss
 - Lage: Lage aus Inserat pruefen
 - Warum nicht perfekt: kein EG/Parterre: 6. geschoss
 - Bitte pruefen: keine
+- Link: https://www.immowelt.de/expose/26xntsmfhqba
 
-## 2. 1 / 4 C 560 € Kaltmiete Wohnung zur Miete 3 Zimmer · 71,8 m² · 1. Geschoss · frei ab 16.07.2026 Freiherr-vom-Stein-Str.
+### 2. Wohnung zur Miete 3 Zimmer, 71,8 qm, 1. Geschoss
 
 - Quelle: Immowelt Barsinghausen 3 Zimmer
+- Preis: 560 EUR
+- Groesse/Zimmer: 71.8 qm, 3 Zimmer
+- Etage: 1. geschoss
+- Lage: Lage aus Inserat pruefen
+- Warum nicht perfekt: kein EG/Parterre: 1. geschoss
+- Bitte pruefen: keine
 - Link: https://www.immowelt.de/expose/293d565b-8197-462b-8305-4f501ae97056
-- Eckdaten: 560 EUR, 71.8 qm, 3 Zimmer
+
+### 3. Wohnung zur Miete 3 Zimmer, 75 qm, 1. Geschoss
+
+- Quelle: Immowelt Barsinghausen 3 Zimmer
+- Preis: 635 EUR
+- Groesse/Zimmer: 75 qm, 3 Zimmer
+- Etage: 1. geschoss
 - Lage: Lage aus Inserat pruefen
 - Warum nicht perfekt: kein EG/Parterre: 1. geschoss
 - Bitte pruefen: keine
-
-## 3. 1 / 12 Neu C 620 € Kaltmiete Wohnung zur Miete 3 Zimmer · 75 m² · 2. Geschoss Waldstraße 26, Misburg-Nord, Hannover (306
-
-- Quelle: Immowelt Region Hannover 3 Zimmer
-- Link: https://www.immowelt.de/expose/19fce838-416c-47e1-8a61-e6855c3c52bc
-- Eckdaten: 620 EUR, 75 qm, 3 Zimmer
-- Lage: Lage aus Inserat pruefen
-- Warum nicht perfekt: kein EG/Parterre: 2. geschoss
-- Bitte pruefen: keine
-
-## 4. 1 / 9 Neu C 635 € Kaltmiete Wohnung zur Miete 3 Zimmer · 75 m² · 1. Geschoss · frei ab 01.07.2026 Kirchwehrener Ring 18,
-
-- Quelle: Immowelt Barsinghausen 3 Zimmer
 - Link: https://www.immowelt.de/expose/a08ad840-bc16-4801-aa81-50ecba610cf1
-- Eckdaten: 635 EUR, 75 qm, 3 Zimmer
+
+### 4. Wohnung zur Miete 3 Zimmer, 72 qm, 1. Geschoss Barsinghausen (30890)
+
+- Quelle: Immowelt Barsinghausen 3 Zimmer
+- Preis: 684 EUR
+- Groesse/Zimmer: 72 qm, 3 Zimmer
+- Etage: 1. geschoss
 - Lage: Lage aus Inserat pruefen
 - Warum nicht perfekt: kein EG/Parterre: 1. geschoss
 - Bitte pruefen: keine
-
-## 5. 1 / 21 F 684 € Kaltmiete Wohnung zur Miete 3 Zimmer · 72 m² · 1. Geschoss Barsinghausen (30890) Die Wohnung liegt im 1.
-
-- Quelle: Immowelt Barsinghausen 3 Zimmer
 - Link: https://www.immowelt.de/expose/a69d801b-7125-4757-96e1-9ff804002062
-- Eckdaten: 684 EUR, 72 qm, 3 Zimmer
-- Lage: Lage aus Inserat pruefen
-- Warum nicht perfekt: kein EG/Parterre: 1. geschoss
-- Bitte pruefen: keine
 
-## 6. 1 / 8 700 € Kaltmiete Wohnung zur Miete · Tauschwohnung 3 Zimmer · 78 m² · 2. Geschoss Badenstedt, Hannover (30455) Es h
-
-- Quelle: Immowelt Barsinghausen 3 Zimmer
-- Link: https://www.immowelt.de/expose/a2b00440-b429-4c7f-a4f1-d7fde4727d5f
-- Eckdaten: 700 EUR, 78 qm, 3 Zimmer
-- Lage: Lage aus Inserat pruefen
-- Warum nicht perfekt: kein EG/Parterre: 2. geschoss
-- Bitte pruefen: keine
-
-## 7. von privat 1 / 7 Neu C 700 € Kaltmiete Wohnung zur Miete 3 Zimmer · 78 m² · Geschoss 3/3 · frei ab 01.07.2026 Ellernstra
+### 5. Wohnung zur Miete 3 Zimmer, 78 qm, Geschoss 3/3
 
 - Quelle: Immowelt Region Hannover 3 Zimmer
-- Link: https://www.immowelt.de/expose/26yymgwzmldu
-- Eckdaten: 700 EUR, 78 qm, 3 Zimmer
+- Preis: 700 EUR
+- Groesse/Zimmer: 78 qm, 3 Zimmer
+- Etage: 3. geschoss
 - Lage: 30890 Barsinghausen
 - Warum nicht perfekt: kein EG/Parterre: 3. geschoss
 - Bitte pruefen: keine
+- Link: https://www.immowelt.de/expose/26yymgwzmldu
 
-## 8. 1 / 8 Neu B 715 € Kaltmiete Wohnung zur Miete 3 Zimmer · 80 m² · 1. Geschoss · frei ab 01.09.2026 Deisterstraße 2, Lohnd
+### 6. Wohnung zur Miete 3 Zimmer, 80 qm, 1. Geschoss
 
 - Quelle: Immowelt Barsinghausen 3 Zimmer
+- Preis: 715 EUR
+- Groesse/Zimmer: 80 qm, 3 Zimmer
+- Etage: 1. geschoss
+- Lage: Lage aus Inserat pruefen
+- Warum nicht perfekt: kein EG/Parterre: 1. geschoss
+- Bitte pruefen: keine
 - Link: https://www.immowelt.de/expose/8e294093-346c-44a9-8967-daa3ebb898b7
-- Eckdaten: 715 EUR, 80 qm, 3 Zimmer
+
+### 7. Wohnung zur Miete 3 Zimmer, 72 qm, 1. Geschoss
+
+- Quelle: Immowelt Barsinghausen 3 Zimmer
+- Preis: 727 EUR
+- Groesse/Zimmer: 72 qm, 3 Zimmer
+- Etage: 1. geschoss
 - Lage: Lage aus Inserat pruefen
 - Warum nicht perfekt: kein EG/Parterre: 1. geschoss
 - Bitte pruefen: keine
-
-## 9. Frau Ritz 1 / 10 Neu E 727 € Kaltmiete Wohnung zur Miete 3 Zimmer · 72 m² · 1. Geschoss · frei ab 15.07.2026 Wasserfurch
-
-- Quelle: Immowelt Barsinghausen 3 Zimmer
 - Link: https://www.immowelt.de/expose/72a7aefe-51c4-4e23-821c-d80db0a70465
-- Eckdaten: 727 EUR, 72 qm, 3 Zimmer
-- Lage: Lage aus Inserat pruefen
-- Warum nicht perfekt: kein EG/Parterre: 1. geschoss
-- Bitte pruefen: keine
 
-## 10. 1 / 10 E 730 € Kaltmiete Wohnung zur Miete 3 Zimmer · 74,5 m² · 5. Geschoss Egestorf, Barsinghausen / Egestorf am Deiste
+### 8. Wohnung zur Miete 3 Zimmer, 74,5 qm, 5. Geschoss Egestorf, Barsinghausen / Egestorf am Deiste
 
 - Quelle: Immowelt Barsinghausen 3 Zimmer
-- Link: https://www.immowelt.de/expose/3a096ce6-6ca9-4a11-9a49-a7420aa6c4b2
-- Eckdaten: 730 EUR, 74.5 qm, 3 Zimmer
+- Preis: 730 EUR
+- Groesse/Zimmer: 74.5 qm, 3 Zimmer
+- Etage: 5. geschoss
 - Lage: Lage aus Inserat pruefen
 - Warum nicht perfekt: kein EG/Parterre: 5. geschoss
 - Bitte pruefen: keine
+- Link: https://www.immowelt.de/expose/3a096ce6-6ca9-4a11-9a49-a7420aa6c4b2
 
-## 11. Frau Carlotta Surburg 1 / 19 Neu F 750 € Kaltmiete Wohnung zur Miete 3 Zimmer · 75 m² · 1. Geschoss Heideviertel, Hannov
-
-- Quelle: Immowelt Region Hannover 3 Zimmer
-- Link: https://www.immowelt.de/expose/a5b7b12b-7caf-4476-9853-2e7b403198bf
-- Eckdaten: 750 EUR, 75 qm, 3 Zimmer
-- Lage: Lage aus Inserat pruefen
-- Warum nicht perfekt: kein EG/Parterre: 1. geschoss
-- Bitte pruefen: keine
-
-## 12. Frau Sönmez 1 / 10 E 816 € Kaltmiete Wohnung zur Miete 3 Zimmer · 75,5 m² · 3. Geschoss · frei ab 01.07.2026 Hinrichsrin
-
-- Quelle: Immowelt Region Hannover 3 Zimmer
-- Link: https://www.immowelt.de/expose/7553655a-cc41-4d82-a80f-992540ce943a
-- Eckdaten: 816 EUR, 75.5 qm, 3 Zimmer
-- Lage: Lage aus Inserat pruefen
-- Warum nicht perfekt: kein EG/Parterre: 3. geschoss
-- Bitte pruefen: keine
-
-## 13. 1 / 8 E 910 € Kaltmiete Wohnung zur Miete 3 Zimmer · 117 m² · 1. Geschoss Empelde, Ronnenberg (30952) Empelde: Gepflegte
+### 9. Wohnung zur Miete 3 Zimmer, 117 qm, 1. Geschoss Empelde, Ronnenberg (30952) Empelde: Gepflegte
 
 - Quelle: Immowelt Barsinghausen 3 Zimmer
-- Link: https://www.immowelt.de/expose/174c54e9-b985-4e04-8479-97a466a5da30
-- Eckdaten: 910 EUR, 117 qm, 3 Zimmer
+- Preis: 910 EUR
+- Groesse/Zimmer: 117 qm, 3 Zimmer
+- Etage: 1. geschoss
 - Lage: Lage aus Inserat pruefen
 - Warum nicht perfekt: kein EG/Parterre: 1. geschoss
 - Bitte pruefen: keine
-
-## 14. 1 / 2 980 € Kaltmiete Wohnung zur Miete 3 Zimmer · 98 m² · 2. Geschoss · frei ab sofort Podbielskistraße 189, List, Hann
-
-- Quelle: Immowelt Region Hannover 3 Zimmer
-- Link: https://www.immowelt.de/expose/fba5bf63-2cfb-41dc-8e9c-247917a94036
-- Eckdaten: 980 EUR, 98 qm, 3 Zimmer
-- Lage: Lage aus Inserat pruefen
-- Warum nicht perfekt: kein EG/Parterre: 2. geschoss
-- Bitte pruefen: keine
+- Link: https://www.immowelt.de/expose/174c54e9-b985-4e04-8479-97a466a5da30
