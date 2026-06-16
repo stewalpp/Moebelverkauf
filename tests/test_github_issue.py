@@ -52,6 +52,23 @@ class GitHubIssueTests(unittest.TestCase):
         self.assertIn("Immowelt Region Hannover 3 Zimmer", body)
         self.assertIn("Immowelt Barsinghausen 3 Zimmer", body)
 
+    def test_status_body_does_not_include_listing_details(self):
+        markdown = (
+            "# Neue Wohnungsangebote (2026-06-16 16:22)\n\n"
+            "14 neue passende Inserate gefunden.\n\n"
+            "### 1. Beispielwohnung\n\n"
+            "- Preis: 740 EUR\n"
+            "<details>\n"
+            "<summary>Bewertung anklicken</summary>\n"
+            "</details>\n"
+        )
+
+        body = status_body_from_report(markdown)
+
+        self.assertIn("14 neue passende Inserate gefunden.", body)
+        self.assertNotIn("<details>", body.replace("<!-- wohnungssuche-status -->", ""))
+        self.assertNotIn("Beispielwohnung", body)
+
 
 if __name__ == "__main__":
     unittest.main()

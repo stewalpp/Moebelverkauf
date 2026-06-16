@@ -75,11 +75,7 @@ def find_status_comment(repository: str, token: str, issue_number: int) -> int |
 def status_body_from_report(markdown: str) -> str:
     lines = [line.strip() for line in markdown.splitlines() if line.strip()]
     title = lines[0].lstrip("# ").strip() if lines else "Wohnungssuche"
-    summary_lines = [
-        line
-        for line in lines[1:]
-        if not line.startswith("#") and not line.startswith("- ")
-    ][:2]
+    summary_lines = report_summary_lines(lines)
     summary = " ".join(summary_lines) if summary_lines else "Suchlauf wurde ausgefuehrt."
     error_sources = error_sources_from_report(lines)
 
@@ -97,6 +93,21 @@ def status_body_from_report(markdown: str) -> str:
             f"{', '.join(error_sources)}."
         )
     return body
+
+
+def report_summary_lines(lines: list[str]) -> list[str]:
+    summary_lines: list[str] = []
+    for line in lines[1:]:
+        if line.startswith("### ") or line.startswith("<details>"):
+            break
+        if line.startswith("#") or line.startswith("- ") or line.startswith("<"):
+            continue
+        summary_lines.append(line)
+        if "neue passende Inserate gefunden" in line:
+            break
+        if len(summary_lines) >= 2:
+            break
+    return summary_lines
 
 
 def error_sources_from_report(lines: list[str]) -> list[str]:
