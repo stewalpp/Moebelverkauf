@@ -1,0 +1,85 @@
+criteria:
+  min_rooms: 3
+  min_area_sqm: 70
+  max_total_rent_eur: 1000
+  require_ground_floor: true
+  allow_unknown_floor: true
+  strict_location: true
+  allowed_location_terms:
+    - hannover
+    - barsinghausen
+    - seelze
+    - letter
+    - ronnenberg
+    - empelde
+    - gehrden
+    - wennigsen
+    - davenstedt
+    - ahlem
+    - badenstedt
+    - bornum
+    - muehlenberg
+    - bad nenndorf
+    - bantorf
+    - egestorf
+    - kirchdorf
+    - winninghausen
+    - grossgoltern
+    - gross munzel
+    - lohnde
+    - sorsum
+    - weetzen
+    - velber
+    - harenberg
+    - lenthe
+    - benthe
+  desired_floor_terms:
+    - erdgeschoss
+    - eg
+    - parterre
+    - hochparterre
+  excluded_terms:
+    - altbau
+    - dachgeschoss
+    - dg
+    - souterrain
+    - ofenheizung
+    - nachtspeicher
+    - nachtspeicherheizung
+    - sanierungsbeduerftig
+    - denkmal
+    - energieklasse g
+    - energieklasse h
+  review_terms:
+    - nebenkosten
+    - heizkosten
+    - warmmiete
+    - energieausweis
+    - energieeffizienz
+    - endenergiebedarf
+
+sources:
+  - name: Immowelt Region Hannover 3 Zimmer
+    enabled: true
+    type: html
+    url: https://www.immowelt.de/suche/mieten/wohnung/zimmer-3/niedersachsen/region-hannover-03241/ad06de28
+
+  - name: Immowelt Barsinghausen 3 Zimmer
+    enabled: true
+    type: html
+    url: https://www.immowelt.de/suche/mieten/wohnung/zimmer-3/niedersachsen/barsinghausen-30890/ad08de1299
+
+  - name: ImmoScout24 Hannover 3 Zimmer
+    enabled: false
+    type: html
+    url: https://www.immobilienscout24.de/Suche/de/niedersachsen/hannover/3-zimmer-wohnung-mieten
+
+  - name: ImmoScout24 Hannover-Kreis bis 1000 warm
+    enabled: false
+    type: html
+    url: https://www.immobilienscout24.de/Suche/de/niedersachsen/hannover-kreis/wohnung-bis-1000-euro-warm
+
+  - name: Kleinanzeigen Hannover Wohnung mieten
+    enabled: true
+    type: html
+    url: https://www.kleinanzeigen.de/s-wohnung-mieten/hannover/c203l3155
