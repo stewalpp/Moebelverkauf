@@ -43,6 +43,8 @@ def term_in_text(text: str, term: str) -> bool:
     normalized_term = normalize_text(term)
     if not normalized_term:
         return False
+    if any(not (character.isalnum() or character.isspace()) for character in normalized_term):
+        return normalized_term in normalized
     if len(normalized_term) <= 3 or " " in normalized_term:
         pattern = rf"(?<![a-z0-9]){re.escape(normalized_term)}(?![a-z0-9])"
         return re.search(pattern, normalized) is not None
@@ -57,6 +59,14 @@ def evaluate_listing(listing: Listing, criteria: dict) -> MatchResult:
     excluded = find_terms(text, criteria.get("excluded_terms", []))
     if excluded:
         return MatchResult(False, [f"ausgeschlossen: {', '.join(excluded)}"], review_notes)
+
+    excluded_locations = find_terms(text, criteria.get("excluded_location_terms", []))
+    if excluded_locations:
+        return MatchResult(
+            False,
+            [f"ausgeschlossen: Stadt Hannover ({', '.join(excluded_locations)})"],
+            review_notes,
+        )
 
     min_rooms = criteria.get("min_rooms")
     if listing.rooms is None:

@@ -7,7 +7,6 @@ criteria:
   include_floor_review_candidates: true
   strict_location: true
   allowed_location_terms:
-    - hannover
     - barsinghausen
     - seelze
     - letter
@@ -15,11 +14,6 @@ criteria:
     - empelde
     - gehrden
     - wennigsen
-    - davenstedt
-    - ahlem
-    - badenstedt
-    - bornum
-    - muehlenberg
     - bad nenndorf
     - bantorf
     - egestorf
@@ -34,6 +28,11 @@ criteria:
     - harenberg
     - lenthe
     - benthe
+  excluded_location_terms:
+    - ", hannover"
+    - "hannover ("
+    - "hannover,"
+    - "stadt hannover"
   desired_floor_terms:
     - erdgeschoss
     - eg

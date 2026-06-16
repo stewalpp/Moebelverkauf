@@ -1,9 +1,9 @@
 # Wohnungssuche Hannover - Barsinghausen
 
-Diese Automation sucht viermal taeglich nach neuen Mietwohnungen zwischen
-Hannover und Barsinghausen. Bereits gemeldete Wohnungen werden in
-`data/seen_listings.json` gespeichert und beim naechsten Lauf nicht erneut
-ausgegeben.
+Diese Automation sucht viermal taeglich nach neuen Mietwohnungen ausserhalb
+von Hannover-Stadt im Korridor Richtung Barsinghausen. Bereits gemeldete
+Wohnungen werden in `data/seen_listings.json` gespeichert und beim naechsten
+Lauf nicht erneut ausgegeben.
 
 ## Kriterien
 
@@ -12,6 +12,7 @@ ausgegeben.
 - maximal 1.000 EUR Gesamtmiete, soweit aus dem Inserat erkennbar
 - Erdgeschoss, Parterre oder Hochparterre bevorzugt
 - gute Verbindung Richtung Hannover
+- Hannover-Stadt ausgeschlossen
 - kein Altbau und keine offensichtlichen Energie-/Kosten-Red-Flags
 
 Nebenkosten, Heizkosten und Energieausweis stehen auf Suchseiten oft nicht
@@ -65,8 +66,8 @@ Suchseiten, auf denen die Portalfilter schon gesetzt sind:
 - Miete bis 1.000 EUR
 - mindestens 3 Zimmer
 - mindestens 70 qm
-- Ort oder Suchradius entlang Hannover, Seelze, Letter, Ronnenberg,
-  Empelde, Gehrden, Wennigsen und Barsinghausen
+- Ort oder Suchradius ausserhalb Hannover-Stadt entlang Seelze, Letter,
+  Ronnenberg, Empelde, Gehrden, Wennigsen und Barsinghausen
 
 Wenn ein Portal RSS anbietet, setze `type: rss`. Fuer normale Suchseiten
 nutze `type: html`. Bereits gezeigte Inserate koennen durch Loeschen des

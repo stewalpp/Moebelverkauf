@@ -20,7 +20,8 @@ CRITERIA = {
     "require_ground_floor": True,
     "allow_unknown_floor": True,
     "strict_location": True,
-    "allowed_location_terms": ["hannover", "barsinghausen"],
+    "allowed_location_terms": ["barsinghausen", "seelze"],
+    "excluded_location_terms": [", hannover", "hannover ("],
     "desired_floor_terms": ["erdgeschoss", "eg", "parterre", "hochparterre"],
     "excluded_terms": ["altbau", "dachgeschoss"],
 }
@@ -55,7 +56,7 @@ class FilteringTests(unittest.TestCase):
             "test",
             "3 Zimmer Wohnung",
             "https://example.test/a",
-            "3 Zimmer 80 qm 1.200 EUR EG Hannover",
+            "3 Zimmer 80 qm 1.200 EUR EG Barsinghausen",
         )
 
         result = evaluate_listing(listing, CRITERIA)
@@ -66,9 +67,9 @@ class FilteringTests(unittest.TestCase):
     def test_accepts_unknown_floor_with_review_note(self):
         listing = build_listing(
             "test",
-            "3 Zimmer Wohnung Hannover",
+            "3 Zimmer Wohnung Barsinghausen",
             "https://example.test/b",
-            "3 Zimmer 80 qm 900 EUR Hannover",
+            "3 Zimmer 80 qm 900 EUR Barsinghausen",
         )
 
         result = evaluate_listing(listing, CRITERIA)
@@ -79,9 +80,9 @@ class FilteringTests(unittest.TestCase):
     def test_rejects_known_non_ground_floor(self):
         listing = build_listing(
             "test",
-            "3 Zimmer Wohnung Hannover",
+            "3 Zimmer Wohnung Barsinghausen",
             "https://example.test/non-eg",
-            "3 Zimmer 80 qm 900 EUR 1. Geschoss Hannover",
+            "3 Zimmer 80 qm 900 EUR 1. Geschoss Barsinghausen",
         )
 
         result = evaluate_listing(listing, CRITERIA)
@@ -89,12 +90,37 @@ class FilteringTests(unittest.TestCase):
         self.assertFalse(result.accepted)
         self.assertIn("kein EG", result.reasons[0])
 
+    def test_rejects_hannover_city_listing(self):
+        listing = build_listing(
+            "test",
+            "Wohnung zur Miete 3 Zimmer, 80 qm, EG",
+            "https://example.test/hannover-city",
+            "3 Zimmer 80 qm 900 EUR EG Badenstedt, Hannover (30455)",
+        )
+
+        result = evaluate_listing(listing, CRITERIA)
+
+        self.assertFalse(result.accepted)
+        self.assertIn("Stadt Hannover", result.reasons[0])
+
+    def test_allows_region_hannover_outside_city(self):
+        listing = build_listing(
+            "test",
+            "Wohnung zur Miete 3 Zimmer, 80 qm, EG",
+            "https://example.test/barsinghausen",
+            "3 Zimmer 80 qm 900 EUR EG Barsinghausen (30890), Region Hannover",
+        )
+
+        result = evaluate_listing(listing, CRITERIA)
+
+        self.assertTrue(result.accepted)
+
     def test_seen_state_marks_listing_once(self):
         listing = Listing(
             source_name="test",
             title="3 Zimmer EG Wohnung",
             url="https://example.test/c",
-            text="3 Zimmer 80 qm 900 EUR EG Hannover",
+            text="3 Zimmer 80 qm 900 EUR EG Barsinghausen",
         )
         state = {"version": 1, "seen": {}}
 
