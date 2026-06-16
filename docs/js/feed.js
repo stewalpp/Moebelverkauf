@@ -54,7 +54,7 @@
       counts: raw.counts || {},
       listings: raw.listings
         .filter(function (l) { return l && l.id; })
-        .map(function (l) { return Object.assign({}, l, { url: safeUrl(l.url) }); })
+        .map(function (l) { return Object.assign({}, l, { url: safeUrl(l.url), image: safeUrl(l.image) || null }); })
     };
   }
 

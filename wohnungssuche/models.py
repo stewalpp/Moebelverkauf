@@ -60,6 +60,7 @@ class Listing:
     location: str | None = None
     floor: str | None = None
     published: str | None = None
+    image: str | None = None
     id: str = field(init=False)
 
     def __post_init__(self) -> None:

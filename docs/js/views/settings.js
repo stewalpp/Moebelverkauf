@@ -121,6 +121,25 @@
       });
     });
     dataCard.appendChild(refresh);
+
+    // Trigger a fresh scrape on GitHub. A fully automatic trigger would need a
+    // GitHub token in the client — unsafe in a public repo — so this opens the
+    // workflow page where one tap on "Run workflow" starts it (uses the user's
+    // own GitHub login, no secret stored).
+    var repo = (window.WS_CONFIG && WS_CONFIG.issueRepo) || '';
+    if (repo) {
+      var trigger = App.el('a', 'btn btn-primary');
+      trigger.href = 'https://github.com/' + repo + '/actions/workflows/daily-search.yml';
+      trigger.target = '_blank';
+      trigger.rel = 'noopener noreferrer';
+      trigger.style.marginTop = '10px';
+      trigger.textContent = 'Neue Suche auf GitHub starten';
+      trigger.appendChild(App.icon('external', 15));
+      dataCard.appendChild(trigger);
+      dataCard.appendChild(App.el('div', 'card-hint',
+        'Öffnet die GitHub-Suche – dort einmal auf „Run workflow" tippen. Neue Treffer erscheinen 1–2 Minuten später automatisch hier in der App.'));
+    }
+
     var critHint = App.el('div', 'card-hint', criteriaText(meta.criteria));
     dataCard.appendChild(critHint);
     view.appendChild(dataCard);

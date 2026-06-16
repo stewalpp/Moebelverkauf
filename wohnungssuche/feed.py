@@ -74,6 +74,8 @@ def record_listings(
         entry["rooms"] = listing.rooms
         entry["location"] = listing.location
         entry["floor"] = listing.floor
+        if listing.image:
+            entry["image"] = listing.image
         entry["match_status"] = MATCH_STATUS if result.accepted else REVIEW_STATUS
         entry["reasons"] = list(result.reasons)
         entry["review_notes"] = list(result.review_notes)
@@ -132,6 +134,7 @@ def build_feed(state: dict, criteria: dict, generated_at: str) -> dict:
                 "rooms": entry.get("rooms"),
                 "location": entry.get("location"),
                 "floor": entry.get("floor"),
+                "image": entry.get("image"),
                 "status": entry.get("match_status"),
                 "reasons": entry.get("reasons", []),
                 "review_notes": entry.get("review_notes", []),

@@ -208,7 +208,8 @@ def parse_html_with_selectors(
         text = item.get_text(" ", strip=True)
         title = title_node.get_text(" ", strip=True) if title_node else text[:120]
         url = urljoin(base_url, link_node["href"])
-        listings.append(build_listing(source["name"], title, url, text))
+        image = extract_image(item, base_url)
+        listings.append(build_listing(source["name"], title, url, text, image))
     return unique_listings(listings)
 
 
@@ -225,7 +226,8 @@ def parse_html_generic(soup: BeautifulSoup, source: dict, base_url: str) -> list
         title = anchor.get_text(" ", strip=True) or text[:120]
         if not looks_like_listing_text(text, url):
             continue
-        listings.append(build_listing(source["name"], title, url, text))
+        image = extract_image(card, base_url)
+        listings.append(build_listing(source["name"], title, url, text, image))
     return unique_listings(listings)
 
 
@@ -273,7 +275,53 @@ def looks_like_listing_text(text: str, url: str) -> bool:
     return has_listing_word and structured_hits >= 2
 
 
-def build_listing(source_name: str, title: str, url: str, text: str) -> Listing:
+IMAGE_SKIP_RE = re.compile(
+    r"logo|sprite|icon|placeholder|blank|pixel|spacer|base64", re.IGNORECASE
+)
+IMAGE_ATTRS = ("src", "data-src", "data-imgsrc", "data-original", "data-lazy-src")
+
+
+def first_url_from_srcset(value: str) -> str:
+    first = value.split(",", 1)[0].strip()
+    return first.split(" ", 1)[0].strip() if first else ""
+
+
+def extract_image(node, base_url: str) -> str | None:
+    """First usable listing thumbnail URL within a card/item, or None.
+
+    Handles lazy-loaded images (data-* attributes, srcset) and skips obvious
+    logos/sprites/placeholders. Returns an absolute http(s) URL.
+    """
+    if node is None:
+        return None
+    for img in node.find_all("img"):
+        candidates: list[str] = []
+        for attr in IMAGE_ATTRS:
+            value = img.get(attr)
+            if value:
+                candidates.append(value)
+        for attr in ("srcset", "data-srcset"):
+            value = img.get(attr)
+            if value:
+                candidates.append(first_url_from_srcset(value))
+        for candidate in candidates:
+            if not candidate or candidate.startswith("data:"):
+                continue
+            if IMAGE_SKIP_RE.search(candidate):
+                continue
+            absolute = urljoin(base_url, candidate)
+            if absolute.startswith("http"):
+                return absolute
+    return None
+
+
+def build_listing(
+    source_name: str,
+    title: str,
+    url: str,
+    text: str,
+    image: str | None = None,
+) -> Listing:
     full_text = " ".join([title or "", text or ""]).strip()
     return Listing(
         source_name=source_name,
@@ -285,6 +333,7 @@ def build_listing(source_name: str, title: str, url: str, text: str) -> Listing:
         rooms=parse_rooms(full_text),
         location=parse_location(full_text),
         floor=parse_floor(full_text),
+        image=image,
     )
 
 

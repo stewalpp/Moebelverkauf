@@ -105,6 +105,29 @@
     return App.el('span', 'badge badge-green', 'Passt');
   }
 
+  // Fill a .listing-image wrapper with the photo (lazy) or a house placeholder;
+  // falls back to the placeholder if the image fails to load (hotlink/404).
+  function setListingImage(wrap, url) {
+    wrap.classList.remove('is-placeholder');
+    if (url) {
+      var img = document.createElement('img');
+      img.className = 'listing-photo';
+      img.src = url;
+      img.alt = '';
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.addEventListener('error', function () {
+        if (img.parentNode) img.parentNode.removeChild(img);
+        wrap.classList.add('is-placeholder');
+        wrap.insertBefore(App.icon('building', 40), wrap.firstChild);
+      });
+      wrap.appendChild(img);
+    } else {
+      wrap.classList.add('is-placeholder');
+      wrap.appendChild(App.icon('building', 40));
+    }
+  }
+
   // "Inserat öffnen" – a real link only for a validated http(s) URL (Feed already
   // sanitizes it); otherwise a disabled button so a bad/missing URL never becomes
   // a clickable href.
@@ -134,7 +157,6 @@
     if (newIds.has(listing.id)) card.classList.add('is-new');
     if (bothGood(listing)) card.classList.add('both-good');
 
-    var top = App.el('div', 'listing-top');
     var badges = App.el('div', 'listing-badges');
     if (newIds.has(listing.id)) badges.appendChild(App.el('span', 'new-pill', 'NEU'));
     badges.appendChild(statusBadge(listing));
@@ -144,9 +166,15 @@
       m.appendChild(App.el('span', null, 'Beide: Gut'));
       badges.appendChild(m);
     }
-    top.appendChild(badges);
-    top.appendChild(favButton(listing));
-    card.appendChild(top);
+
+    // photo banner with badges + favourite overlaid
+    var imgWrap = App.el('div', 'listing-image');
+    setListingImage(imgWrap, listing.image);
+    var overlay = App.el('div', 'listing-image-overlay');
+    overlay.appendChild(badges);
+    overlay.appendChild(favButton(listing));
+    imgWrap.appendChild(overlay);
+    card.appendChild(imgWrap);
 
     var title = App.el('div', 'listing-title', listing.title || 'Wohnung');
     card.appendChild(title);
@@ -197,6 +225,16 @@
 
   function openDetail(listing) {
     var c = App.el('div', 'detail');
+
+    if (listing.image) {
+      var photo = document.createElement('img');
+      photo.className = 'detail-photo';
+      photo.src = listing.image;
+      photo.alt = '';
+      photo.loading = 'lazy';
+      photo.addEventListener('error', function () { if (photo.parentNode) photo.parentNode.removeChild(photo); });
+      c.appendChild(photo);
+    }
 
     var price = App.el('div', 'detail-price', App.fmtEUR(listing.price_eur));
     c.appendChild(price);

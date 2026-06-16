@@ -2848,3 +2848,78 @@ html.kb-open .fab {
   opacity: 0.5;
   pointer-events: none;
 }
+
+/* listing photo banner (card) — bleeds to the card edges; the card's own
+   overflow:hidden + radius rounds the top corners */
+.listing-image {
+  position: relative;
+  margin: -16px -16px 12px;
+  height: 184px;
+  background: var(--bg-input);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.listing-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.listing-image.is-placeholder .icon {
+  width: 44px;
+  height: 44px;
+  color: var(--text-3);
+}
+
+.listing-image-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.30), transparent 42%);
+}
+
+.listing-image.is-placeholder .listing-image-overlay {
+  background: none;
+}
+
+.listing-image-overlay .listing-badges,
+.listing-image-overlay .fav-btn {
+  pointer-events: auto;
+}
+
+.listing-image-overlay .fav-btn {
+  background: rgba(0, 0, 0, 0.35);
+  border-color: transparent;
+  color: #fff;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.listing-image-overlay .fav-btn.active {
+  color: var(--yellow);
+}
+
+.listing-image-overlay .fav-btn.active .icon {
+  fill: var(--yellow);
+  stroke: var(--yellow);
+}
+
+/* listing photo (detail sheet) */
+.detail-photo {
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+  border-radius: 16px;
+  margin-bottom: 14px;
+  display: block;
+  background: var(--bg-input);
+}
