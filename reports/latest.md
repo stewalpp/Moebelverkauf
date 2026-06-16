@@ -16,7 +16,7 @@
 <details>
 <summary>Bewertung 1-10 anklicken</summary>
 
-Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.
+Skala: 1 = gut, 10 = schlecht. Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.
 
 **🔵 stewalpp (Blau)**
 - [ ] 1
@@ -62,7 +62,7 @@ Diese Wohnungen passen bei Preis, Groesse, Zimmerzahl und Lage, liegen aber laut
 <details>
 <summary>Bewertung 1-10 anklicken</summary>
 
-Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.
+Skala: 1 = gut, 10 = schlecht. Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.
 
 **🔵 stewalpp (Blau)**
 - [ ] 1
@@ -104,7 +104,7 @@ Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.
 <details>
 <summary>Bewertung 1-10 anklicken</summary>
 
-Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.
+Skala: 1 = gut, 10 = schlecht. Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.
 
 **🔵 stewalpp (Blau)**
 - [ ] 1
@@ -146,7 +146,7 @@ Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.
 <details>
 <summary>Bewertung 1-10 anklicken</summary>
 
-Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.
+Skala: 1 = gut, 10 = schlecht. Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.
 
 **🔵 stewalpp (Blau)**
 - [ ] 1
@@ -188,7 +188,7 @@ Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.
 <details>
 <summary>Bewertung 1-10 anklicken</summary>
 
-Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.
+Skala: 1 = gut, 10 = schlecht. Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.
 
 **🔵 stewalpp (Blau)**
 - [ ] 1
@@ -230,7 +230,7 @@ Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.
 <details>
 <summary>Bewertung 1-10 anklicken</summary>
 
-Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.
+Skala: 1 = gut, 10 = schlecht. Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.
 
 **🔵 stewalpp (Blau)**
 - [ ] 1
@@ -272,7 +272,7 @@ Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.
 <details>
 <summary>Bewertung 1-10 anklicken</summary>
 
-Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.
+Skala: 1 = gut, 10 = schlecht. Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.
 
 **🔵 stewalpp (Blau)**
 - [ ] 1
@@ -314,7 +314,7 @@ Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.
 <details>
 <summary>Bewertung 1-10 anklicken</summary>
 
-Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.
+Skala: 1 = gut, 10 = schlecht. Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.
 
 **🔵 stewalpp (Blau)**
 - [ ] 1
@@ -356,7 +356,7 @@ Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.
 <details>
 <summary>Bewertung 1-10 anklicken</summary>
 
-Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.
+Skala: 1 = gut, 10 = schlecht. Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.
 
 **🔵 stewalpp (Blau)**
 - [ ] 1

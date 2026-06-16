@@ -84,7 +84,8 @@ einmal kommentiert, weil seine ID im Seen-State gespeichert wird.
 Jedes Inserat enthaelt ausserdem einen aufklappbaren Bereich
 `Bewertung 1-10 anklicken`. Dort gibt es eine blaue Zeile fuer `stewalpp`
 und eine gruene Zeile fuer `gishaa-create`. Pro Person sollte genau eine
-Zahl markiert werden; zum Aendern einfach die alte Zahl wieder abwaehlen.
+Zahl markiert werden: `1 = gut`, `10 = schlecht`. Zum Aendern einfach die
+alte Zahl wieder abwaehlen.
 
 Optional kann der Suchlauf neue Treffer zusaetzlich per E-Mail oder SMS
 verschicken. Die Werte werden nicht im Code gespeichert, sondern als GitHub

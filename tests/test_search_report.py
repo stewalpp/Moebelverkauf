@@ -26,6 +26,7 @@ class SearchReportTests(unittest.TestCase):
         markdown = "\n".join(format_listing(1, listing, result, review_candidate=False))
 
         self.assertIn("<summary>Bewertung 1-10 anklicken</summary>", markdown)
+        self.assertIn("Skala: 1 = gut, 10 = schlecht.", markdown)
         self.assertIn("\U0001F535 stewalpp (Blau)", markdown)
         self.assertIn("\U0001F7E2 gishaa-create (Gruen)", markdown)
         self.assertEqual(markdown.count("- [ ] "), 20)

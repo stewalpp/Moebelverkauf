@@ -234,7 +234,7 @@ def format_rating_section() -> list[str]:
         "<details>",
         "<summary>Bewertung 1-10 anklicken</summary>",
         "",
-        "Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.",
+        "Skala: 1 = gut, 10 = schlecht. Bitte pro Person genau eine Zahl markieren. Zum Aendern die alte Zahl abwaehlen.",
         "",
     ]
     for user, color, marker in RATING_PEOPLE:
