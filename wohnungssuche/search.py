@@ -42,6 +42,7 @@ def main(argv: list[str] | None = None) -> int:
     all_matches: list[tuple[Listing, MatchResult]] = []
     floor_review_matches: list[tuple[Listing, MatchResult]] = []
     errors: list[str] = []
+    successful_sources = 0
 
     for source in sources:
         try:
@@ -49,6 +50,7 @@ def main(argv: list[str] | None = None) -> int:
         except Exception as exc:  # noqa: BLE001 - source failures should not hide other sources
             errors.append(f"{source.get('name', 'Quelle')}: {exc}")
             continue
+        successful_sources += 1
 
         for listing in listings:
             result = evaluate_listing(listing, criteria)
@@ -98,7 +100,7 @@ def main(argv: list[str] | None = None) -> int:
         args.report.parent.mkdir(parents=True, exist_ok=True)
         args.report.write_text(markdown, encoding="utf-8")
 
-    if errors and not all_matches:
+    if should_fail_run(errors, successful_sources):
         return 1
     return 0
 
@@ -159,6 +161,10 @@ def should_include_floor_review(result: MatchResult, criteria: dict) -> bool:
     if not criteria.get("include_floor_review_candidates", False):
         return False
     return any(reason.startswith("kein EG/Parterre") for reason in result.reasons)
+
+
+def should_fail_run(errors: list[str], successful_sources: int) -> bool:
+    return bool(errors) and successful_sources == 0
 
 
 def format_report(

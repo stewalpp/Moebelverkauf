@@ -2,7 +2,7 @@ import unittest
 
 from wohnungssuche.filters import MatchResult
 from wohnungssuche.models import Listing
-from wohnungssuche.search import format_listing
+from wohnungssuche.search import format_listing, should_fail_run
 
 
 class SearchReportTests(unittest.TestCase):
@@ -34,6 +34,10 @@ class SearchReportTests(unittest.TestCase):
         self.assertIn("- [ ] Schlecht", markdown)
         self.assertEqual(markdown.count("- [ ] "), 6)
         self.assertNotIn("- [ ] 10", markdown)
+
+    def test_partial_source_errors_do_not_fail_run(self):
+        self.assertFalse(should_fail_run(["Immowelt: 403"], successful_sources=1))
+        self.assertTrue(should_fail_run(["Immowelt: 403"], successful_sources=0))
 
 
 if __name__ == "__main__":
