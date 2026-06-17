@@ -28,10 +28,16 @@
       "availability_status": "available",
       "first_seen": "2026-06-16T20:46:37.260643+00:00",
       "floor": "eg",
+      "heizkosten_eur": null,
       "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/54/54b7b7d6-5ede-4f62-a49d-86f16e6d3235?rule=$_2.AUTO",
-      "last_seen_in_search": "2026-06-17T12:06:31.994537+00:00",
+      "images": [
+        "https://img.kleinanzeigen.de/api/v1/prod-ads/images/54/54b7b7d6-5ede-4f62-a49d-86f16e6d3235?rule=$_2.AUTO"
+      ],
+      "kaltmiete_eur": null,
+      "last_seen_in_search": "2026-06-17T13:01:47.088974+00:00",
       "location": "30890 Barsinghausen Gepflegte",
       "match_status": "match",
+      "nebenkosten_eur": null,
       "price_eur": 790.0,
       "reasons": [
         "3.5 Zimmer",
@@ -43,19 +49,29 @@
       "rooms": 3.5,
       "source": "Kleinanzeigen Barsinghausen 3 Zimmer",
       "title": "Gepflegte 3 5 Zimmerwohnung im Eg 93 qm Terrassen",
-      "url": "https://www.kleinanzeigen.de/s-anzeige/gepflegte-3-5-zimmerwohnung-im-eg-93-m-2-terrassen/3437368977-203-2862"
+      "url": "https://www.kleinanzeigen.de/s-anzeige/gepflegte-3-5-zimmerwohnung-im-eg-93-m-2-terrassen/3437368977-203-2862",
+      "warmmiete_eur": null
     },
     "16561d548ea5a165": {
       "area_sqm": 117.0,
       "availability_status": "available",
       "first_seen": "2026-06-16T07:37:14.605931+00:00",
       "floor": "1. geschoss",
+      "heizkosten_eur": null,
       "image": "https://mms.immowelt.de/e/7/7/4/e77497b9-5d60-4a1a-aecc-2c05e5e77b3e.jpg?ci_seal=d213ee7a4aaca556dc87309ede86338b75f4e4ef&h=50",
+      "images": [
+        "https://mms.immowelt.de/e/7/7/4/e77497b9-5d60-4a1a-aecc-2c05e5e77b3e.jpg?ci_seal=d213ee7a4aaca556dc87309ede86338b75f4e4ef&h=50",
+        "https://mms.immowelt.de/e/5/9/e/e59edfb3-6b7f-489f-b327-5f0d94acc1aa.jpg?ci_seal=871a8295285017c1768f46bf3e39eb2ad59ca450&w=525&h=394",
+        "https://mms.immowelt.de/b/b/d/0/bbd0e814-cfa2-42b8-a1c5-c859ed9ded09.jpg?ci_seal=a2cca6d975dab8c28ddb2c7c6a8703e181f538ae&w=525&h=394",
+        "https://mms.immowelt.de/f/3/2/4/f324db1b-8ebe-4601-a670-a9a6e740a800.jpg?ci_seal=ccd8493507dd5e7fe35b23eacb69a768d45097b2&w=525&h=394"
+      ],
+      "kaltmiete_eur": 910.0,
       "last_check_note": "Inserat wurde in den aktuellen Suchergebnissen gefunden.",
       "last_checked": "2026-06-16T08:26:43.437295+00:00",
-      "last_seen_in_search": "2026-06-17T12:06:31.994537+00:00",
+      "last_seen_in_search": "2026-06-17T13:01:47.088974+00:00",
       "location": null,
       "match_status": "review",
+      "nebenkosten_eur": null,
       "price_eur": 910.0,
       "reasons": [
         "kein EG/Parterre: 1. geschoss"
@@ -65,17 +81,24 @@
       "source": "Immowelt Barsinghausen 3 Zimmer",
       "status_changed_at": "2026-06-16T07:51:46.155360+00:00",
       "title": "Wohnung zur Miete 3 Zimmer, 117 qm, 1. Geschoss Empelde, Ronnenberg (30952) Empelde: Gepflegte",
-      "url": "https://www.immowelt.de/expose/174c54e9-b985-4e04-8479-97a466a5da30"
+      "url": "https://www.immowelt.de/expose/174c54e9-b985-4e04-8479-97a466a5da30",
+      "warmmiete_eur": null
     },
     "215d89cabc477ebd": {
       "area_sqm": 70.0,
       "availability_status": "available",
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
       "floor": null,
+      "heizkosten_eur": null,
       "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/28/284f1bff-7342-443f-9f35-eb7b41ad8507?rule=$_2.AUTO",
-      "last_seen_in_search": "2026-06-17T12:06:31.994537+00:00",
+      "images": [
+        "https://img.kleinanzeigen.de/api/v1/prod-ads/images/28/284f1bff-7342-443f-9f35-eb7b41ad8507?rule=$_2.AUTO"
+      ],
+      "kaltmiete_eur": null,
+      "last_seen_in_search": "2026-06-17T13:01:47.088974+00:00",
       "location": "30989 Gehrden",
       "match_status": "review",
+      "nebenkosten_eur": null,
       "price_eur": 1000.0,
       "reasons": [
         "3 Zimmer",
@@ -88,17 +111,24 @@
       "rooms": 3.0,
       "source": "Kleinanzeigen Gehrden 3 Zimmer",
       "title": "3 Zimmer Wohnung zur Miete",
-      "url": "https://www.kleinanzeigen.de/s-anzeige/3-zimmer-wohnung-zur-miete/3427621745-203-2903"
+      "url": "https://www.kleinanzeigen.de/s-anzeige/3-zimmer-wohnung-zur-miete/3427621745-203-2903",
+      "warmmiete_eur": null
     },
     "33d7ba59b15e47af": {
       "area_sqm": 117.0,
       "availability_status": "available",
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
       "floor": null,
+      "heizkosten_eur": null,
       "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/28/2823aa2c-e61b-4413-84cb-7c45d0e96038?rule=$_2.AUTO",
-      "last_seen_in_search": "2026-06-17T12:06:31.994537+00:00",
+      "images": [
+        "https://img.kleinanzeigen.de/api/v1/prod-ads/images/28/2823aa2c-e61b-4413-84cb-7c45d0e96038?rule=$_2.AUTO"
+      ],
+      "kaltmiete_eur": null,
+      "last_seen_in_search": "2026-06-17T13:01:47.088974+00:00",
       "location": "30952 Ronnenberg",
       "match_status": "review",
+      "nebenkosten_eur": null,
       "price_eur": 910.0,
       "reasons": [
         "3 Zimmer",
@@ -111,17 +141,24 @@
       "rooms": 3.0,
       "source": "Kleinanzeigen Gehrden 3 Zimmer",
       "title": "Empelde Gepflegte 3 Zimmer Wohnung mit Balkon",
-      "url": "https://www.kleinanzeigen.de/s-anzeige/empelde-gepflegte-3-zimmer-wohnung-mit-balkon-/3430074386-203-2904"
+      "url": "https://www.kleinanzeigen.de/s-anzeige/empelde-gepflegte-3-zimmer-wohnung-mit-balkon-/3430074386-203-2904",
+      "warmmiete_eur": null
     },
     "364366aaed753692": {
       "area_sqm": 76.0,
       "availability_status": "available",
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
       "floor": null,
+      "heizkosten_eur": null,
       "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/25/25935485-2045-46bb-8e17-861757507e1c?rule=$_2.AUTO",
-      "last_seen_in_search": "2026-06-17T12:06:31.994537+00:00",
+      "images": [
+        "https://img.kleinanzeigen.de/api/v1/prod-ads/images/25/25935485-2045-46bb-8e17-861757507e1c?rule=$_2.AUTO"
+      ],
+      "kaltmiete_eur": null,
+      "last_seen_in_search": "2026-06-17T13:01:47.088974+00:00",
       "location": "30952 Ronnenberg",
       "match_status": "review",
+      "nebenkosten_eur": null,
       "price_eur": 950.0,
       "reasons": [
         "3 Zimmer",
@@ -135,17 +172,24 @@
       "rooms": 3.0,
       "source": "Kleinanzeigen Gehrden 3 Zimmer",
       "title": "3 Zimmer Wohnung in Empelde",
-      "url": "https://www.kleinanzeigen.de/s-anzeige/3-zimmer-wohnung-in-empelde/3402011085-203-2904"
+      "url": "https://www.kleinanzeigen.de/s-anzeige/3-zimmer-wohnung-in-empelde/3402011085-203-2904",
+      "warmmiete_eur": null
     },
     "39dd20e28f80c777": {
       "area_sqm": 83.0,
       "availability_status": "available",
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
       "floor": "hochparterre",
+      "heizkosten_eur": null,
       "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/7a/7a5b49c3-db2c-4667-b7ef-224ebcdb3dee?rule=$_2.AUTO",
-      "last_seen_in_search": "2026-06-17T12:06:31.994537+00:00",
+      "images": [
+        "https://img.kleinanzeigen.de/api/v1/prod-ads/images/7a/7a5b49c3-db2c-4667-b7ef-224ebcdb3dee?rule=$_2.AUTO"
+      ],
+      "kaltmiete_eur": null,
+      "last_seen_in_search": "2026-06-17T13:01:47.088974+00:00",
       "location": "30989 Gehrden Gehrden Kernstadt",
       "match_status": "match",
+      "nebenkosten_eur": null,
       "price_eur": 740.0,
       "reasons": [
         "3 Zimmer",
@@ -157,17 +201,25 @@
       "rooms": 3.0,
       "source": "Kleinanzeigen Gehrden 3 Zimmer",
       "title": "Gehrden Kernstadt 3 Zimmerwohnung zur Miete",
-      "url": "https://www.kleinanzeigen.de/s-anzeige/gehrden-kernstadt-3-zimmerwohnung-zur-miete/3428577682-203-2903"
+      "url": "https://www.kleinanzeigen.de/s-anzeige/gehrden-kernstadt-3-zimmerwohnung-zur-miete/3428577682-203-2903",
+      "warmmiete_eur": null
     },
     "40c7559281958119": {
       "area_sqm": 78.0,
       "availability_status": "available",
       "first_seen": "2026-06-16T13:50:26.504416+00:00",
       "floor": null,
+      "heizkosten_eur": null,
       "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/85/85d373a8-d689-4eba-b19a-91ff06ae9538?rule=$_1.AUTO",
-      "last_seen_in_search": "2026-06-17T12:06:31.994537+00:00",
+      "images": [
+        "https://img.kleinanzeigen.de/api/v1/prod-ads/images/85/85d373a8-d689-4eba-b19a-91ff06ae9538?rule=$_1.AUTO",
+        "https://img.kleinanzeigen.de/api/v1/prod-user/images/96/961633b2-74fe-46d7-8fa4-97387863e114?rule=$_2.JPG"
+      ],
+      "kaltmiete_eur": null,
+      "last_seen_in_search": "2026-06-17T13:01:47.088974+00:00",
       "location": "30890 Barsinghausen Perfekte Familienwohnu",
       "match_status": "review",
+      "nebenkosten_eur": null,
       "price_eur": 690.0,
       "reasons": [
         "3 Zimmer",
@@ -180,17 +232,24 @@
       "rooms": 3.0,
       "source": "Kleinanzeigen Barsinghausen 3 Zimmer",
       "title": "Perfekte Familienwohnung in Barsinghausen Die Heide 71 3 Zimmer Wohnung mit Weitblick",
-      "url": "https://www.kleinanzeigen.de/s-anzeige/perfekte-familienwohnung-in-barsinghausen-die-heide-71-3-zimmer-wohnung-mit-weitblick/3344014570-203-2862"
+      "url": "https://www.kleinanzeigen.de/s-anzeige/perfekte-familienwohnung-in-barsinghausen-die-heide-71-3-zimmer-wohnung-mit-weitblick/3344014570-203-2862",
+      "warmmiete_eur": null
     },
     "47392491b8de4c1a": {
       "area_sqm": 74.51,
       "availability_status": "available",
       "first_seen": "2026-06-16T13:50:26.504416+00:00",
       "floor": null,
+      "heizkosten_eur": null,
       "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/39/39674ee8-fb73-42cd-8c2a-7f70c168acd5?rule=$_2.AUTO",
-      "last_seen_in_search": "2026-06-17T12:06:31.994537+00:00",
+      "images": [
+        "https://img.kleinanzeigen.de/api/v1/prod-ads/images/39/39674ee8-fb73-42cd-8c2a-7f70c168acd5?rule=$_2.AUTO"
+      ],
+      "kaltmiete_eur": null,
+      "last_seen_in_search": "2026-06-17T13:01:47.088974+00:00",
       "location": "30890 Barsinghausen Sanierte",
       "match_status": "review",
+      "nebenkosten_eur": null,
       "price_eur": 730.0,
       "reasons": [
         "3 Zimmer",
@@ -203,7 +262,8 @@
       "rooms": 3.0,
       "source": "Kleinanzeigen Barsinghausen 3 Zimmer",
       "title": "Sanierte 3 Zimmer Wohnung mit Loggia Aufzug Traumhaftem Weitblick in Barsingh Egestorf",
-      "url": "https://www.kleinanzeigen.de/s-anzeige/sanierte-3-zimmer-wohnung-mit-loggia-aufzug-traumhaftem-weitblick-in-barsingh-egestorf/3402468679-203-2862"
+      "url": "https://www.kleinanzeigen.de/s-anzeige/sanierte-3-zimmer-wohnung-mit-loggia-aufzug-traumhaftem-weitblick-in-barsingh-egestorf/3402468679-203-2862",
+      "warmmiete_eur": null
     },
     "4beac5d73d4b572d": {
       "area_sqm": 72.0,
@@ -255,10 +315,16 @@
       "availability_status": "available",
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
       "floor": null,
+      "heizkosten_eur": null,
       "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/de/de9b2783-7a45-42d5-8598-a562e5019969?rule=$_2.AUTO",
-      "last_seen_in_search": "2026-06-17T12:06:31.994537+00:00",
+      "images": [
+        "https://img.kleinanzeigen.de/api/v1/prod-ads/images/de/de9b2783-7a45-42d5-8598-a562e5019969?rule=$_2.AUTO"
+      ],
+      "kaltmiete_eur": null,
+      "last_seen_in_search": "2026-06-17T13:01:47.088974+00:00",
       "location": "30952 Ronnenberg",
       "match_status": "review",
+      "nebenkosten_eur": null,
       "price_eur": 950.0,
       "reasons": [
         "3 Zimmer",
@@ -271,19 +337,29 @@
       "rooms": 3.0,
       "source": "Kleinanzeigen Gehrden 3 Zimmer",
       "title": "3 Zimmer Wohnung in Empelde Zu Vermieten",
-      "url": "https://www.kleinanzeigen.de/s-anzeige/3-zimmer-wohnung-in-empelde-zu-vermieten/3433170316-203-2904"
+      "url": "https://www.kleinanzeigen.de/s-anzeige/3-zimmer-wohnung-in-empelde-zu-vermieten/3433170316-203-2904",
+      "warmmiete_eur": null
     },
     "5bf0e56ac407c37b": {
       "area_sqm": 74.5,
       "availability_status": "available",
       "first_seen": "2026-06-16T07:37:14.605931+00:00",
       "floor": "5. geschoss",
+      "heizkosten_eur": null,
       "image": "https://mms.immowelt.de/c/d/f/f/cdffc168-79ae-4898-ad31-bdf725d275be.jpg?ci_seal=4d4fa82b39848af84fbe7efdb27bdfe3ae469976&h=50",
+      "images": [
+        "https://mms.immowelt.de/c/d/f/f/cdffc168-79ae-4898-ad31-bdf725d275be.jpg?ci_seal=4d4fa82b39848af84fbe7efdb27bdfe3ae469976&h=50",
+        "https://mms.immowelt.de/7/f/5/d/7f5deda6-b646-46d5-9420-6a4f07b5e473.jpg?ci_seal=ddc96d990bffb9fa2fd6191921da3a545dc4bc0e&w=525&h=394",
+        "https://mms.immowelt.de/6/f/5/2/6f5246f6-48a7-405f-b9c4-020bb9832ad0.jpg?ci_seal=98ff8af2428f750113e0ee4eb96f9ff070f0ea2f&w=525&h=394",
+        "https://mms.immowelt.de/3/8/4/0/38403773-0051-447b-8381-6baedc9ffd04.jpg?ci_seal=7c63ee1a9162ac85d8fe00e49bb74f12810945d9&w=525&h=394"
+      ],
+      "kaltmiete_eur": 730.0,
       "last_check_note": "Inserat wurde in den aktuellen Suchergebnissen gefunden.",
       "last_checked": "2026-06-16T08:26:43.437295+00:00",
-      "last_seen_in_search": "2026-06-17T12:06:31.994537+00:00",
+      "last_seen_in_search": "2026-06-17T13:01:47.088974+00:00",
       "location": null,
       "match_status": "review",
+      "nebenkosten_eur": null,
       "price_eur": 730.0,
       "reasons": [
         "kein EG/Parterre: 5. geschoss"
@@ -293,17 +369,24 @@
       "source": "Immowelt Barsinghausen 3 Zimmer",
       "status_changed_at": "2026-06-16T07:51:46.155360+00:00",
       "title": "Wohnung zur Miete 3 Zimmer, 74,5 qm, 5. Geschoss Egestorf, Barsinghausen / Egestorf am Deiste",
-      "url": "https://www.immowelt.de/expose/3a096ce6-6ca9-4a11-9a49-a7420aa6c4b2"
+      "url": "https://www.immowelt.de/expose/3a096ce6-6ca9-4a11-9a49-a7420aa6c4b2",
+      "warmmiete_eur": null
     },
     "5e37e9041b107871": {
       "area_sqm": 85.0,
       "availability_status": "available",
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
       "floor": null,
+      "heizkosten_eur": null,
       "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/87/8718e53b-5c50-4176-a788-aabdb6bc710c?rule=$_2.AUTO",
-      "last_seen_in_search": "2026-06-17T12:06:31.994537+00:00",
+      "images": [
+        "https://img.kleinanzeigen.de/api/v1/prod-ads/images/87/8718e53b-5c50-4176-a788-aabdb6bc710c?rule=$_2.AUTO"
+      ],
+      "kaltmiete_eur": null,
+      "last_seen_in_search": "2026-06-17T13:01:47.088974+00:00",
       "location": "30989 Gehrden",
       "match_status": "review",
+      "nebenkosten_eur": null,
       "price_eur": null,
       "reasons": [
         "3 Zimmer",
@@ -316,17 +399,24 @@
       "rooms": 3.0,
       "source": "Kleinanzeigen Gehrden 3 Zimmer",
       "title": "2 und 3 Zimmer Wohnungen in Gehrden Suedbalkon Kfw 40 Neubau",
-      "url": "https://www.kleinanzeigen.de/s-anzeige/2-und-3-zimmer-wohnungen-in-gehrden-suedbalkon-kfw-40-neubau/3426653625-203-2903"
+      "url": "https://www.kleinanzeigen.de/s-anzeige/2-und-3-zimmer-wohnungen-in-gehrden-suedbalkon-kfw-40-neubau/3426653625-203-2903",
+      "warmmiete_eur": null
     },
     "6b2a66fa75be9009": {
       "area_sqm": 110.0,
       "availability_status": "available",
       "first_seen": "2026-06-16T13:50:26.504416+00:00",
       "floor": "1.og",
+      "heizkosten_eur": null,
       "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/42/427b6afa-52aa-4a9e-a0a6-74c4a81a508f?rule=$_2.AUTO",
-      "last_seen_in_search": "2026-06-17T12:06:31.994537+00:00",
+      "images": [
+        "https://img.kleinanzeigen.de/api/v1/prod-ads/images/42/427b6afa-52aa-4a9e-a0a6-74c4a81a508f?rule=$_2.AUTO"
+      ],
+      "kaltmiete_eur": null,
+      "last_seen_in_search": "2026-06-17T13:01:47.088974+00:00",
       "location": "30890 Barsinghausen",
       "match_status": "review",
+      "nebenkosten_eur": null,
       "price_eur": 990.0,
       "reasons": [
         "kein EG/Parterre: 1.og"
@@ -335,17 +425,24 @@
       "rooms": 3.5,
       "source": "Kleinanzeigen Barsinghausen 3 Zimmer",
       "title": "3 5 Zi Nichtraucherwhg mit Gr Balkon Einbaukueche",
-      "url": "https://www.kleinanzeigen.de/s-anzeige/3-5-zi-nichtraucherwhg-mit-gr-balkon-einbaukueche/3390551070-203-2862"
+      "url": "https://www.kleinanzeigen.de/s-anzeige/3-5-zi-nichtraucherwhg-mit-gr-balkon-einbaukueche/3390551070-203-2862",
+      "warmmiete_eur": null
     },
     "70b52a3dd1ffe7aa": {
       "area_sqm": 70.0,
       "availability_status": "available",
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
       "floor": null,
+      "heizkosten_eur": null,
       "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/8e/8e0ec1a4-f7dd-4b8a-b1f7-dbde8ac70e4b?rule=$_2.AUTO",
-      "last_seen_in_search": "2026-06-17T12:06:31.994537+00:00",
+      "images": [
+        "https://img.kleinanzeigen.de/api/v1/prod-ads/images/8e/8e0ec1a4-f7dd-4b8a-b1f7-dbde8ac70e4b?rule=$_2.AUTO"
+      ],
+      "kaltmiete_eur": null,
+      "last_seen_in_search": "2026-06-17T13:01:47.088974+00:00",
       "location": "30989 Gehrden",
       "match_status": "review",
+      "nebenkosten_eur": null,
       "price_eur": 1000.0,
       "reasons": [
         "3 Zimmer",
@@ -358,7 +455,8 @@
       "rooms": 3.0,
       "source": "Kleinanzeigen Gehrden 3 Zimmer",
       "title": "3 Zimmer Wohnung zur Miete",
-      "url": "https://www.kleinanzeigen.de/s-anzeige/3-zimmer-wohnung-zur-miete/3421455261-203-2903"
+      "url": "https://www.kleinanzeigen.de/s-anzeige/3-zimmer-wohnung-zur-miete/3421455261-203-2903",
+      "warmmiete_eur": null
     },
     "7f68423a322122f9": {
       "first_seen": "2026-06-16T13:50:26.504416+00:00",
@@ -371,12 +469,20 @@
       "availability_status": "available",
       "first_seen": "2026-06-16T07:37:14.605931+00:00",
       "floor": "6. geschoss",
+      "heizkosten_eur": null,
       "image": "https://mms.immowelt.de/8/b/a/3/8ba30793-1f15-4cab-a193-8ec23e0707d5.jpg?ci_seal=814bca192f8c1ecbe46c7daea84087f71b64a227&w=525&h=394",
+      "images": [
+        "https://mms.immowelt.de/8/b/a/3/8ba30793-1f15-4cab-a193-8ec23e0707d5.jpg?ci_seal=814bca192f8c1ecbe46c7daea84087f71b64a227&w=525&h=394",
+        "https://mms.immowelt.de/d/a/7/f/da7f2764-054e-4828-93b8-a900edf2b43e.jpg?ci_seal=ac982692781621aa4371e4ce3ed781886be59c01&w=525&h=394",
+        "https://mms.immowelt.de/c/a/a/5/caa5f875-3237-448a-8921-cc5f4cc65408.jpg?ci_seal=863ff3dfcea04e165bd8abc67da546f83626c932&w=525&h=394"
+      ],
+      "kaltmiete_eur": 4550.0,
       "last_check_note": "Inserat wurde in den aktuellen Suchergebnissen gefunden.",
       "last_checked": "2026-06-16T08:26:43.437295+00:00",
-      "last_seen_in_search": "2026-06-17T12:06:31.994537+00:00",
+      "last_seen_in_search": "2026-06-17T13:01:47.088974+00:00",
       "location": "30890 Barsinghausen",
       "match_status": "review",
+      "nebenkosten_eur": null,
       "price_eur": 550.0,
       "reasons": [
         "kein EG/Parterre: 6. geschoss"
@@ -386,19 +492,29 @@
       "source": "Immowelt Barsinghausen 3 Zimmer",
       "status_changed_at": "2026-06-16T07:51:46.155360+00:00",
       "title": "Wohnung zur Miete 3 Zimmer, 76 qm, Geschoss 6/7",
-      "url": "https://www.immowelt.de/expose/26xntsmfhqba"
+      "url": "https://www.immowelt.de/expose/26xntsmfhqba",
+      "warmmiete_eur": null
     },
     "836726824ec5c8aa": {
       "area_sqm": 100.3,
       "availability_status": "available",
       "first_seen": "2026-06-16T07:18:23.368301+00:00",
       "floor": "eg",
+      "heizkosten_eur": null,
       "image": "https://mms.immowelt.de/f/5/3/3/f53301a8-30cc-43a4-8a0a-e7ec4b08924a.jpg?ci_seal=854d270ee31e22017a0a85dda94397a9a0e3f6a8&h=50",
+      "images": [
+        "https://mms.immowelt.de/f/5/3/3/f53301a8-30cc-43a4-8a0a-e7ec4b08924a.jpg?ci_seal=854d270ee31e22017a0a85dda94397a9a0e3f6a8&h=50",
+        "https://mms.immowelt.de/f/e/e/a/feeace03-2f3b-4d08-a055-f327750253aa.jpg?ci_seal=07927ce7afdb0b9364f87b0dd0dd30e840450e7b&w=525&h=394",
+        "https://mms.immowelt.de/4/e/8/e/4e8e90fa-5f7d-4fa5-a7f2-fee4fada89ef.jpg?ci_seal=4913464a8bcf26c2687dfe8c5ccbc715e7053fd1&w=525&h=394",
+        "https://mms.immowelt.de/6/a/e/0/6ae085e9-b880-4d35-a32a-63d752b7f49e.jpg?ci_seal=23a63ba2ed692fb838e88cb9c0f2609f6e4dcd37&w=525&h=394"
+      ],
+      "kaltmiete_eur": null,
       "last_check_note": "Inserat wurde in den aktuellen Suchergebnissen gefunden.",
       "last_checked": "2026-06-16T08:26:43.437295+00:00",
-      "last_seen_in_search": "2026-06-17T12:06:31.994537+00:00",
+      "last_seen_in_search": "2026-06-17T13:01:47.088974+00:00",
       "location": null,
       "match_status": "match",
+      "nebenkosten_eur": null,
       "price_eur": 959.0,
       "reasons": [
         "3 Zimmer",
@@ -411,7 +527,8 @@
       "source": "Immowelt Barsinghausen 3 Zimmer",
       "status_changed_at": "2026-06-16T07:51:46.155360+00:00",
       "title": "Wohnung zur Miete 3 Zimmer, 100,3 qm, EG",
-      "url": "https://www.immowelt.de/expose/523021a0-bc7a-46cb-9716-6377cbcaf7fb"
+      "url": "https://www.immowelt.de/expose/523021a0-bc7a-46cb-9716-6377cbcaf7fb",
+      "warmmiete_eur": null
     },
     "8d514956367b35eb": {
       "availability_status": "available",
@@ -429,12 +546,21 @@
       "availability_status": "available",
       "first_seen": "2026-06-16T07:37:14.605931+00:00",
       "floor": "1. geschoss",
+      "heizkosten_eur": null,
       "image": "https://mms.immowelt.de/1/b/7/4/1b741648-2bf5-4a76-a358-ab3737282ba7.jpg?ci_seal=9e04d80a65980e8b98872797b4466d70bd96598b&h=50",
+      "images": [
+        "https://mms.immowelt.de/1/b/7/4/1b741648-2bf5-4a76-a358-ab3737282ba7.jpg?ci_seal=9e04d80a65980e8b98872797b4466d70bd96598b&h=50",
+        "https://mms.immowelt.de/d/2/6/3/d263c53f-ed0b-4fb7-ba80-c6fb6d2df714.jpg?ci_seal=c30f626d150cd74c293e4170a105439bd1a80ebd&w=525&h=394",
+        "https://mms.immowelt.de/1/a/6/d/1a6d5dc6-b995-47f5-a23a-085589584b77.jpg?ci_seal=375f696d32aed636f6c3c9212535d3be2b268e50&w=525&h=394",
+        "https://mms.immowelt.de/6/4/3/0/64302c91-9c03-4b4f-a3eb-7d5dd5c85370.jpg?ci_seal=17ec626dcdc746b087bbc4cd481eef3a10645923&w=525&h=394"
+      ],
+      "kaltmiete_eur": 684.0,
       "last_check_note": "Inserat wurde in den aktuellen Suchergebnissen gefunden.",
       "last_checked": "2026-06-16T08:26:43.437295+00:00",
-      "last_seen_in_search": "2026-06-17T12:06:31.994537+00:00",
+      "last_seen_in_search": "2026-06-17T13:01:47.088974+00:00",
       "location": "30890 Barsinghausen",
       "match_status": "review",
+      "nebenkosten_eur": null,
       "price_eur": 684.0,
       "reasons": [
         "kein EG/Parterre: 1. geschoss"
@@ -444,7 +570,8 @@
       "source": "Immowelt Barsinghausen 3 Zimmer",
       "status_changed_at": "2026-06-16T07:51:46.155360+00:00",
       "title": "Wohnung zur Miete 3 Zimmer, 72 qm, 1. Geschoss Barsinghausen (30890)",
-      "url": "https://www.immowelt.de/expose/a69d801b-7125-4757-96e1-9ff804002062"
+      "url": "https://www.immowelt.de/expose/a69d801b-7125-4757-96e1-9ff804002062",
+      "warmmiete_eur": null
     },
     "a241235bb7d9431c": {
       "area_sqm": 75.0,
@@ -470,10 +597,16 @@
       "availability_status": "available",
       "first_seen": "2026-06-16T13:50:26.504416+00:00",
       "floor": null,
+      "heizkosten_eur": null,
       "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/a9/a99ace5d-4639-499c-83cd-6ddd3da13057?rule=$_2.AUTO",
-      "last_seen_in_search": "2026-06-17T12:06:31.994537+00:00",
+      "images": [
+        "https://img.kleinanzeigen.de/api/v1/prod-ads/images/a9/a99ace5d-4639-499c-83cd-6ddd3da13057?rule=$_2.AUTO"
+      ],
+      "kaltmiete_eur": null,
+      "last_seen_in_search": "2026-06-17T13:01:47.088974+00:00",
       "location": "30890 Barsinghausen",
       "match_status": "review",
+      "nebenkosten_eur": null,
       "price_eur": 920.0,
       "reasons": [
         "4 Zimmer",
@@ -486,19 +619,28 @@
       "rooms": 4.0,
       "source": "Kleinanzeigen Barsinghausen 3 Zimmer",
       "title": "4 Zimmer Wohnung 3 Etage 92 Qm Fahrstuhl Balkon",
-      "url": "https://www.kleinanzeigen.de/s-anzeige/4-zimmer-wohnung-3-etage-92-qm-fahrstuhl-balkon/3435555096-203-2862"
+      "url": "https://www.kleinanzeigen.de/s-anzeige/4-zimmer-wohnung-3-etage-92-qm-fahrstuhl-balkon/3435555096-203-2862",
+      "warmmiete_eur": null
     },
     "bd780341c0d19730": {
       "area_sqm": 78.0,
       "availability_status": "available",
       "first_seen": "2026-06-16T07:37:14.605931+00:00",
       "floor": "3. geschoss",
+      "heizkosten_eur": 250.0,
       "image": "https://mms.immowelt.de/0/3/f/c/03fcc1d6-9d28-4d02-bfed-8b000bc0e26d.jpg?ci_seal=426c43870ef4f531de0dfd654c45b30c18726714&w=525&h=394",
+      "images": [
+        "https://mms.immowelt.de/0/3/f/c/03fcc1d6-9d28-4d02-bfed-8b000bc0e26d.jpg?ci_seal=426c43870ef4f531de0dfd654c45b30c18726714&w=525&h=394",
+        "https://mms.immowelt.de/1/8/3/0/1830519b-c160-4776-aeed-a3d7d023c182.jpg?ci_seal=24da85b4a8b0f9740fd4c435022af1166f14b18b&w=525&h=394",
+        "https://mms.immowelt.de/e/e/6/f/ee6f291b-e68a-4368-b055-7f34d1b1f399.jpg?ci_seal=3099516aff37795418c64f0aba5d528b898e8fc7&w=525&h=394"
+      ],
+      "kaltmiete_eur": 700.0,
       "last_check_note": "Inserat wurde in den aktuellen Suchergebnissen gefunden.",
       "last_checked": "2026-06-16T08:26:43.437295+00:00",
-      "last_seen_in_search": "2026-06-17T12:06:31.994537+00:00",
+      "last_seen_in_search": "2026-06-17T13:01:47.088974+00:00",
       "location": "30890 Barsinghausen",
       "match_status": "review",
+      "nebenkosten_eur": null,
       "price_eur": 700.0,
       "reasons": [
         "kein EG/Parterre: 3. geschoss"
@@ -508,17 +650,26 @@
       "source": "Immowelt Region Hannover 3 Zimmer",
       "status_changed_at": "2026-06-16T07:51:46.155360+00:00",
       "title": "Wohnung zur Miete 3 Zimmer, 78 qm, Geschoss 3/3",
-      "url": "https://www.immowelt.de/expose/26yymgwzmldu"
+      "url": "https://www.immowelt.de/expose/26yymgwzmldu",
+      "warmmiete_eur": 950.0
     },
     "c2c2c7eac5fc9a6d": {
       "area_sqm": 78.2,
       "availability_status": "available",
       "first_seen": "2026-06-16T19:55:44.432689+00:00",
       "floor": null,
+      "heizkosten_eur": null,
       "image": "https://mms.immowelt.de/9/5/d/5/95d5d1a2-c501-4eb6-965b-f9aedc0f54fd.jpg?ci_seal=e6a50736ccbd3c51ac297a9445b6461d6e8986c5&w=525&h=394",
-      "last_seen_in_search": "2026-06-17T12:06:31.994537+00:00",
+      "images": [
+        "https://mms.immowelt.de/9/5/d/5/95d5d1a2-c501-4eb6-965b-f9aedc0f54fd.jpg?ci_seal=e6a50736ccbd3c51ac297a9445b6461d6e8986c5&w=525&h=394",
+        "https://mms.immowelt.de/3/2/d/2/32d22b88-039c-4f7d-85a9-03f1588cd160.jpg?ci_seal=c1d210508a171b95de1a63d6b3d8a3d6dd657ae5&w=525&h=394",
+        "https://mms.immowelt.de/1/8/c/0/18c04c56-a61d-438d-96fa-26b8e038babf.jpg?ci_seal=bf4c6323403b490cc9d3082e30672d40046a1e41&w=525&h=394"
+      ],
+      "kaltmiete_eur": 709.0,
+      "last_seen_in_search": "2026-06-17T13:01:47.088974+00:00",
       "location": null,
       "match_status": "review",
+      "nebenkosten_eur": null,
       "price_eur": 709.0,
       "reasons": [
         "3 Zimmer",
@@ -531,7 +682,8 @@
       "rooms": 3.0,
       "source": "Immowelt Barsinghausen 3 Zimmer",
       "title": "Wohnung zur Miete 3 Zimmer, 78,2 qm Müh",
-      "url": "https://www.immowelt.de/expose/50e730a8-353d-401f-a78e-d39488c85079"
+      "url": "https://www.immowelt.de/expose/50e730a8-353d-401f-a78e-d39488c85079",
+      "warmmiete_eur": null
     },
     "c3a053cc5a62a8b0": {
       "first_seen": "2026-06-16T13:50:26.504416+00:00",
@@ -544,10 +696,16 @@
       "availability_status": "available",
       "first_seen": "2026-06-16T13:50:26.504416+00:00",
       "floor": null,
+      "heizkosten_eur": null,
       "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/78/78119244-b0a9-44ad-8c71-84d1fb38da97?rule=$_2.AUTO",
-      "last_seen_in_search": "2026-06-17T12:06:31.994537+00:00",
+      "images": [
+        "https://img.kleinanzeigen.de/api/v1/prod-ads/images/78/78119244-b0a9-44ad-8c71-84d1fb38da97?rule=$_2.AUTO"
+      ],
+      "kaltmiete_eur": null,
+      "last_seen_in_search": "2026-06-17T13:01:47.088974+00:00",
       "location": "30890 Barsinghausen Attraktive",
       "match_status": "review",
+      "nebenkosten_eur": null,
       "price_eur": 990.0,
       "reasons": [
         "3 Zimmer",
@@ -560,17 +718,24 @@
       "rooms": 3.0,
       "source": "Kleinanzeigen Barsinghausen 3 Zimmer",
       "title": "Attraktive 3 Zimmer Wohnung mit Weitblick in Zentraler Lage von Barsinghausen",
-      "url": "https://www.kleinanzeigen.de/s-anzeige/attraktive-3-zimmer-wohnung-mit-weitblick-in-zentraler-lage-von-barsinghausen/3419834797-203-2862"
+      "url": "https://www.kleinanzeigen.de/s-anzeige/attraktive-3-zimmer-wohnung-mit-weitblick-in-zentraler-lage-von-barsinghausen/3419834797-203-2862",
+      "warmmiete_eur": null
     },
     "e323ed49690006ce": {
       "area_sqm": 85.0,
       "availability_status": "available",
       "first_seen": "2026-06-16T14:48:24.184659+00:00",
       "floor": null,
+      "heizkosten_eur": null,
       "image": "https://www.wohnungsboerse.net/assets/estates/400x400/5l1uid2GpcBMO9Vx07BPw2pEKcbgOpwds5UsdwHf.jpg?id=46673636",
-      "last_seen_in_search": "2026-06-17T12:06:31.994537+00:00",
+      "images": [
+        "https://www.wohnungsboerse.net/assets/estates/400x400/5l1uid2GpcBMO9Vx07BPw2pEKcbgOpwds5UsdwHf.jpg?id=46673636"
+      ],
+      "kaltmiete_eur": 800.0,
+      "last_seen_in_search": "2026-06-17T13:01:47.088974+00:00",
       "location": null,
       "match_status": "review",
+      "nebenkosten_eur": null,
       "price_eur": 800.0,
       "reasons": [
         "3 Zimmer",
@@ -583,16 +748,20 @@
       "rooms": 3.0,
       "source": "Wohnungsboerse Barsinghausen 3 Zimmer",
       "title": "Wohnung Ronnenberg",
-      "url": "https://www.wohnungsboerse.net/immodetail/36112679"
+      "url": "https://www.wohnungsboerse.net/immodetail/36112679",
+      "warmmiete_eur": null
     },
     "f55db252a3513486": {
       "area_sqm": null,
       "availability_status": "available",
       "first_seen": "2026-06-16T14:48:24.184659+00:00",
       "floor": null,
-      "last_seen_in_search": "2026-06-17T12:06:31.994537+00:00",
+      "heizkosten_eur": null,
+      "kaltmiete_eur": 480.0,
+      "last_seen_in_search": "2026-06-17T13:01:47.088974+00:00",
       "location": "30952 Ronnenberg",
       "match_status": "review",
+      "nebenkosten_eur": null,
       "price_eur": 480.0,
       "reasons": [
         "3 Zimmer",
@@ -605,7 +774,8 @@
       "rooms": 3.0,
       "source": "Immobilo Ronnenberg 3 Zimmer",
       "title": "Wohnung Gepflegtes Mehrfamilienhaus mit guter Mieterstruktur in ruhiger Lage. Zum Komfort di...",
-      "url": "https://www.immowelt.de/expose/26asjcdk4x7a"
+      "url": "https://www.immowelt.de/expose/26asjcdk4x7a",
+      "warmmiete_eur": null
     }
   },
   "version": 1
