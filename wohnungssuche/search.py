@@ -242,6 +242,15 @@ def fetch_url_rendered(url: str) -> bytes:
                 page.wait_for_load_state("networkidle", timeout=8000)
             except Exception:  # noqa: BLE001 - settling is best-effort
                 pass
+            # Diagnostic so the Actions log shows whether the anti-bot wall was
+            # cleared: a real result page has many /expose/ links; the AWS WAF
+            # challenge page has a "Roboter" title and none.
+            try:
+                expose_links = len(page.query_selector_all("a[href*='/expose/']"))
+                title = page.title()
+            except Exception:  # noqa: BLE001
+                expose_links, title = -1, "?"
+            print(f"[render] {url} -> title={title!r}, expose_links={expose_links}", flush=True)
             return page.content().encode("utf-8")
         finally:
             browser.close()
