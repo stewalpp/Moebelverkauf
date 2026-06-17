@@ -92,6 +92,40 @@
     });
   };
 
+  // Reusable "start a fresh search" button driven by the Cloudflare trigger
+  // proxy (WS_CONFIG.trigger). Returns a wired <button>, or null when no proxy
+  // URL is configured (callers then fall back to the GitHub Actions link). This
+  // starts a brand-new scrape on GitHub — distinct from the header's feed
+  // refresh, which only re-fetches the already-published list.
+  App.makeSearchTriggerButton = function (opts) {
+    opts = opts || {};
+    var cfg = (window.WS_CONFIG && WS_CONFIG.trigger) || {};
+    if (!cfg.url) return null;
+    var btn = App.el('button', opts.className || 'btn btn-primary');
+    btn.type = 'button';
+    btn.appendChild(App.el('span', null, opts.label || 'Neue Suche starten'));
+    if (opts.icon !== false) btn.appendChild(App.icon(opts.icon || 'refresh', opts.iconSize || 15));
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (btn.disabled) return;
+      btn.disabled = true;
+      btn.classList.add('is-busy');
+      var headers = { 'Content-Type': 'application/json' };
+      if (cfg.secret) headers['X-App-Secret'] = cfg.secret;
+      fetch(cfg.url, { method: 'POST', headers: headers, body: '{}' })
+        .then(function (res) {
+          App.toast(res.ok ? 'Suche gestartet ✓ – neue Treffer in 1–2 Min.'
+            : 'Start fehlgeschlagen (' + res.status + ')');
+        })
+        .catch(function () { App.toast('Keine Verbindung zum Trigger'); })
+        .then(function () {
+          // brief cool-down so the button can't be spam-tapped
+          setTimeout(function () { btn.disabled = false; btn.classList.remove('is-busy'); }, 8000);
+        });
+    });
+    return btn;
+  };
+
   /* ---------------- "new since last visit" ---------------- */
 
   function newestFirstSeen() {

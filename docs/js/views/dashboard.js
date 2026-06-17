@@ -21,9 +21,44 @@
     return t;
   }
 
+  // Top bar: when the list was last refreshed + a prominent-but-subtle button
+  // to start a fresh search (via the Cloudflare trigger; falls back to the
+  // GitHub Actions page when no trigger proxy is configured).
+  function buildUpdateBar() {
+    var meta = Feed.getMeta();
+    var bar = App.el('div', 'dash-updatebar');
+
+    var info = App.el('div', 'dash-updated');
+    info.appendChild(App.icon('refresh', 14));
+    info.appendChild(App.el('span', null,
+      meta.generated_at ? 'Aktualisiert ' + App.fmtRelTime(meta.generated_at) : 'Noch nicht aktualisiert'));
+    bar.appendChild(info);
+
+    var btn = App.makeSearchTriggerButton({
+      className: 'btn btn-primary btn-small dash-update-btn',
+      label: 'Aktualisieren',
+      iconSize: 14
+    });
+    if (!btn) {
+      var repo = (window.WS_CONFIG && WS_CONFIG.issueRepo) || '';
+      if (repo) {
+        btn = App.el('a', 'btn btn-primary btn-small dash-update-btn');
+        btn.href = 'https://github.com/' + repo + '/actions/workflows/daily-search.yml';
+        btn.target = '_blank';
+        btn.rel = 'noopener noreferrer';
+        btn.appendChild(App.el('span', null, 'Aktualisieren'));
+        btn.appendChild(App.icon('external', 14));
+      }
+    }
+    if (btn) bar.appendChild(btn);
+    return bar;
+  }
+
   function render(container) {
     container.innerHTML = '';
     var view = App.el('div', 'view');
+
+    view.appendChild(buildUpdateBar());
 
     var listings = Feed.getListings();
     var ratings = Store.getAllRatings();

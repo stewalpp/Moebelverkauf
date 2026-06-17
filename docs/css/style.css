@@ -3871,3 +3871,51 @@ body {
   line-height: 1.4;
   color: var(--text-3);
 }
+
+/* dashboard top bar: last-updated info + manual search trigger */
+.dash-updatebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding: 8px 10px 8px 13px;
+  border-radius: 13px;
+  background: color-mix(in srgb, var(--tint) 8%, var(--bg-card));
+  border: 0.5px solid color-mix(in srgb, var(--tint) 20%, transparent);
+}
+
+.dash-updated {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  font-size: 13px;
+  color: var(--text-2);
+}
+
+.dash-updated .icon {
+  width: 14px;
+  height: 14px;
+  color: var(--tint);
+  flex-shrink: 0;
+}
+
+.dash-updated span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dash-update-btn {
+  flex-shrink: 0;
+}
+
+.dash-update-btn .icon {
+  margin-left: 5px;
+}
+
+.btn.is-busy {
+  opacity: 0.6;
+  pointer-events: none;
+}
