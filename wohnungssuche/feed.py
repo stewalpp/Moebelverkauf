@@ -76,6 +76,13 @@ def record_listings(
         set_if_present(entry, "floor", listing.floor)
         if listing.image:
             entry["image"] = listing.image
+        if listing.images:
+            entry["images"] = list(listing.images)
+        # Cost components parsed from the listing (only set when actually stated).
+        set_if_present(entry, "kaltmiete_eur", listing.kaltmiete_eur)
+        set_if_present(entry, "nebenkosten_eur", listing.nebenkosten_eur)
+        set_if_present(entry, "heizkosten_eur", listing.heizkosten_eur)
+        set_if_present(entry, "warmmiete_eur", listing.warmmiete_eur)
         entry["match_status"] = MATCH_STATUS if result.accepted else REVIEW_STATUS
         entry["reasons"] = list(result.reasons)
         entry["review_notes"] = list(result.review_notes)
@@ -142,6 +149,12 @@ def build_feed(state: dict, criteria: dict, generated_at: str) -> dict:
                 "location": entry.get("location"),
                 "floor": entry.get("floor"),
                 "image": entry.get("image"),
+                "images": entry.get("images")
+                or ([entry.get("image")] if entry.get("image") else []),
+                "kaltmiete_eur": entry.get("kaltmiete_eur"),
+                "nebenkosten_eur": entry.get("nebenkosten_eur"),
+                "heizkosten_eur": entry.get("heizkosten_eur"),
+                "warmmiete_eur": entry.get("warmmiete_eur"),
                 "status": entry.get("match_status"),
                 "reasons": entry.get("reasons", []),
                 "review_notes": entry.get("review_notes", []),

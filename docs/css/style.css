@@ -3626,3 +3626,248 @@ body {
     font-size: 24px;
   }
 }
+
+/* ============================================================
+   Kostenschätzung + Bild-Galerie (Feature: Warmmiete & Slider)
+   ============================================================ */
+
+/* detail-sheet media wrapper (single photo or swipeable gallery) */
+.detail-media {
+  position: relative;
+  width: 100%;
+  height: 210px;
+  border-radius: 16px;
+  margin-bottom: 14px;
+  background: var(--bg-input);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.detail-media .listing-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.detail-media.is-placeholder .icon {
+  width: 44px;
+  height: 44px;
+  color: var(--text-3);
+}
+
+/* swipeable photo gallery — used in the card banner and the detail sheet */
+.listing-image.has-gallery,
+.detail-media.has-gallery {
+  display: block;
+}
+
+.gallery-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.gallery-track::-webkit-scrollbar {
+  display: none;
+}
+
+.gallery-slide {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-input);
+}
+
+.gallery-slide .listing-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery-slide.is-placeholder .icon {
+  width: 44px;
+  height: 44px;
+  color: var(--text-3);
+}
+
+.gallery-dots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 9px;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 40px;
+  flex-wrap: wrap;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.gallery-dot {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+  pointer-events: auto;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.gallery-dot.active {
+  background: #fff;
+  transform: scale(1.35);
+}
+
+.gallery-counter {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  z-index: 3;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.45);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+}
+
+.gallery-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.38);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  opacity: 0.9;
+  transition: opacity 0.15s ease;
+}
+
+.gallery-nav .icon {
+  width: 20px;
+  height: 20px;
+}
+
+.gallery-prev {
+  left: 8px;
+}
+
+.gallery-prev .icon {
+  transform: scaleX(-1);
+}
+
+.gallery-next {
+  right: 8px;
+}
+
+.gallery-nav.is-hidden {
+  display: none;
+}
+
+/* cost estimate (Warmmiete inkl. Strom & Gas) */
+.cost-card {
+  background: var(--bg-input);
+  border: 0.5px solid var(--glass-edge-2);
+  border-radius: 14px;
+  padding: 6px 14px 12px;
+}
+
+.cost-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 8px 0;
+  font-size: 14px;
+  border-bottom: 0.5px solid var(--sep);
+}
+
+.cost-label {
+  color: var(--text-2);
+}
+
+.cost-tag {
+  margin-left: 7px;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 999px;
+  white-space: nowrap;
+  vertical-align: 1px;
+}
+
+.cost-tag-real {
+  color: var(--green);
+  background: color-mix(in srgb, var(--green) 15%, transparent);
+}
+
+.cost-tag-est {
+  color: var(--text-3);
+  background: color-mix(in srgb, var(--text-3) 14%, transparent);
+}
+
+.cost-value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.cost-row.is-strong {
+  border-top: 0.5px solid var(--sep);
+}
+
+.cost-row.is-strong .cost-label,
+.cost-row.is-strong .cost-value {
+  font-weight: 700;
+  color: var(--text);
+  font-size: 15px;
+}
+
+.cost-row.is-total {
+  border-bottom: 0;
+}
+
+.cost-row.is-total .cost-label,
+.cost-row.is-total .cost-value {
+  font-weight: 700;
+  color: var(--tint);
+  font-size: 16px;
+}
+
+.cost-hint {
+  margin-top: 10px;
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: var(--text-3);
+}

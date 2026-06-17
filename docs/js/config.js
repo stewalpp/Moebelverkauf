@@ -36,6 +36,22 @@
     // Relative to the app root on GitHub Pages — written by the Python scraper.
     feedUrl: 'data/listings.json',
 
+    // Assumptions for the "Kostenschätzung" in the detail sheet. Real
+    // Nebenkosten/Heizkosten/Warmmiete are shown when the listing states them;
+    // these rates only drive the *estimated* parts (Strom always, Gas/Heizung
+    // when the listing gives no heating cost). Rough German averages (Stand
+    // 2026), tunable here without touching the app code.
+    costs: {
+      heizkostenPerSqm: 1.3,    // geschätzte Heizung/Gas (€/m²·Monat), nur wenn nicht im Inserat
+      strom: {
+        persons: 2,             // Haushaltsgröße für die Strom-Schätzung
+        baseEurYear: 130,       // Grundpreis pro Jahr
+        workEurKwh: 0.32,       // Arbeitspreis (€/kWh)
+        kwhBase: 1100,          // Jahresverbrauch-Sockel (kWh)
+        kwhPerPerson: 700       // + pro Person (kWh/Jahr)
+      }
+    },
+
     // The GitHub issue used for push notifications (kept as-is).
     issueRepo: 'stewalpp/Wohnungssuche'
   };

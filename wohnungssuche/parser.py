@@ -82,6 +82,101 @@ def parse_location(text: str) -> str | None:
     return None
 
 
+# --- labelled cost amounts (Kaltmiete / Nebenkosten / Heizkosten / Warmmiete) ---
+# A German money amount: grouped thousands (1.234 / 1 234) or plain digits, with
+# an optional ",dd" decimal part. Two capturing groups: whole, cents.
+_AMOUNT = r"(\d{1,3}(?:[.\s]\d{3})+|\d+)(?:,(\d{1,2}))?"
+# Currency token: a literal € (may be followed by anything) or "eur" closed by a
+# word boundary (so "europa" never counts as euro).
+_CUR = r"(?:€|eur\b)"
+_AMOUNT_CUR_RE = re.compile(_AMOUNT + r"\s*" + _CUR, re.IGNORECASE)
+# Per-area markers near an amount mean it's a €/m² rate, not a total to use.
+_PER_AREA = ("m²", "/qm", "/m2", "pro qm", "je qm", "pro m²", "je m²")
+
+# Cost-label markers → field key. Each occurrence is matched and every €-amount
+# is assigned to its NEAREST label, so both "Nebenkosten 180 €" and "180 €
+# Nebenkosten" work, and an amount between two labels goes to the closer one
+# (ties favour the preceding label — the German "Label dann Betrag" norm).
+_COST_LABELS = [
+    ("kalt", re.compile(r"nettokaltmiete|netto\s*kaltmiete|kaltmiete|grundmiete|nettomiete|\bkalt\b", re.IGNORECASE)),
+    ("neben", re.compile(r"nebenkosten|betriebskosten|neben\s*kosten|nebenkost\.?|\bnk\b", re.IGNORECASE)),
+    ("heiz", re.compile(r"heizkosten|\bheizung\b", re.IGNORECASE)),
+    ("warm", re.compile(r"warmmiete|warmiete|gesamtmiete|bruttomiete|brutto\s*miete|\bwarm\b", re.IGNORECASE)),
+]
+_COST_BOUNDS = {"kalt": (50, 10000), "neben": (1, 2500), "heiz": (1, 1500), "warm": (50, 12000)}
+# How far (characters) a label may sit from its amount to still count.
+_MAX_LABEL_GAP = 24
+
+
+def _amount_to_float(whole: str, cents: str | None) -> float:
+    digits = re.sub(r"[.\s]", "", whole)
+    return float(f"{digits}.{cents}") if cents else float(digits)
+
+
+def parse_cost_fields(text: str) -> dict[str, float | None]:
+    """Kaltmiete/Nebenkosten/Heizkosten/Warmmiete stated in ``text`` (else None).
+
+    Assigns each €-amount to the nearest cost label, skips €/m² rates, and keeps
+    only the first plausible value per field.
+    """
+    result: dict[str, float | None] = {key: None for key in _COST_BOUNDS}
+    labels: list[tuple[int, int, str]] = []
+    for field, pattern in _COST_LABELS:
+        for match in pattern.finditer(text):
+            labels.append((match.start(), match.end(), field))
+    if not labels:
+        return result
+
+    # Each amount is bound to its single nearest label; per field we keep the
+    # CLOSEST bound amount. So in "650 € Nebenkosten 110 €" the label takes 110
+    # (adjacent) and the bare 650 — nearer to no label than 110 is — drops out.
+    chosen_dist: dict[str, float] = {}
+    for amount in _AMOUNT_CUR_RE.finditer(text):
+        vicinity = (amount.group(0) + text[amount.end() : amount.end() + 6]).lower()
+        if any(marker in vicinity for marker in _PER_AREA):
+            continue
+        value = _amount_to_float(amount.group(1), amount.group(2))
+        a_start, a_end = amount.start(), amount.end()
+
+        best_field = None
+        best_dist = None
+        for l_start, l_end, field in labels:
+            if l_end <= a_start:
+                dist = a_start - l_end            # label before the amount
+            elif l_start >= a_end:
+                dist = (l_start - a_end) + 0.5     # label after → tie-break loses
+            else:
+                dist = 0
+            if best_dist is None or dist < best_dist:
+                best_field, best_dist = field, dist
+
+        if best_field is None or best_dist > _MAX_LABEL_GAP:
+            continue
+        lo, hi = _COST_BOUNDS[best_field]
+        if not (lo <= value <= hi):
+            continue
+        if best_field not in chosen_dist or best_dist < chosen_dist[best_field]:
+            result[best_field] = value
+            chosen_dist[best_field] = best_dist
+    return result
+
+
+def parse_kaltmiete(text: str) -> float | None:
+    return parse_cost_fields(text)["kalt"]
+
+
+def parse_nebenkosten(text: str) -> float | None:
+    return parse_cost_fields(text)["neben"]
+
+
+def parse_heizkosten(text: str) -> float | None:
+    return parse_cost_fields(text)["heiz"]
+
+
+def parse_warmmiete(text: str) -> float | None:
+    return parse_cost_fields(text)["warm"]
+
+
 def clean_title(title: str, text: str = "", url: str = "") -> str:
     value = " ".join((title or "").split())
     from_url_title = False
@@ -183,7 +278,8 @@ def parse_rss(content: bytes, source: dict) -> list[Listing]:
         summary = getattr(entry, "summary", "") or ""
         link = getattr(entry, "link", "") or ""
         text = BeautifulSoup(f"{title} {summary}", "html.parser").get_text(" ", strip=True)
-        listings.append(build_listing(source["name"], title, link, text))
+        images = images_from_rss_entry(entry, summary)
+        listings.append(build_listing(source["name"], title, link, text, images=images))
     return listings
 
 
@@ -208,8 +304,8 @@ def parse_html_with_selectors(
         text = item.get_text(" ", strip=True)
         title = title_node.get_text(" ", strip=True) if title_node else text[:120]
         url = urljoin(base_url, link_node["href"])
-        image = extract_image(item, base_url)
-        listings.append(build_listing(source["name"], title, url, text, image))
+        images = extract_images(item, base_url)
+        listings.append(build_listing(source["name"], title, url, text, images=images))
     return unique_listings(listings)
 
 
@@ -226,8 +322,8 @@ def parse_html_generic(soup: BeautifulSoup, source: dict, base_url: str) -> list
         title = anchor.get_text(" ", strip=True) or text[:120]
         if not looks_like_listing_text(text, url):
             continue
-        image = extract_image(card, base_url)
-        listings.append(build_listing(source["name"], title, url, text, image))
+        images = extract_images(card, base_url)
+        listings.append(build_listing(source["name"], title, url, text, images=images))
     return unique_listings(listings)
 
 
@@ -286,14 +382,20 @@ def first_url_from_srcset(value: str) -> str:
     return first.split(" ", 1)[0].strip() if first else ""
 
 
-def extract_image(node, base_url: str) -> str | None:
-    """First usable listing thumbnail URL within a card/item, or None.
+def extract_images(node, base_url: str, limit: int = 8) -> list[str]:
+    """All usable listing photo URLs within a card/item (de-duplicated, capped).
 
-    Handles lazy-loaded images (data-* attributes, srcset) and skips obvious
-    logos/sprites/placeholders. Returns an absolute http(s) URL.
+    Same filtering as a single thumbnail (handles lazy-loaded data-* / srcset
+    attributes, skips logos/sprites/placeholders) but returns every distinct
+    photo so the app can show a gallery. URLs are de-duplicated by their path
+    (ignoring the query string) so size variants of one photo don't repeat.
+    Returns absolute http(s) URLs; the first entry equals what a single-image
+    extraction would yield, so one-photo behaviour is unchanged.
     """
     if node is None:
-        return None
+        return []
+    images: list[str] = []
+    seen: set[str] = set()
     for img in node.find_all("img"):
         candidates: list[str] = []
         for attr in IMAGE_ATTRS:
@@ -310,9 +412,59 @@ def extract_image(node, base_url: str) -> str | None:
             if IMAGE_SKIP_RE.search(candidate):
                 continue
             absolute = urljoin(base_url, candidate)
-            if absolute.startswith("http"):
-                return absolute
-    return None
+            if not absolute.startswith("http"):
+                continue
+            key = absolute.split("?", 1)[0]
+            if key in seen:
+                continue
+            seen.add(key)
+            images.append(absolute)
+            break  # at most one photo per <img> tag
+        if len(images) >= limit:
+            break
+    return images
+
+
+def extract_image(node, base_url: str) -> str | None:
+    """First usable listing thumbnail URL within a card/item, or None."""
+    images = extract_images(node, base_url, limit=1)
+    return images[0] if images else None
+
+
+def images_from_rss_entry(entry, summary_html: str) -> list[str]:
+    """Best-effort photo URLs from an RSS entry (media/enclosure/summary <img>)."""
+    images: list[str] = []
+    seen: set[str] = set()
+
+    def add(value: str | None) -> None:
+        if not isinstance(value, str) or not value.startswith("http"):
+            return
+        if IMAGE_SKIP_RE.search(value):
+            return
+        key = value.split("?", 1)[0]
+        if key in seen:
+            return
+        seen.add(key)
+        images.append(value)
+
+    for media in getattr(entry, "media_content", None) or []:
+        add(media.get("url") if hasattr(media, "get") else None)
+    for thumb in getattr(entry, "media_thumbnail", None) or []:
+        add(thumb.get("url") if hasattr(thumb, "get") else None)
+    for enclosure in getattr(entry, "enclosures", None) or []:
+        if not hasattr(enclosure, "get"):
+            continue
+        enc_type = str(enclosure.get("type", ""))
+        if enc_type and not enc_type.startswith("image"):
+            continue
+        add(enclosure.get("href") or enclosure.get("url"))
+
+    soup = BeautifulSoup(summary_html or "", "html.parser")
+    for img in soup.find_all("img"):
+        src = img.get("src")
+        if src and not src.startswith("data:"):
+            add(src)
+    return images
 
 
 def build_listing(
@@ -321,8 +473,11 @@ def build_listing(
     url: str,
     text: str,
     image: str | None = None,
+    images: list[str] | None = None,
 ) -> Listing:
+    gallery = list(images) if images else ([image] if image else [])
     full_text = " ".join([title or "", text or ""]).strip()
+    costs = parse_cost_fields(full_text)
     return Listing(
         source_name=source_name,
         title=clean_title(title, text, url),
@@ -333,7 +488,12 @@ def build_listing(
         rooms=parse_rooms(full_text),
         location=parse_location(full_text),
         floor=parse_floor(full_text),
-        image=image,
+        image=gallery[0] if gallery else None,
+        images=gallery,
+        kaltmiete_eur=costs["kalt"],
+        nebenkosten_eur=costs["neben"],
+        heizkosten_eur=costs["heiz"],
+        warmmiete_eur=costs["warm"],
     )
 
 

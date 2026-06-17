@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from hashlib import sha256
+from typing import List
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 
@@ -61,6 +62,12 @@ class Listing:
     floor: str | None = None
     published: str | None = None
     image: str | None = None
+    images: List[str] = field(default_factory=list)
+    # Cost components parsed from the listing text, only when actually stated.
+    kaltmiete_eur: float | None = None
+    nebenkosten_eur: float | None = None
+    heizkosten_eur: float | None = None
+    warmmiete_eur: float | None = None
     id: str = field(init=False)
 
     def __post_init__(self) -> None:

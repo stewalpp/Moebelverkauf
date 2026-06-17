@@ -159,6 +159,113 @@
     }
   }
 
+  // De-duplicated list of usable photo URLs: the images[] array (when the
+  // scraper found a gallery) plus the single `image` as a fallback. Feed already
+  // sanitised every URL to http(s).
+  function listingImages(listing) {
+    var out = [];
+    var seen = Object.create(null);
+    function add(u) {
+      if (typeof u !== 'string' || !u || seen[u]) return;
+      seen[u] = true;
+      out.push(u);
+    }
+    if (listing && Array.isArray(listing.images)) listing.images.forEach(add);
+    if (listing) add(listing.image);
+    return out;
+  }
+
+  // One gallery slide image with the same proxy fallback as setListingImage; on
+  // final failure the slide becomes the house placeholder (so the dot count stays
+  // consistent).
+  function makeSlideImg(url, width) {
+    var img = document.createElement('img');
+    img.className = 'listing-photo';
+    img.alt = '';
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    var triedProxy = false;
+    img.addEventListener('error', function () {
+      if (!triedProxy) { triedProxy = true; img.src = proxiedImage(url, width || 600); return; }
+      var slide = img.parentNode;
+      if (slide) { slide.innerHTML = ''; slide.classList.add('is-placeholder'); slide.appendChild(App.icon('building', 40)); }
+    });
+    img.src = url;
+    return img;
+  }
+
+  function galleryNavButton(dir, onClick) {
+    var b = App.el('button', 'gallery-nav gallery-' + dir);
+    b.type = 'button';
+    b.setAttribute('aria-label', dir === 'prev' ? 'Vorheriges Bild' : 'Nächstes Bild');
+    b.appendChild(App.icon('chevron', 20));
+    b.addEventListener('click', onClick);
+    return b;
+  }
+
+  // Fill a media wrapper (card banner or detail sheet) with a swipeable gallery
+  // when several photos exist, a single image for one, or the house placeholder
+  // for none. Native CSS scroll-snap (touch swipe) + dots, counter and prev/next
+  // arrows; all controls stop click propagation so they never open the detail.
+  function fillMedia(wrap, listing, width) {
+    var urls = listingImages(listing);
+    if (!urls.length) { wrap.classList.add('is-placeholder'); wrap.appendChild(App.icon('building', 40)); return; }
+    if (urls.length === 1) { setListingImage(wrap, urls[0]); return; }
+
+    wrap.classList.remove('is-placeholder');
+    wrap.classList.add('has-gallery');
+
+    var track = App.el('div', 'gallery-track');
+    urls.forEach(function (u) {
+      var slide = App.el('div', 'gallery-slide');
+      slide.appendChild(makeSlideImg(u, width));
+      track.appendChild(slide);
+    });
+    wrap.appendChild(track);
+
+    function slideWidth() { return track.clientWidth || 1; }
+    function currentIndex() {
+      return Math.max(0, Math.min(urls.length - 1, Math.round(track.scrollLeft / slideWidth())));
+    }
+    function goTo(i) {
+      i = Math.max(0, Math.min(urls.length - 1, i));
+      track.scrollTo({ left: slideWidth() * i, behavior: 'smooth' });
+    }
+
+    var dots = App.el('div', 'gallery-dots');
+    var dotEls = urls.map(function (_, i) {
+      var d = App.el('button', 'gallery-dot' + (i === 0 ? ' active' : ''));
+      d.type = 'button';
+      d.setAttribute('aria-label', 'Bild ' + (i + 1) + ' von ' + urls.length);
+      d.addEventListener('click', function (e) { e.stopPropagation(); goTo(i); });
+      dots.appendChild(d);
+      return d;
+    });
+    wrap.appendChild(dots);
+
+    var counter = App.el('div', 'gallery-counter', '1/' + urls.length);
+    wrap.appendChild(counter);
+
+    var prev = galleryNavButton('prev', function (e) { e.stopPropagation(); goTo(currentIndex() - 1); });
+    var next = galleryNavButton('next', function (e) { e.stopPropagation(); goTo(currentIndex() + 1); });
+    wrap.appendChild(prev);
+    wrap.appendChild(next);
+
+    var raf = null;
+    function update() {
+      var i = currentIndex();
+      dotEls.forEach(function (d, di) { d.classList.toggle('active', di === i); });
+      counter.textContent = (i + 1) + '/' + urls.length;
+      prev.classList.toggle('is-hidden', i <= 0);
+      next.classList.toggle('is-hidden', i >= urls.length - 1);
+    }
+    track.addEventListener('scroll', function () {
+      if (raf) return;
+      raf = requestAnimationFrame(function () { raf = null; update(); });
+    });
+    update();
+  }
+
   // "Inserat öffnen" – a real link only for a validated http(s) URL (Feed already
   // sanitizes it); otherwise a disabled button so a bad/missing URL never becomes
   // a clickable href.
@@ -235,9 +342,10 @@
       badges.appendChild(m);
     }
 
-    // photo banner with badges + favourite overlaid
+    // photo banner with badges + favourite overlaid; a swipeable gallery when
+    // the listing has more than one photo
     var imgWrap = App.el('div', 'listing-image');
-    setListingImage(imgWrap, listing.image);
+    fillMedia(imgWrap, listing, 600);
     var overlay = App.el('div', 'listing-image-overlay');
     overlay.appendChild(badges);
     overlay.appendChild(favButton(listing));
@@ -297,24 +405,107 @@
     return card;
   }
 
+  // -------- cost estimate (Warmmiete inkl. Strom & Gas) --------
+
+  function toNum(v) {
+    return (v === null || v === undefined || !isFinite(Number(v))) ? null : Number(v);
+  }
+
+  function cfgNum(v, fallback) {
+    var n = Number(v);
+    return isFinite(n) && n >= 0 ? n : fallback;
+  }
+
+  // Monthly cost estimate. Real Kaltmiete/Nebenkosten/Heizkosten/Warmmiete from
+  // the listing are used whenever stated; only Strom (always) and — when the
+  // listing gives no heating/warm figure — Heizung·Gas are estimated. Never
+  // invents a Nebenkosten number.
+  function costEstimate(listing) {
+    var cfg = (window.WS_CONFIG && WS_CONFIG.costs) || {};
+    var s = cfg.strom || {};
+    var heizRate = cfgNum(cfg.heizkostenPerSqm, 1.3);
+
+    var members = (window.Store && Store.getSettings && Store.getSettings().members) || null;
+    var persons = (members && members.length) || cfgNum(s.persons, 2);
+    var kwh = cfgNum(s.kwhBase, 1100) + cfgNum(s.kwhPerPerson, 700) * persons;
+    var strom = (cfgNum(s.baseEurYear, 130) + kwh * cfgNum(s.workEurKwh, 0.32)) / 12;
+
+    var area = toNum(listing.area_sqm);
+    var price = toNum(listing.price_eur);
+    var kaltReal = toNum(listing.kaltmiete_eur);
+    var nebenReal = toNum(listing.nebenkosten_eur);
+    var heizReal = toNum(listing.heizkosten_eur);
+    var warmReal = toNum(listing.warmmiete_eur);
+
+    // Base (cold) rent for display: a parsed Kaltmiete wins; otherwise the
+    // headline price — unless that headline IS the stated Warmmiete (then there
+    // is no reliable cold rent to show).
+    var kalt;
+    if (kaltReal != null) kalt = kaltReal;
+    else if (warmReal != null && price != null && Math.abs(price - warmReal) < 1) kalt = null;
+    else kalt = price;
+
+    // Warmmiete: a stated value wins; otherwise only computed from REAL parts.
+    var warm = null, warmStated = false;
+    if (warmReal != null) { warm = warmReal; warmStated = true; }
+    else if (kalt != null && nebenReal != null) warm = kalt + nebenReal + (heizReal || 0);
+
+    // Estimated Gas/Heizung only when nothing warm/NK is stated, so it's never
+    // added on top of a real Nebenkosten (which often already covers heating).
+    var gasEst = (warm == null && nebenReal == null && area != null) ? area * heizRate : null;
+
+    return {
+      area: area, persons: persons, strom: strom,
+      kalt: kalt, nebenReal: nebenReal, heizReal: heizReal,
+      warm: warm, warmStated: warmStated, gasEst: gasEst
+    };
+  }
+
+  function costRow(label, value, opts) {
+    opts = opts || {};
+    var row = App.el('div', 'cost-row' +
+      (opts.strong ? ' is-strong' : '') + (opts.total ? ' is-total' : ''));
+    var l = App.el('span', 'cost-label', label);
+    if (opts.tag) l.appendChild(App.el('span', 'cost-tag cost-tag-' + (opts.tagKind || 'est'), opts.tag));
+    row.appendChild(l);
+    row.appendChild(App.el('span', 'cost-value', value));
+    return row;
+  }
+
+  function costSection(ce) {
+    var card = App.el('div', 'cost-card');
+    var real = { tag: 'lt. Inserat', tagKind: 'real' };
+    var est = { tag: 'ca.', tagKind: 'est' };
+
+    if (ce.kalt != null) card.appendChild(costRow('Kaltmiete', App.fmtEUR(ce.kalt)));
+    if (ce.nebenReal != null) card.appendChild(costRow('Nebenkosten', '+ ' + App.fmtEUR(ce.nebenReal), real));
+    if (ce.heizReal != null) card.appendChild(costRow('Heizung · Gas', '+ ' + App.fmtEUR(ce.heizReal), real));
+    if (ce.gasEst != null) card.appendChild(costRow('Heizung · Gas', '+ ' + App.fmtEUR(ce.gasEst), est));
+
+    if (ce.warm != null) {
+      card.appendChild(costRow('Warmmiete', App.fmtEUR(ce.warm),
+        ce.warmStated ? { strong: true, tag: 'lt. Inserat', tagKind: 'real' } : { strong: true }));
+      card.appendChild(costRow('Strom', '+ ' + App.fmtEUR(ce.strom), { tag: 'ca. ' + ce.persons + ' Pers.', tagKind: 'est' }));
+      card.appendChild(costRow('Gesamt / Monat', App.fmtEUR(ce.warm + ce.strom), { total: true }));
+      card.appendChild(App.el('div', 'cost-hint',
+        'Strom ist eine grobe Schätzung (Haushaltsgröße); die übrigen Werte stammen aus dem Inserat.'));
+    } else {
+      card.appendChild(costRow('Strom', '+ ' + App.fmtEUR(ce.strom), { tag: 'ca. ' + ce.persons + ' Pers.', tagKind: 'est' }));
+      card.appendChild(App.el('div', 'cost-hint',
+        'Nebenkosten stehen nicht im Inserat und sind hier nicht enthalten. ' +
+        'Strom & Gas sind grobe Schätzungen aus Wohnfläche und Haushaltsgröße.'));
+    }
+    return card;
+  }
+
   // -------- detail sheet
 
   function openDetail(listing) {
     var c = App.el('div', 'detail');
 
-    if (listing.image) {
-      var photo = document.createElement('img');
-      photo.className = 'detail-photo';
-      photo.alt = '';
-      photo.loading = 'lazy';
-      var triedProxy = false;
-      photo.addEventListener('error', function () {
-        if (!triedProxy) { triedProxy = true; photo.src = proxiedImage(listing.image, 800); return; }
-        if (photo.parentNode) photo.parentNode.removeChild(photo);
-      });
-      photo.src = listing.image;
-      c.appendChild(photo);
-    }
+    var media = App.el('div', 'detail-media');
+    fillMedia(media, listing, 900);
+    c.appendChild(media);
 
     var price = App.el('div', 'detail-price', App.fmtEUR(listing.price_eur));
     c.appendChild(price);
@@ -327,6 +518,13 @@
     addDetail(grid, 'layers', listing.floor || 'offen', 'Etage');
     addDetail(grid, 'pin', listing.location || 'prüfen', 'Lage');
     c.appendChild(grid);
+
+    // Kostenschätzung: echte Werte aus dem Inserat, sonst Strom/Gas geschätzt.
+    var ce = costEstimate(listing);
+    if (ce.kalt != null || ce.warm != null || ce.area != null) {
+      c.appendChild(App.el('div', 'section-title', 'Kostenschätzung'));
+      c.appendChild(costSection(ce));
+    }
 
     if (listing.reasons && listing.reasons.length) {
       c.appendChild(infoLine('Passt, weil', listing.reasons.join(', '), 'good'));

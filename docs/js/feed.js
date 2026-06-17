@@ -45,6 +45,22 @@
     } catch (e) { return ''; }
   }
 
+  // De-duplicated list of safe http(s) image URLs from the feed's images[] (and
+  // the single `image` as a fallback) — drives the card/detail photo gallery.
+  function safeImages(arr, fallback) {
+    var out = [];
+    var seen = Object.create(null);
+    function add(url) {
+      var safe = safeUrl(url);
+      if (!safe || seen[safe]) return;
+      seen[safe] = true;
+      out.push(safe);
+    }
+    if (Array.isArray(arr)) arr.forEach(add);
+    if (!out.length) add(fallback);
+    return out;
+  }
+
   function normalize(raw) {
     if (!raw || typeof raw !== 'object' || !Array.isArray(raw.listings)) return null;
     return {
@@ -54,7 +70,14 @@
       counts: raw.counts || {},
       listings: raw.listings
         .filter(function (l) { return l && l.id; })
-        .map(function (l) { return Object.assign({}, l, { url: safeUrl(l.url), image: safeUrl(l.image) || null }); })
+        .map(function (l) {
+          var images = safeImages(l.images, l.image);
+          return Object.assign({}, l, {
+            url: safeUrl(l.url),
+            image: images[0] || null,
+            images: images
+          });
+        })
     };
   }
 
