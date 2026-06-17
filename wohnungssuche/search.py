@@ -13,7 +13,13 @@ import yaml
 from bs4 import BeautifulSoup
 
 from .feed import DEFAULT_FEED_PATH, record_listings, write_feed
-from .filters import MatchResult, evaluate_listing, normalize_text, term_in_text
+from .filters import (
+    MatchResult,
+    effective_total_rent,
+    evaluate_listing,
+    normalize_text,
+    term_in_text,
+)
 from .github_issue import post_report_to_issue, post_run_status_to_issue
 from .models import Listing
 from .notifier import send_search_notifications
@@ -450,11 +456,14 @@ def score_listing(
     criteria = criteria or {}
     score = 0
 
-    if listing.price_eur is not None:
+    rent = effective_total_rent(listing)
+    if rent is None:
+        rent = listing.kaltmiete_eur if listing.kaltmiete_eur is not None else listing.price_eur
+    if rent is not None:
         max_rent = criteria.get("max_total_rent_eur")
-        if max_rent is None or listing.price_eur <= float(max_rent):
+        if max_rent is None or rent <= float(max_rent):
             score += 20
-        if max_rent is not None and listing.price_eur <= float(max_rent) * 0.9:
+        if max_rent is not None and rent <= float(max_rent) * 0.9:
             score += 5
 
     if listing.area_sqm is not None:

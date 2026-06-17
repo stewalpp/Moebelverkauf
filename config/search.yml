@@ -34,6 +34,11 @@ criteria:
     - weetzen
     - lenthe
     - benthe
+    - redderse
+    - lemmie
+    - northen
+    - everloh
+    - ditterke
   location_priority_terms:
     high:
       - barsinghausen
@@ -58,6 +63,11 @@ criteria:
       - wichtringhausen
       - winninghausen
       - gehrden
+      - redderse
+      - lemmie
+      - northen
+      - everloh
+      - ditterke
     low:
       - wennigsen-deister
       - ronnenberg
@@ -92,7 +102,6 @@ criteria:
     - nachtspeicherheizung
     - sanierungsbeduerftig
     - denkmal
-    - gesuch
     - energieklasse g
     - energieklasse h
   review_terms:

@@ -288,6 +288,16 @@
     return btn;
   }
 
+  // Headline rent: warm total when known, otherwise the cold rent (labelled).
+  function rentDisplay(listing) {
+    var warm = window.Score ? Score.effectiveRent(listing) : null;
+    if (warm !== null) return { value: App.fmtEUR(warm), suffix: 'warm' };
+    if (listing.price_eur !== null && listing.price_eur !== undefined) {
+      return { value: App.fmtEUR(listing.price_eur), suffix: 'kalt' };
+    }
+    return { value: App.fmtEUR(listing.price_eur), suffix: '' };
+  }
+
   function scoreBadge(listing) {
     var s = Score.score(listing);
     var b = App.el('span', 'score-badge score-' + Score.tone(s.total), String(s.total));
@@ -356,7 +366,10 @@
     card.appendChild(title);
 
     var priceRow = App.el('div', 'listing-price-row');
-    priceRow.appendChild(App.el('div', 'listing-price', App.fmtEUR(listing.price_eur)));
+    var rd = rentDisplay(listing);
+    var priceEl = App.el('div', 'listing-price', rd.value);
+    if (rd.suffix) priceEl.appendChild(App.el('span', 'price-suffix', ' ' + rd.suffix));
+    priceRow.appendChild(priceEl);
     priceRow.appendChild(scoreBadge(listing));
     card.appendChild(priceRow);
 
@@ -530,7 +543,9 @@
     fillMedia(media, listing, 900);
     c.appendChild(media);
 
-    var price = App.el('div', 'detail-price', App.fmtEUR(listing.price_eur));
+    var drd = rentDisplay(listing);
+    var price = App.el('div', 'detail-price', drd.value);
+    if (drd.suffix) price.appendChild(App.el('span', 'price-suffix', ' ' + drd.suffix));
     c.appendChild(price);
 
     c.appendChild(App.el('div', 'detail-blurb', Score.blurb(listing)));

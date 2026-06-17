@@ -1,15 +1,15 @@
 {
   "schema": 1,
-  "generated_at": "2026-06-17T17:44:39+02:00",
+  "generated_at": "2026-06-17T18:16:15+02:00",
   "criteria": {
     "min_rooms": 3,
     "min_area_sqm": 70,
     "max_total_rent_eur": 1000
   },
   "counts": {
-    "total": 26,
+    "total": 25,
     "match": 4,
-    "review": 22
+    "review": 21
   },
   "listings": [
     {
@@ -161,37 +161,6 @@
       "review_notes": [],
       "first_seen": "2026-06-16T14:48:24.184659+00:00",
       "last_seen": "2026-06-16T19:55:44.432712+00:00"
-    },
-    {
-      "id": "70b52a3dd1ffe7aa",
-      "title": "3 Zimmer Wohnung zur Miete",
-      "url": "https://www.kleinanzeigen.de/s-anzeige/3-zimmer-wohnung-zur-miete/3421455261-203-2903",
-      "source": "Kleinanzeigen Gehrden 3 Zimmer",
-      "portal": "kleinanzeigen",
-      "price_eur": 1000.0,
-      "area_sqm": 70.0,
-      "rooms": 3.0,
-      "location": "30989 Gehrden",
-      "floor": "hochparterre",
-      "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/8e/8e0ec1a4-f7dd-4b8a-b1f7-dbde8ac70e4b?rule=$_2.AUTO",
-      "images": [
-        "https://img.kleinanzeigen.de/api/v1/prod-ads/images/8e/8e0ec1a4-f7dd-4b8a-b1f7-dbde8ac70e4b?rule=$_2.AUTO"
-      ],
-      "kaltmiete_eur": 700.0,
-      "nebenkosten_eur": 100.0,
-      "heizkosten_eur": 150.0,
-      "warmmiete_eur": 700.0,
-      "status": "review",
-      "reasons": [
-        "3 Zimmer",
-        "70 qm",
-        "1000 EUR"
-      ],
-      "review_notes": [
-        "Etage pruefen"
-      ],
-      "first_seen": "2026-06-16T14:22:06.114015+00:00",
-      "last_seen": "2026-06-17T15:44:39.598743+00:00"
     },
     {
       "id": "5e37e9041b107871",

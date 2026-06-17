@@ -488,7 +488,9 @@ def build_listing(
         title=clean_title(title, text, url),
         url=url,
         text=full_text,
-        price_eur=parse_price(full_text),
+        # Prefer a labelled Kaltmiete over the first euro amount on the card,
+        # so a leading Kaution/Provision figure isn't mistaken for the rent.
+        price_eur=costs["kalt"] if costs["kalt"] is not None else parse_price(full_text),
         area_sqm=parse_area(full_text),
         rooms=parse_rooms(full_text),
         location=parse_location(full_text),

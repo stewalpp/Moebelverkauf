@@ -93,14 +93,29 @@
     return /(^|[^a-z])(eg|erdgeschoss|parterre|hochparterre)([^a-z]|$)/.test(f) ? true : false;
   }
 
+  // Best estimate of the WARM (total) rent, mirroring the Python side: prefer a
+  // stated Warmmiete; else Kaltmiete (or price) + stated Neben-/Heizkosten;
+  // null when only the cold rent is known.
+  function effectiveRent(listing) {
+    var warm = num(listing.warmmiete_eur);
+    if (warm !== null) return warm;
+    var base = num(listing.kaltmiete_eur);
+    if (base === null) base = num(listing.price_eur);
+    if (base === null) return null;
+    var extras = (num(listing.nebenkosten_eur) || 0) + (num(listing.heizkosten_eur) || 0);
+    return extras > 0 ? base + extras : null;
+  }
+
   // -------- the 0–100 score (transparent additive model) --------
 
   function score(listing, prefs) {
     prefs = prefs || getPrefs();
     var parts = [];
 
-    // Preis (max 30): cheap relative to the budget scores high.
-    var price = num(listing.price_eur), pricePts;
+    // Preis (max 30): scored on the WARM total when known, else the cold rent.
+    var warm = effectiveRent(listing);
+    var price = (warm !== null) ? warm : num(listing.price_eur);
+    var pricePts;
     if (price === null) { pricePts = 18; parts.push({ label: 'Preis', got: 18, max: 30, note: 'Miete offen' }); }
     else {
       var lo = prefs.maxPrice * 0.6;
@@ -108,7 +123,7 @@
       else if (price >= prefs.maxPrice) pricePts = Math.max(0, 30 - (price - prefs.maxPrice) / prefs.maxPrice * 30);
       else pricePts = 30 - (price - lo) / (prefs.maxPrice - lo) * 15; // 30 → 15 across [lo, max]
       pricePts = Math.round(Math.max(0, Math.min(30, pricePts)));
-      parts.push({ label: 'Preis', got: pricePts, max: 30, note: App.fmtEUR(price) });
+      parts.push({ label: 'Preis', got: pricePts, max: 30, note: App.fmtEUR(price) + (warm !== null ? ' warm' : ' kalt') });
     }
 
     // Fläche (max 20)
@@ -241,6 +256,7 @@
     defaults: defaults,
     blurb: blurb,
     inquiry: inquiry,
-    townLabel: townLabel
+    townLabel: townLabel,
+    effectiveRent: effectiveRent
   };
 })();

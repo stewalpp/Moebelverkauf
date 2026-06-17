@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from urllib.parse import urlsplit
 
-from .filters import MatchResult
+from .filters import MatchResult, normalize_text
 from .models import Listing
 
 
@@ -113,6 +113,33 @@ def _parse_dt(value: str | None) -> datetime | None:
         return None
 
 
+def _item_fingerprint(item: dict) -> str:
+    """Content fingerprint for a feed item, to collapse the same flat that is
+    syndicated across portals under different URLs/ids. Empty when key fields are
+    missing (then the item is never deduped)."""
+    price, area, rooms = item.get("price_eur"), item.get("area_sqm"), item.get("rooms")
+    if price is None or area is None or rooms is None:
+        return ""
+    location = normalize_text(item.get("location") or item.get("title") or "")
+    title = normalize_text(item.get("title") or "")
+    title_words = " ".join(word for word in title.split() if len(word) > 3)[:50]
+    return "|".join([
+        str(round(float(price))),
+        str(round(float(area))),
+        str(round(float(rooms) * 10) / 10),
+        location[:60],
+        title_words,
+    ])
+
+
+def _better_item(a: dict, b: dict) -> bool:
+    """True if feed item ``a`` should replace ``b`` for the same fingerprint:
+    a real match beats a review candidate; otherwise the more recently seen wins."""
+    if a.get("status") != b.get("status"):
+        return a.get("status") == MATCH_STATUS
+    return (a.get("last_seen") or "") > (b.get("last_seen") or "")
+
+
 def build_feed(state: dict, criteria: dict, generated_at: str) -> dict:
     """Build the JSON payload the app consumes from the cumulative seen-state.
 
@@ -165,6 +192,25 @@ def build_feed(state: dict, criteria: dict, generated_at: str) -> dict:
                 "last_seen": last_seen,
             }
         )
+
+    # Collapse the same flat syndicated across portals (different URLs/ids but
+    # identical price/area/rooms/location/title), keeping the match over a review
+    # candidate and otherwise the most recently seen entry.
+    by_fp: dict[str, dict] = {}
+    deduped: list[dict] = []
+    for item in listings:
+        fingerprint = _item_fingerprint(item)
+        if not fingerprint:
+            deduped.append(item)
+            continue
+        previous = by_fp.get(fingerprint)
+        if previous is None:
+            by_fp[fingerprint] = item
+            deduped.append(item)
+        elif _better_item(item, previous):
+            deduped[deduped.index(previous)] = item
+            by_fp[fingerprint] = item
+    listings = deduped
 
     # Cap by most-recently-seen so currently-active listings are never evicted in
     # favour of staler ones still under the cap; then present newest listing first
