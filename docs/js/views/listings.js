@@ -221,6 +221,7 @@
 
   function listingCard(listing, newIds) {
     var card = App.el('div', 'card listing-card');
+    card.classList.add(listing.status === 'review' ? 'is-review' : 'is-match');
     if (newIds.has(listing.id)) card.classList.add('is-new');
     if (bothGood(listing)) card.classList.add('both-good');
 
