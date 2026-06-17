@@ -214,28 +214,23 @@
     var price = num(listing.price_eur);
     var town = townLabel(listing);
     var who = (name1 && name2) ? (name1 + ' und ' + name2) : (name1 || 'wir');
-    var whoSentence = (name1 && name2)
-      ? 'Wir (' + who + ') suchen'
-      : (name1 ? 'Ich (' + who + ') suche' : 'Wir suchen');
-    var closing = (name1 || name2) ? ('\n' + who) : '';
     var desc = (rooms ? rooms + '-Zimmer-Wohnung' : 'Wohnung') +
       (area ? ' (ca. ' + App.fmtArea(area) + ')' : '') +
       (town ? ' in ' + town : '') +
       (price ? ' für ' + App.fmtEUR(price) : '');
-    var floorNote = isGroundFloor(listing) === true
-      ? ' Auch die Erdgeschoss- bzw. Parterre-Lage passt sehr gut zu unserer Suche.'
-      : '';
     var opener = variant(listing.id, [
-      'wir interessieren uns sehr für Ihre ' + desc + '.',
-      'Ihre ' + desc + ' hat unser Interesse geweckt.',
-      'mit großem Interesse haben wir Ihr Inserat zur ' + desc + ' gesehen.'
+      'wir haben Ihr Inserat zur ' + desc + ' gesehen und die Wohnung spricht uns sehr an.',
+      'Ihre ' + desc + ' klingt für uns sehr passend.',
+      'mit großem Interesse haben wir Ihr Inserat zur ' + desc + ' gelesen.'
     ]);
+    var familyIntro = who === 'wir' ? 'Wir sind' : 'Wir (' + who + ') sind';
     return 'Guten Tag,\n\n' + opener +
-      ' ' + whoSentence + ' eine langfristige, ruhige Wohnung im Raum Barsinghausen/Wennigsen, weil wir regelmäßig nach Hannover pendeln und eine gute Anbindung mit Bahn oder ÖPNV für uns wichtig ist.' +
-      floorNote + '\n\n' +
-      'Die Wohnung passt auf den ersten Blick sehr gut zu unseren Vorstellungen, besonders bei Lage, Größe und Kostenrahmen. Wir sind zuverlässige und sorgsame Mieter und würden uns sehr über die Möglichkeit einer Besichtigung freuen.\n\n' +
-      'Ist die Wohnung noch verfügbar, und wäre in den nächsten Tagen ein Besichtigungstermin möglich? Über eine kurze Rückmeldung freuen wir uns sehr.\n\n' +
-      'Vielen Dank und freundliche Grüße' + closing;
+      '\n\n' + familyIntro + ' eine kleine Familie mit einem Baby und suchen ein langfristiges Zuhause, in dem wir gut ankommen können. ' +
+      'Die Wohnung wirkt auf uns sehr passend, weil sie zu unserem Alltag und unserer Suche in der Region passen könnte.\n\n' +
+      'Falls die Wohnung noch verfügbar ist, würden wir sie uns sehr gerne ansehen und uns persönlich vorstellen. ' +
+      'Wäre in den nächsten Tagen ein Besichtigungstermin möglich?\n\n' +
+      'Über eine kurze Rückmeldung freuen wir uns sehr.\n\n' +
+      'Vielen Dank und viele Grüße\n' + who;
   }
 
   window.Score = {
