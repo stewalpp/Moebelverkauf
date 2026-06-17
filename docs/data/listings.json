@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-06-17T09:33:34+02:00",
+  "generated_at": "2026-06-17T09:36:10+02:00",
   "criteria": {
     "min_rooms": 3,
     "min_area_sqm": 70,
@@ -8,8 +8,8 @@
   },
   "counts": {
     "total": 26,
-    "match": 20,
-    "review": 6
+    "match": 4,
+    "review": 22
   },
   "listings": [
     {
@@ -33,7 +33,7 @@
       ],
       "review_notes": [],
       "first_seen": "2026-06-16T20:46:37.260643+00:00",
-      "last_seen": "2026-06-17T07:33:34.115634+00:00"
+      "last_seen": "2026-06-17T07:36:10.183030+00:00"
     },
     {
       "id": "c2c2c7eac5fc9a6d",
@@ -47,7 +47,7 @@
       "location": null,
       "floor": null,
       "image": "https://mms.immowelt.de/9/5/d/5/95d5d1a2-c501-4eb6-965b-f9aedc0f54fd.jpg?ci_seal=e6a50736ccbd3c51ac297a9445b6461d6e8986c5&w=525&h=394",
-      "status": "match",
+      "status": "review",
       "reasons": [
         "3 Zimmer",
         "78.2 qm",
@@ -57,7 +57,7 @@
         "Etage pruefen"
       ],
       "first_seen": "2026-06-16T19:55:44.432689+00:00",
-      "last_seen": "2026-06-17T07:33:34.115634+00:00"
+      "last_seen": "2026-06-17T07:36:10.183030+00:00"
     },
     {
       "id": "f55db252a3513486",
@@ -71,7 +71,7 @@
       "location": "30952 Ronnenberg",
       "floor": null,
       "image": null,
-      "status": "match",
+      "status": "review",
       "reasons": [
         "3 Zimmer",
         "480 EUR"
@@ -81,7 +81,7 @@
         "Wohnflaeche pruefen"
       ],
       "first_seen": "2026-06-16T14:48:24.184659+00:00",
-      "last_seen": "2026-06-17T07:33:34.115634+00:00"
+      "last_seen": "2026-06-17T07:36:10.183030+00:00"
     },
     {
       "id": "e323ed49690006ce",
@@ -95,7 +95,7 @@
       "location": null,
       "floor": null,
       "image": "https://www.wohnungsboerse.net/assets/estates/400x400/5l1uid2GpcBMO9Vx07BPw2pEKcbgOpwds5UsdwHf.jpg?id=46673636",
-      "status": "match",
+      "status": "review",
       "reasons": [
         "3 Zimmer",
         "85 qm",
@@ -105,7 +105,7 @@
         "Etage pruefen"
       ],
       "first_seen": "2026-06-16T14:48:24.184659+00:00",
-      "last_seen": "2026-06-17T07:33:34.115634+00:00"
+      "last_seen": "2026-06-17T07:36:10.183030+00:00"
     },
     {
       "id": "a241235bb7d9431c",
@@ -139,7 +139,7 @@
       "location": "30989 Gehrden",
       "floor": null,
       "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/8e/8e0ec1a4-f7dd-4b8a-b1f7-dbde8ac70e4b?rule=$_2.AUTO",
-      "status": "match",
+      "status": "review",
       "reasons": [
         "3 Zimmer",
         "70 qm",
@@ -149,7 +149,7 @@
         "Etage pruefen"
       ],
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
-      "last_seen": "2026-06-17T07:33:34.115634+00:00"
+      "last_seen": "2026-06-17T07:36:10.183030+00:00"
     },
     {
       "id": "5e37e9041b107871",
@@ -163,7 +163,7 @@
       "location": "30989 Gehrden",
       "floor": null,
       "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/87/8718e53b-5c50-4176-a788-aabdb6bc710c?rule=$_2.AUTO",
-      "status": "match",
+      "status": "review",
       "reasons": [
         "3 Zimmer",
         "85 qm"
@@ -173,7 +173,7 @@
         "Miete und Nebenkosten pruefen"
       ],
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
-      "last_seen": "2026-06-17T07:33:34.115634+00:00"
+      "last_seen": "2026-06-17T07:36:10.183030+00:00"
     },
     {
       "id": "54a481f254d70947",
@@ -187,7 +187,7 @@
       "location": "30952 Ronnenberg",
       "floor": null,
       "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/de/de9b2783-7a45-42d5-8598-a562e5019969?rule=$_2.AUTO",
-      "status": "match",
+      "status": "review",
       "reasons": [
         "3 Zimmer",
         "82 qm",
@@ -197,7 +197,7 @@
         "Etage pruefen"
       ],
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
-      "last_seen": "2026-06-17T07:33:34.115634+00:00"
+      "last_seen": "2026-06-17T07:36:10.183030+00:00"
     },
     {
       "id": "52169aa9d0a96226",
@@ -244,7 +244,7 @@
       ],
       "review_notes": [],
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
-      "last_seen": "2026-06-17T07:33:34.115634+00:00"
+      "last_seen": "2026-06-17T07:36:10.183030+00:00"
     },
     {
       "id": "364366aaed753692",
@@ -258,7 +258,7 @@
       "location": "30952 Ronnenberg",
       "floor": null,
       "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/25/25935485-2045-46bb-8e17-861757507e1c?rule=$_2.AUTO",
-      "status": "match",
+      "status": "review",
       "reasons": [
         "3 Zimmer",
         "76 qm",
@@ -269,7 +269,7 @@
         "nebenkosten pruefen"
       ],
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
-      "last_seen": "2026-06-17T07:33:34.115634+00:00"
+      "last_seen": "2026-06-17T07:36:10.183030+00:00"
     },
     {
       "id": "33d7ba59b15e47af",
@@ -283,7 +283,7 @@
       "location": "30952 Ronnenberg",
       "floor": null,
       "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/28/2823aa2c-e61b-4413-84cb-7c45d0e96038?rule=$_2.AUTO",
-      "status": "match",
+      "status": "review",
       "reasons": [
         "3 Zimmer",
         "117 qm",
@@ -293,7 +293,7 @@
         "Etage pruefen"
       ],
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
-      "last_seen": "2026-06-17T07:33:34.115634+00:00"
+      "last_seen": "2026-06-17T07:36:10.183030+00:00"
     },
     {
       "id": "215d89cabc477ebd",
@@ -307,7 +307,7 @@
       "location": "30989 Gehrden",
       "floor": null,
       "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/28/284f1bff-7342-443f-9f35-eb7b41ad8507?rule=$_2.AUTO",
-      "status": "match",
+      "status": "review",
       "reasons": [
         "3 Zimmer",
         "70 qm",
@@ -317,7 +317,7 @@
         "Etage pruefen"
       ],
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
-      "last_seen": "2026-06-17T07:33:34.115634+00:00"
+      "last_seen": "2026-06-17T07:36:10.183030+00:00"
     },
     {
       "id": "0c789e481a4c1229",
@@ -331,7 +331,7 @@
       "location": "30952 Ronnenberg",
       "floor": null,
       "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/3f/3f4f63f4-823c-4d17-aed2-0df55252c329?rule=$_2.AUTO",
-      "status": "match",
+      "status": "review",
       "reasons": [
         "3 Zimmer",
         "71 qm",
@@ -341,7 +341,7 @@
         "Etage pruefen"
       ],
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
-      "last_seen": "2026-06-17T07:33:34.115634+00:00"
+      "last_seen": "2026-06-17T07:36:10.183030+00:00"
     },
     {
       "id": "ddc872ce04381a24",
@@ -355,7 +355,7 @@
       "location": "30890 Barsinghausen Attraktive",
       "floor": null,
       "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/78/78119244-b0a9-44ad-8c71-84d1fb38da97?rule=$_2.AUTO",
-      "status": "match",
+      "status": "review",
       "reasons": [
         "3 Zimmer",
         "90 qm",
@@ -365,7 +365,7 @@
         "Etage pruefen"
       ],
       "first_seen": "2026-06-16T13:50:26.504416+00:00",
-      "last_seen": "2026-06-17T07:33:34.115634+00:00"
+      "last_seen": "2026-06-17T07:36:10.183030+00:00"
     },
     {
       "id": "bd6f99e0c74fd8a7",
@@ -379,7 +379,7 @@
       "location": "30890 Barsinghausen",
       "floor": null,
       "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/a9/a99ace5d-4639-499c-83cd-6ddd3da13057?rule=$_2.AUTO",
-      "status": "match",
+      "status": "review",
       "reasons": [
         "4 Zimmer",
         "92 qm",
@@ -389,7 +389,7 @@
         "Etage pruefen"
       ],
       "first_seen": "2026-06-16T13:50:26.504416+00:00",
-      "last_seen": "2026-06-17T07:33:34.115634+00:00"
+      "last_seen": "2026-06-17T07:36:10.183030+00:00"
     },
     {
       "id": "6b2a66fa75be9009",
@@ -409,7 +409,7 @@
       ],
       "review_notes": [],
       "first_seen": "2026-06-16T13:50:26.504416+00:00",
-      "last_seen": "2026-06-17T07:33:34.115634+00:00"
+      "last_seen": "2026-06-17T07:36:10.183030+00:00"
     },
     {
       "id": "47392491b8de4c1a",
@@ -423,7 +423,7 @@
       "location": "30890 Barsinghausen Sanierte",
       "floor": null,
       "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/39/39674ee8-fb73-42cd-8c2a-7f70c168acd5?rule=$_2.AUTO",
-      "status": "match",
+      "status": "review",
       "reasons": [
         "3 Zimmer",
         "74.51 qm",
@@ -433,7 +433,7 @@
         "Etage pruefen"
       ],
       "first_seen": "2026-06-16T13:50:26.504416+00:00",
-      "last_seen": "2026-06-17T07:33:34.115634+00:00"
+      "last_seen": "2026-06-17T07:36:10.183030+00:00"
     },
     {
       "id": "40c7559281958119",
@@ -447,7 +447,7 @@
       "location": "30890 Barsinghausen Perfekte Familienwohnu",
       "floor": null,
       "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/85/85d373a8-d689-4eba-b19a-91ff06ae9538?rule=$_1.AUTO",
-      "status": "match",
+      "status": "review",
       "reasons": [
         "3 Zimmer",
         "78 qm",
@@ -457,7 +457,7 @@
         "Etage pruefen"
       ],
       "first_seen": "2026-06-16T13:50:26.504416+00:00",
-      "last_seen": "2026-06-17T07:33:34.115634+00:00"
+      "last_seen": "2026-06-17T07:36:10.183030+00:00"
     },
     {
       "id": "bd780341c0d19730",
@@ -477,55 +477,47 @@
       ],
       "review_notes": [],
       "first_seen": "2026-06-16T07:37:14.605931+00:00",
-      "last_seen": "2026-06-17T07:33:34.115634+00:00"
+      "last_seen": "2026-06-17T07:36:10.183030+00:00"
     },
     {
       "id": "951a576440a61792",
-      "title": "Wohnung - Nähe Bahnhof Barsinghausen",
+      "title": "Wohnung zur Miete 3 Zimmer, 72 qm, 1. Geschoss Barsinghausen (30890)",
       "url": "https://www.immowelt.de/expose/a69d801b-7125-4757-96e1-9ff804002062",
-      "source": "Immobilo Barsinghausen 3 Zimmer",
+      "source": "Immowelt Barsinghausen 3 Zimmer",
       "portal": "immowelt",
       "price_eur": 684.0,
-      "area_sqm": null,
+      "area_sqm": 72.0,
       "rooms": 3.0,
       "location": "30890 Barsinghausen",
-      "floor": null,
-      "image": null,
-      "status": "match",
+      "floor": "1. geschoss",
+      "image": "https://mms.immowelt.de/1/b/7/4/1b741648-2bf5-4a76-a358-ab3737282ba7.jpg?ci_seal=9e04d80a65980e8b98872797b4466d70bd96598b&h=50",
+      "status": "review",
       "reasons": [
-        "3 Zimmer",
-        "684 EUR"
+        "kein EG/Parterre: 1. geschoss"
       ],
-      "review_notes": [
-        "Etage pruefen",
-        "Wohnflaeche pruefen"
-      ],
+      "review_notes": [],
       "first_seen": "2026-06-16T07:37:14.605931+00:00",
-      "last_seen": "2026-06-17T07:33:34.115634+00:00"
+      "last_seen": "2026-06-17T07:36:10.183030+00:00"
     },
     {
       "id": "7fe05dffb699b575",
-      "title": "Wohnung mit fantastischem Ausblick",
+      "title": "Wohnung zur Miete 3 Zimmer, 76 qm, Geschoss 6/7",
       "url": "https://www.immowelt.de/expose/26xntsmfhqba",
-      "source": "Immobilo Barsinghausen 3 Zimmer",
+      "source": "Immowelt Barsinghausen 3 Zimmer",
       "portal": "immowelt",
       "price_eur": 550.0,
-      "area_sqm": null,
+      "area_sqm": 76.0,
       "rooms": 3.0,
       "location": "30890 Barsinghausen",
-      "floor": null,
-      "image": null,
-      "status": "match",
+      "floor": "6. geschoss",
+      "image": "https://mms.immowelt.de/8/b/a/3/8ba30793-1f15-4cab-a193-8ec23e0707d5.jpg?ci_seal=814bca192f8c1ecbe46c7daea84087f71b64a227&w=525&h=394",
+      "status": "review",
       "reasons": [
-        "3 Zimmer",
-        "550 EUR"
+        "kein EG/Parterre: 6. geschoss"
       ],
-      "review_notes": [
-        "Etage pruefen",
-        "Wohnflaeche pruefen"
-      ],
+      "review_notes": [],
       "first_seen": "2026-06-16T07:37:14.605931+00:00",
-      "last_seen": "2026-06-17T07:33:34.115634+00:00"
+      "last_seen": "2026-06-17T07:36:10.183030+00:00"
     },
     {
       "id": "5bf0e56ac407c37b",
@@ -545,7 +537,7 @@
       ],
       "review_notes": [],
       "first_seen": "2026-06-16T07:37:14.605931+00:00",
-      "last_seen": "2026-06-17T07:33:34.115634+00:00"
+      "last_seen": "2026-06-17T07:36:10.183030+00:00"
     },
     {
       "id": "4beac5d73d4b572d",
@@ -585,7 +577,7 @@
       ],
       "review_notes": [],
       "first_seen": "2026-06-16T07:37:14.605931+00:00",
-      "last_seen": "2026-06-17T07:33:34.115634+00:00"
+      "last_seen": "2026-06-17T07:36:10.183030+00:00"
     },
     {
       "id": "836726824ec5c8aa",
@@ -608,7 +600,7 @@
       ],
       "review_notes": [],
       "first_seen": "2026-06-16T07:18:23.368301+00:00",
-      "last_seen": "2026-06-17T07:33:34.115634+00:00"
+      "last_seen": "2026-06-17T07:36:10.183030+00:00"
     }
   ]
 }
