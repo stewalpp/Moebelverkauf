@@ -35,13 +35,16 @@
         "https://img.kleinanzeigen.de/api/v1/prod-ads/images/54/54b7b7d6-5ede-4f62-a49d-86f16e6d3235?rule=$_2.AUTO"
       ],
       "kaltmiete_eur": 790.0,
-      "last_seen_in_search": "2026-06-17T14:20:26.735117+00:00",
+      "last_seen_in_search": "2026-06-17T14:26:45.641765+00:00",
       "location": "30890 Barsinghausen Gepflegte",
-      "match_status": "review",
+      "match_status": "match",
       "nebenkosten_eur": 185.0,
       "price_eur": 790.0,
       "reasons": [
-        "ausgeschlossen: dachgeschoss, souterrain, gesuch"
+        "3.5 Zimmer",
+        "93 qm",
+        "790 EUR",
+        "EG/Parterre-Hinweis gefunden"
       ],
       "review_notes": [],
       "rooms": 3.5,
@@ -67,7 +70,7 @@
       "kaltmiete_eur": 910.0,
       "last_check_note": "Inserat wurde in den aktuellen Suchergebnissen gefunden.",
       "last_checked": "2026-06-16T08:26:43.437295+00:00",
-      "last_seen_in_search": "2026-06-17T14:20:26.735117+00:00",
+      "last_seen_in_search": "2026-06-17T14:26:45.641765+00:00",
       "location": null,
       "match_status": "review",
       "nebenkosten_eur": null,
@@ -95,15 +98,19 @@
         "https://img.kleinanzeigen.de/api/v1/prod-ads/images/28/284f1bff-7342-443f-9f35-eb7b41ad8507?rule=$_2.AUTO"
       ],
       "kaltmiete_eur": 700.0,
-      "last_seen_in_search": "2026-06-17T14:20:26.735117+00:00",
+      "last_seen_in_search": "2026-06-17T14:26:45.641765+00:00",
       "location": "30989 Gehrden",
       "match_status": "review",
       "nebenkosten_eur": 100.0,
       "price_eur": 1000.0,
       "reasons": [
-        "ausgeschlossen: dachgeschoss, souterrain"
+        "3 Zimmer",
+        "70 qm",
+        "1000 EUR"
       ],
-      "review_notes": [],
+      "review_notes": [
+        "Etage pruefen"
+      ],
       "rooms": 3.0,
       "source": "Kleinanzeigen Gehrden 3 Zimmer",
       "title": "3 Zimmer Wohnung zur Miete",
@@ -122,15 +129,19 @@
         "https://img.kleinanzeigen.de/api/v1/prod-ads/images/28/2823aa2c-e61b-4413-84cb-7c45d0e96038?rule=$_2.AUTO"
       ],
       "kaltmiete_eur": null,
-      "last_seen_in_search": "2026-06-17T14:20:26.735117+00:00",
+      "last_seen_in_search": "2026-06-17T14:26:45.641765+00:00",
       "location": "30952 Ronnenberg",
       "match_status": "review",
       "nebenkosten_eur": 180.0,
       "price_eur": 910.0,
       "reasons": [
-        "ausgeschlossen: dachgeschoss, souterrain"
+        "3 Zimmer",
+        "117 qm",
+        "910 EUR"
       ],
-      "review_notes": [],
+      "review_notes": [
+        "Etage pruefen"
+      ],
       "rooms": 3.0,
       "source": "Kleinanzeigen Gehrden 3 Zimmer",
       "title": "Empelde Gepflegte 3 Zimmer Wohnung mit Balkon",
@@ -149,15 +160,20 @@
         "https://img.kleinanzeigen.de/api/v1/prod-ads/images/25/25935485-2045-46bb-8e17-861757507e1c?rule=$_2.AUTO"
       ],
       "kaltmiete_eur": null,
-      "last_seen_in_search": "2026-06-17T14:20:26.735117+00:00",
+      "last_seen_in_search": "2026-06-17T14:26:45.641765+00:00",
       "location": "30952 Ronnenberg",
       "match_status": "review",
       "nebenkosten_eur": 275.0,
       "price_eur": 950.0,
       "reasons": [
-        "ausgeschlossen: dachgeschoss, dg, souterrain"
+        "3 Zimmer",
+        "76 qm",
+        "950 EUR"
       ],
-      "review_notes": [],
+      "review_notes": [
+        "Etage pruefen",
+        "nebenkosten pruefen"
+      ],
       "rooms": 3.0,
       "source": "Kleinanzeigen Gehrden 3 Zimmer",
       "title": "3 Zimmer Wohnung in Empelde",
@@ -176,13 +192,16 @@
         "https://img.kleinanzeigen.de/api/v1/prod-ads/images/7a/7a5b49c3-db2c-4667-b7ef-224ebcdb3dee?rule=$_2.AUTO"
       ],
       "kaltmiete_eur": null,
-      "last_seen_in_search": "2026-06-17T14:20:26.735117+00:00",
+      "last_seen_in_search": "2026-06-17T14:26:45.641765+00:00",
       "location": "30989 Gehrden Gehrden Kernstadt",
-      "match_status": "review",
+      "match_status": "match",
       "nebenkosten_eur": 120.0,
       "price_eur": 740.0,
       "reasons": [
-        "ausgeschlossen: dachgeschoss, souterrain"
+        "3 Zimmer",
+        "83 qm",
+        "740 EUR",
+        "EG/Parterre-Hinweis gefunden"
       ],
       "review_notes": [],
       "rooms": 3.0,
@@ -204,15 +223,19 @@
         "https://img.kleinanzeigen.de/api/v1/prod-user/images/96/961633b2-74fe-46d7-8fa4-97387863e114?rule=$_2.JPG"
       ],
       "kaltmiete_eur": null,
-      "last_seen_in_search": "2026-06-17T14:20:26.735117+00:00",
+      "last_seen_in_search": "2026-06-17T14:26:45.641765+00:00",
       "location": "30890 Barsinghausen Perfekte Familienwohnu",
       "match_status": "review",
       "nebenkosten_eur": 120.0,
       "price_eur": 690.0,
       "reasons": [
-        "ausgeschlossen: dachgeschoss, souterrain"
+        "3 Zimmer",
+        "78 qm",
+        "690 EUR"
       ],
-      "review_notes": [],
+      "review_notes": [
+        "Etage pruefen"
+      ],
       "rooms": 3.0,
       "source": "Kleinanzeigen Barsinghausen 3 Zimmer",
       "title": "Perfekte Familienwohnung in Barsinghausen Die Heide 71 3 Zimmer Wohnung mit Weitblick",
@@ -231,15 +254,19 @@
         "https://img.kleinanzeigen.de/api/v1/prod-ads/images/39/39674ee8-fb73-42cd-8c2a-7f70c168acd5?rule=$_2.AUTO"
       ],
       "kaltmiete_eur": 730.0,
-      "last_seen_in_search": "2026-06-17T14:20:26.735117+00:00",
+      "last_seen_in_search": "2026-06-17T14:26:45.641765+00:00",
       "location": "30890 Barsinghausen Sanierte",
       "match_status": "review",
       "nebenkosten_eur": 245.0,
       "price_eur": 730.0,
       "reasons": [
-        "ausgeschlossen: dachgeschoss, souterrain"
+        "3 Zimmer",
+        "74.51 qm",
+        "730 EUR"
       ],
-      "review_notes": [],
+      "review_notes": [
+        "Etage pruefen"
+      ],
       "rooms": 3.0,
       "source": "Kleinanzeigen Barsinghausen 3 Zimmer",
       "title": "Sanierte 3 Zimmer Wohnung mit Loggia Aufzug Traumhaftem Weitblick in Barsingh Egestorf",
@@ -303,15 +330,19 @@
         "https://img.kleinanzeigen.de/api/v1/prod-ads/images/de/de9b2783-7a45-42d5-8598-a562e5019969?rule=$_2.AUTO"
       ],
       "kaltmiete_eur": 850.0,
-      "last_seen_in_search": "2026-06-17T14:20:26.735117+00:00",
+      "last_seen_in_search": "2026-06-17T14:26:45.641765+00:00",
       "location": "30952 Ronnenberg",
       "match_status": "review",
       "nebenkosten_eur": 150.0,
       "price_eur": 950.0,
       "reasons": [
-        "ausgeschlossen: dachgeschoss, souterrain"
+        "3 Zimmer",
+        "82 qm",
+        "950 EUR"
       ],
-      "review_notes": [],
+      "review_notes": [
+        "Etage pruefen"
+      ],
       "rooms": 3.0,
       "source": "Kleinanzeigen Gehrden 3 Zimmer",
       "title": "3 Zimmer Wohnung in Empelde Zu Vermieten",
@@ -335,7 +366,7 @@
       "kaltmiete_eur": 730.0,
       "last_check_note": "Inserat wurde in den aktuellen Suchergebnissen gefunden.",
       "last_checked": "2026-06-16T08:26:43.437295+00:00",
-      "last_seen_in_search": "2026-06-17T14:20:26.735117+00:00",
+      "last_seen_in_search": "2026-06-17T14:26:45.641765+00:00",
       "location": null,
       "match_status": "review",
       "nebenkosten_eur": null,
@@ -363,15 +394,19 @@
         "https://img.kleinanzeigen.de/api/v1/prod-ads/images/87/8718e53b-5c50-4176-a788-aabdb6bc710c?rule=$_2.AUTO"
       ],
       "kaltmiete_eur": null,
-      "last_seen_in_search": "2026-06-17T14:20:26.735117+00:00",
+      "last_seen_in_search": "2026-06-17T14:26:45.641765+00:00",
       "location": "30989 Gehrden",
       "match_status": "review",
       "nebenkosten_eur": null,
       "price_eur": 105.0,
       "reasons": [
-        "ausgeschlossen: dachgeschoss, souterrain, gesuch"
+        "3 Zimmer",
+        "85 qm"
       ],
-      "review_notes": [],
+      "review_notes": [
+        "Etage pruefen",
+        "Miete und Nebenkosten pruefen"
+      ],
       "rooms": 3.0,
       "source": "Kleinanzeigen Gehrden 3 Zimmer",
       "title": "2 und 3 Zimmer Wohnungen in Gehrden Suedbalkon Kfw 40 Neubau",
@@ -390,16 +425,16 @@
         "https://img.kleinanzeigen.de/api/v1/prod-ads/images/42/427b6afa-52aa-4a9e-a0a6-74c4a81a508f?rule=$_2.AUTO"
       ],
       "kaltmiete_eur": null,
-      "last_seen_in_search": "2026-06-17T14:20:26.735117+00:00",
+      "last_seen_in_search": "2026-06-17T14:26:45.641765+00:00",
       "location": "30890 Barsinghausen",
       "match_status": "review",
       "nebenkosten_eur": 110.0,
       "price_eur": 990.0,
       "reasons": [
-        "ausgeschlossen: altbau, dachgeschoss, souterrain, gesuch"
+        "kein EG/Parterre: 1.og"
       ],
       "review_notes": [],
-      "rooms": 5.0,
+      "rooms": 3.5,
       "source": "Kleinanzeigen Barsinghausen 3 Zimmer",
       "title": "3 5 Zi Nichtraucherwhg mit Gr Balkon Einbaukueche",
       "url": "https://www.kleinanzeigen.de/s-anzeige/3-5-zi-nichtraucherwhg-mit-gr-balkon-einbaukueche/3390551070-203-2862",
@@ -417,15 +452,19 @@
         "https://img.kleinanzeigen.de/api/v1/prod-ads/images/8e/8e0ec1a4-f7dd-4b8a-b1f7-dbde8ac70e4b?rule=$_2.AUTO"
       ],
       "kaltmiete_eur": 700.0,
-      "last_seen_in_search": "2026-06-17T14:20:26.735117+00:00",
+      "last_seen_in_search": "2026-06-17T14:26:45.641765+00:00",
       "location": "30989 Gehrden",
       "match_status": "review",
       "nebenkosten_eur": 100.0,
       "price_eur": 1000.0,
       "reasons": [
-        "ausgeschlossen: dachgeschoss, souterrain"
+        "3 Zimmer",
+        "70 qm",
+        "1000 EUR"
       ],
-      "review_notes": [],
+      "review_notes": [
+        "Etage pruefen"
+      ],
       "rooms": 3.0,
       "source": "Kleinanzeigen Gehrden 3 Zimmer",
       "title": "3 Zimmer Wohnung zur Miete",
@@ -454,7 +493,7 @@
       "kaltmiete_eur": 4550.0,
       "last_check_note": "Inserat wurde in den aktuellen Suchergebnissen gefunden.",
       "last_checked": "2026-06-16T08:26:43.437295+00:00",
-      "last_seen_in_search": "2026-06-17T14:20:26.735117+00:00",
+      "last_seen_in_search": "2026-06-17T14:26:45.641765+00:00",
       "location": "30890 Barsinghausen",
       "match_status": "review",
       "nebenkosten_eur": null,
@@ -487,7 +526,7 @@
       "kaltmiete_eur": null,
       "last_check_note": "Inserat wurde in den aktuellen Suchergebnissen gefunden.",
       "last_checked": "2026-06-16T08:26:43.437295+00:00",
-      "last_seen_in_search": "2026-06-17T14:20:26.735117+00:00",
+      "last_seen_in_search": "2026-06-17T14:26:45.641765+00:00",
       "location": null,
       "match_status": "match",
       "nebenkosten_eur": null,
@@ -534,7 +573,7 @@
       "kaltmiete_eur": 684.0,
       "last_check_note": "Inserat wurde in den aktuellen Suchergebnissen gefunden.",
       "last_checked": "2026-06-16T08:26:43.437295+00:00",
-      "last_seen_in_search": "2026-06-17T14:20:26.735117+00:00",
+      "last_seen_in_search": "2026-06-17T14:26:45.641765+00:00",
       "location": "30890 Barsinghausen",
       "match_status": "review",
       "nebenkosten_eur": null,
@@ -581,15 +620,19 @@
         "https://img.kleinanzeigen.de/api/v1/prod-ads/images/a9/a99ace5d-4639-499c-83cd-6ddd3da13057?rule=$_2.AUTO"
       ],
       "kaltmiete_eur": null,
-      "last_seen_in_search": "2026-06-17T14:20:26.735117+00:00",
+      "last_seen_in_search": "2026-06-17T14:26:45.641765+00:00",
       "location": "30890 Barsinghausen",
       "match_status": "review",
       "nebenkosten_eur": 130.0,
       "price_eur": 920.0,
       "reasons": [
-        "ausgeschlossen: dachgeschoss, souterrain, gesuch"
+        "4 Zimmer",
+        "92 qm",
+        "920 EUR"
       ],
-      "review_notes": [],
+      "review_notes": [
+        "Etage pruefen"
+      ],
       "rooms": 4.0,
       "source": "Kleinanzeigen Barsinghausen 3 Zimmer",
       "title": "4 Zimmer Wohnung 3 Etage 92 Qm Fahrstuhl Balkon",
@@ -612,7 +655,7 @@
       "kaltmiete_eur": 700.0,
       "last_check_note": "Inserat wurde in den aktuellen Suchergebnissen gefunden.",
       "last_checked": "2026-06-16T08:26:43.437295+00:00",
-      "last_seen_in_search": "2026-06-17T14:20:26.735117+00:00",
+      "last_seen_in_search": "2026-06-17T14:26:45.641765+00:00",
       "location": "30890 Barsinghausen",
       "match_status": "review",
       "nebenkosten_eur": null,
@@ -642,7 +685,7 @@
         "https://mms.immowelt.de/1/8/c/0/18c04c56-a61d-438d-96fa-26b8e038babf.jpg?ci_seal=bf4c6323403b490cc9d3082e30672d40046a1e41&w=525&h=394"
       ],
       "kaltmiete_eur": 709.0,
-      "last_seen_in_search": "2026-06-17T14:20:26.735117+00:00",
+      "last_seen_in_search": "2026-06-17T14:26:45.641765+00:00",
       "location": null,
       "match_status": "review",
       "nebenkosten_eur": null,
@@ -679,15 +722,19 @@
         "https://img.kleinanzeigen.de/api/v1/prod-ads/images/78/78119244-b0a9-44ad-8c71-84d1fb38da97?rule=$_2.AUTO"
       ],
       "kaltmiete_eur": null,
-      "last_seen_in_search": "2026-06-17T14:20:26.735117+00:00",
+      "last_seen_in_search": "2026-06-17T14:26:45.641765+00:00",
       "location": "30890 Barsinghausen Attraktive",
       "match_status": "review",
       "nebenkosten_eur": 275.0,
       "price_eur": 990.0,
       "reasons": [
-        "ausgeschlossen: dachgeschoss, souterrain, gesuch"
+        "3 Zimmer",
+        "90 qm",
+        "990 EUR"
       ],
-      "review_notes": [],
+      "review_notes": [
+        "Etage pruefen"
+      ],
       "rooms": 3.0,
       "source": "Kleinanzeigen Barsinghausen 3 Zimmer",
       "title": "Attraktive 3 Zimmer Wohnung mit Weitblick in Zentraler Lage von Barsinghausen",
@@ -706,7 +753,7 @@
         "https://www.wohnungsboerse.net/assets/estates/400x400/5l1uid2GpcBMO9Vx07BPw2pEKcbgOpwds5UsdwHf.jpg?id=46673636"
       ],
       "kaltmiete_eur": 800.0,
-      "last_seen_in_search": "2026-06-17T14:20:26.735117+00:00",
+      "last_seen_in_search": "2026-06-17T14:26:45.641765+00:00",
       "location": null,
       "match_status": "review",
       "nebenkosten_eur": null,
@@ -733,7 +780,7 @@
       "floor": null,
       "heizkosten_eur": null,
       "kaltmiete_eur": 480.0,
-      "last_seen_in_search": "2026-06-17T14:20:26.735117+00:00",
+      "last_seen_in_search": "2026-06-17T14:26:45.641765+00:00",
       "location": "30952 Ronnenberg",
       "match_status": "review",
       "nebenkosten_eur": null,

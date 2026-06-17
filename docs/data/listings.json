@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "generated_at": "2026-06-17T16:20:26+02:00",
+  "generated_at": "2026-06-17T16:26:45+02:00",
   "criteria": {
     "min_rooms": 3,
     "min_area_sqm": 70,
@@ -8,8 +8,8 @@
   },
   "counts": {
     "total": 26,
-    "match": 2,
-    "review": 24
+    "match": 4,
+    "review": 22
   },
   "listings": [
     {
@@ -31,13 +31,16 @@
       "nebenkosten_eur": 185.0,
       "heizkosten_eur": null,
       "warmmiete_eur": null,
-      "status": "review",
+      "status": "match",
       "reasons": [
-        "ausgeschlossen: dachgeschoss, souterrain, gesuch"
+        "3.5 Zimmer",
+        "93 qm",
+        "790 EUR",
+        "EG/Parterre-Hinweis gefunden"
       ],
       "review_notes": [],
       "first_seen": "2026-06-16T20:46:37.260643+00:00",
-      "last_seen": "2026-06-17T14:20:26.735117+00:00"
+      "last_seen": "2026-06-17T14:26:45.641765+00:00"
     },
     {
       "id": "c2c2c7eac5fc9a6d",
@@ -70,7 +73,7 @@
         "Etage pruefen"
       ],
       "first_seen": "2026-06-16T19:55:44.432689+00:00",
-      "last_seen": "2026-06-17T14:20:26.735117+00:00"
+      "last_seen": "2026-06-17T14:26:45.641765+00:00"
     },
     {
       "id": "f55db252a3513486",
@@ -99,7 +102,7 @@
         "Wohnflaeche pruefen"
       ],
       "first_seen": "2026-06-16T14:48:24.184659+00:00",
-      "last_seen": "2026-06-17T14:20:26.735117+00:00"
+      "last_seen": "2026-06-17T14:26:45.641765+00:00"
     },
     {
       "id": "e323ed49690006ce",
@@ -130,7 +133,7 @@
         "Etage pruefen"
       ],
       "first_seen": "2026-06-16T14:48:24.184659+00:00",
-      "last_seen": "2026-06-17T14:20:26.735117+00:00"
+      "last_seen": "2026-06-17T14:26:45.641765+00:00"
     },
     {
       "id": "a241235bb7d9431c",
@@ -180,11 +183,15 @@
       "warmmiete_eur": 700.0,
       "status": "review",
       "reasons": [
-        "ausgeschlossen: dachgeschoss, souterrain"
+        "3 Zimmer",
+        "70 qm",
+        "1000 EUR"
       ],
-      "review_notes": [],
+      "review_notes": [
+        "Etage pruefen"
+      ],
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
-      "last_seen": "2026-06-17T14:20:26.735117+00:00"
+      "last_seen": "2026-06-17T14:26:45.641765+00:00"
     },
     {
       "id": "5e37e9041b107871",
@@ -207,11 +214,15 @@
       "warmmiete_eur": 1300.0,
       "status": "review",
       "reasons": [
-        "ausgeschlossen: dachgeschoss, souterrain, gesuch"
+        "3 Zimmer",
+        "85 qm"
       ],
-      "review_notes": [],
+      "review_notes": [
+        "Etage pruefen",
+        "Miete und Nebenkosten pruefen"
+      ],
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
-      "last_seen": "2026-06-17T14:20:26.735117+00:00"
+      "last_seen": "2026-06-17T14:26:45.641765+00:00"
     },
     {
       "id": "54a481f254d70947",
@@ -234,11 +245,15 @@
       "warmmiete_eur": 1250.0,
       "status": "review",
       "reasons": [
-        "ausgeschlossen: dachgeschoss, souterrain"
+        "3 Zimmer",
+        "82 qm",
+        "950 EUR"
       ],
-      "review_notes": [],
+      "review_notes": [
+        "Etage pruefen"
+      ],
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
-      "last_seen": "2026-06-17T14:20:26.735117+00:00"
+      "last_seen": "2026-06-17T14:26:45.641765+00:00"
     },
     {
       "id": "52169aa9d0a96226",
@@ -290,13 +305,16 @@
       "nebenkosten_eur": 120.0,
       "heizkosten_eur": null,
       "warmmiete_eur": null,
-      "status": "review",
+      "status": "match",
       "reasons": [
-        "ausgeschlossen: dachgeschoss, souterrain"
+        "3 Zimmer",
+        "83 qm",
+        "740 EUR",
+        "EG/Parterre-Hinweis gefunden"
       ],
       "review_notes": [],
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
-      "last_seen": "2026-06-17T14:20:26.735117+00:00"
+      "last_seen": "2026-06-17T14:26:45.641765+00:00"
     },
     {
       "id": "364366aaed753692",
@@ -319,11 +337,16 @@
       "warmmiete_eur": null,
       "status": "review",
       "reasons": [
-        "ausgeschlossen: dachgeschoss, dg, souterrain"
+        "3 Zimmer",
+        "76 qm",
+        "950 EUR"
       ],
-      "review_notes": [],
+      "review_notes": [
+        "Etage pruefen",
+        "nebenkosten pruefen"
+      ],
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
-      "last_seen": "2026-06-17T14:20:26.735117+00:00"
+      "last_seen": "2026-06-17T14:26:45.641765+00:00"
     },
     {
       "id": "33d7ba59b15e47af",
@@ -346,11 +369,15 @@
       "warmmiete_eur": null,
       "status": "review",
       "reasons": [
-        "ausgeschlossen: dachgeschoss, souterrain"
+        "3 Zimmer",
+        "117 qm",
+        "910 EUR"
       ],
-      "review_notes": [],
+      "review_notes": [
+        "Etage pruefen"
+      ],
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
-      "last_seen": "2026-06-17T14:20:26.735117+00:00"
+      "last_seen": "2026-06-17T14:26:45.641765+00:00"
     },
     {
       "id": "215d89cabc477ebd",
@@ -373,11 +400,15 @@
       "warmmiete_eur": 1000.0,
       "status": "review",
       "reasons": [
-        "ausgeschlossen: dachgeschoss, souterrain"
+        "3 Zimmer",
+        "70 qm",
+        "1000 EUR"
       ],
-      "review_notes": [],
+      "review_notes": [
+        "Etage pruefen"
+      ],
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
-      "last_seen": "2026-06-17T14:20:26.735117+00:00"
+      "last_seen": "2026-06-17T14:26:45.641765+00:00"
     },
     {
       "id": "0c789e481a4c1229",
@@ -431,11 +462,15 @@
       "warmmiete_eur": 1265.0,
       "status": "review",
       "reasons": [
-        "ausgeschlossen: dachgeschoss, souterrain, gesuch"
+        "3 Zimmer",
+        "90 qm",
+        "990 EUR"
       ],
-      "review_notes": [],
+      "review_notes": [
+        "Etage pruefen"
+      ],
       "first_seen": "2026-06-16T13:50:26.504416+00:00",
-      "last_seen": "2026-06-17T14:20:26.735117+00:00"
+      "last_seen": "2026-06-17T14:26:45.641765+00:00"
     },
     {
       "id": "bd6f99e0c74fd8a7",
@@ -458,11 +493,15 @@
       "warmmiete_eur": null,
       "status": "review",
       "reasons": [
-        "ausgeschlossen: dachgeschoss, souterrain, gesuch"
+        "4 Zimmer",
+        "92 qm",
+        "920 EUR"
       ],
-      "review_notes": [],
+      "review_notes": [
+        "Etage pruefen"
+      ],
       "first_seen": "2026-06-16T13:50:26.504416+00:00",
-      "last_seen": "2026-06-17T14:20:26.735117+00:00"
+      "last_seen": "2026-06-17T14:26:45.641765+00:00"
     },
     {
       "id": "6b2a66fa75be9009",
@@ -472,7 +511,7 @@
       "portal": "kleinanzeigen",
       "price_eur": 990.0,
       "area_sqm": 110.0,
-      "rooms": 5.0,
+      "rooms": 3.5,
       "location": "30890 Barsinghausen",
       "floor": "1.og",
       "image": "https://img.kleinanzeigen.de/api/v1/prod-ads/images/42/427b6afa-52aa-4a9e-a0a6-74c4a81a508f?rule=$_2.AUTO",
@@ -485,11 +524,11 @@
       "warmmiete_eur": 1260.0,
       "status": "review",
       "reasons": [
-        "ausgeschlossen: altbau, dachgeschoss, souterrain, gesuch"
+        "kein EG/Parterre: 1.og"
       ],
       "review_notes": [],
       "first_seen": "2026-06-16T13:50:26.504416+00:00",
-      "last_seen": "2026-06-17T14:20:26.735117+00:00"
+      "last_seen": "2026-06-17T14:26:45.641765+00:00"
     },
     {
       "id": "47392491b8de4c1a",
@@ -512,11 +551,15 @@
       "warmmiete_eur": 975.0,
       "status": "review",
       "reasons": [
-        "ausgeschlossen: dachgeschoss, souterrain"
+        "3 Zimmer",
+        "74.51 qm",
+        "730 EUR"
       ],
-      "review_notes": [],
+      "review_notes": [
+        "Etage pruefen"
+      ],
       "first_seen": "2026-06-16T13:50:26.504416+00:00",
-      "last_seen": "2026-06-17T14:20:26.735117+00:00"
+      "last_seen": "2026-06-17T14:26:45.641765+00:00"
     },
     {
       "id": "40c7559281958119",
@@ -540,11 +583,15 @@
       "warmmiete_eur": 950.0,
       "status": "review",
       "reasons": [
-        "ausgeschlossen: dachgeschoss, souterrain"
+        "3 Zimmer",
+        "78 qm",
+        "690 EUR"
       ],
-      "review_notes": [],
+      "review_notes": [
+        "Etage pruefen"
+      ],
       "first_seen": "2026-06-16T13:50:26.504416+00:00",
-      "last_seen": "2026-06-17T14:20:26.735117+00:00"
+      "last_seen": "2026-06-17T14:26:45.641765+00:00"
     },
     {
       "id": "bd780341c0d19730",
@@ -573,7 +620,7 @@
       ],
       "review_notes": [],
       "first_seen": "2026-06-16T07:37:14.605931+00:00",
-      "last_seen": "2026-06-17T14:20:26.735117+00:00"
+      "last_seen": "2026-06-17T14:26:45.641765+00:00"
     },
     {
       "id": "951a576440a61792",
@@ -603,7 +650,7 @@
       ],
       "review_notes": [],
       "first_seen": "2026-06-16T07:37:14.605931+00:00",
-      "last_seen": "2026-06-17T14:20:26.735117+00:00"
+      "last_seen": "2026-06-17T14:26:45.641765+00:00"
     },
     {
       "id": "7fe05dffb699b575",
@@ -632,7 +679,7 @@
       ],
       "review_notes": [],
       "first_seen": "2026-06-16T07:37:14.605931+00:00",
-      "last_seen": "2026-06-17T14:20:26.735117+00:00"
+      "last_seen": "2026-06-17T14:26:45.641765+00:00"
     },
     {
       "id": "5bf0e56ac407c37b",
@@ -662,7 +709,7 @@
       ],
       "review_notes": [],
       "first_seen": "2026-06-16T07:37:14.605931+00:00",
-      "last_seen": "2026-06-17T14:20:26.735117+00:00"
+      "last_seen": "2026-06-17T14:26:45.641765+00:00"
     },
     {
       "id": "4beac5d73d4b572d",
@@ -719,7 +766,7 @@
       ],
       "review_notes": [],
       "first_seen": "2026-06-16T07:37:14.605931+00:00",
-      "last_seen": "2026-06-17T14:20:26.735117+00:00"
+      "last_seen": "2026-06-17T14:26:45.641765+00:00"
     },
     {
       "id": "836726824ec5c8aa",
@@ -752,7 +799,7 @@
       ],
       "review_notes": [],
       "first_seen": "2026-06-16T07:18:23.368301+00:00",
-      "last_seen": "2026-06-17T14:20:26.735117+00:00"
+      "last_seen": "2026-06-17T14:26:45.641765+00:00"
     }
   ]
 }
