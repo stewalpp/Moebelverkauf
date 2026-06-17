@@ -182,15 +182,69 @@ def load_config(path: Path) -> dict:
 
 def fetch_and_parse_source(source: dict) -> list[Listing]:
     url = source["url"]
-    response = fetch_url(url)
-    content_type = response.headers.get("Content-Type", "").lower()
     source_type = source.get("type", "html").lower()
 
+    # Sources behind a JS anti-bot wall (e.g. ImmoScout's AWS WAF challenge) are
+    # loaded in a headless browser so the challenge can resolve; the rendered
+    # DOM is then parsed like any other HTML.
+    if needs_rendering(source):
+        return parse_html(fetch_url_rendered(url), source)
+
+    response = fetch_url(url)
+    content_type = response.headers.get("Content-Type", "").lower()
     if source_type == "rss" or "xml" in content_type:
         return parse_rss(response.content, source)
     if source_type == "html":
         return parse_html(response.content, source)
     raise ValueError(f"Unbekannter Quellentyp: {source_type}")
+
+
+def needs_rendering(source: dict) -> bool:
+    """Whether a source must be loaded in a real browser (JS anti-bot wall)."""
+    if source.get("render"):
+        return True
+    return "immobilienscout24" in (source.get("url") or "")
+
+
+def fetch_url_rendered(url: str) -> bytes:
+    """Load ``url`` in a headless browser so a JS anti-bot wall (e.g. ImmoScout's
+    AWS WAF challenge) can resolve, then return the rendered HTML as bytes.
+
+    Best-effort: if the challenge escalates to a CAPTCHA the result list never
+    appears and we return whatever HTML we have (the parser then yields nothing,
+    which is logged as a source with no results rather than crashing the run).
+    Playwright is imported lazily so only render sources require it.
+    """
+    from playwright.sync_api import sync_playwright
+
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(
+            args=["--no-sandbox", "--disable-blink-features=AutomationControlled"]
+        )
+        try:
+            context = browser.new_context(
+                user_agent=(
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                    "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+                ),
+                locale="de-DE",
+                viewport={"width": 1366, "height": 900},
+            )
+            page = context.new_page()
+            page.goto(url, wait_until="domcontentloaded", timeout=60000)
+            # The AWS WAF challenge computes a token and reloads the page; wait
+            # (across that reload) for a real expose link, then let it settle.
+            try:
+                page.wait_for_selector("a[href*='/expose/']", timeout=35000)
+            except Exception:  # noqa: BLE001 - CAPTCHA / no results: return what we have
+                pass
+            try:
+                page.wait_for_load_state("networkidle", timeout=8000)
+            except Exception:  # noqa: BLE001 - settling is best-effort
+                pass
+            return page.content().encode("utf-8")
+        finally:
+            browser.close()
 
 
 def fetch_url(url: str) -> requests.Response:

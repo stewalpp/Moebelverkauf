@@ -135,8 +135,9 @@ sources:
     url: https://www.immobilienscout24.de/Suche/de/niedersachsen/hannover/3-zimmer-wohnung-mieten
 
   - name: ImmoScout24 Hannover-Kreis bis 1000 warm
-    enabled: false
+    enabled: true
     type: html
+    render: true   # JS anti-bot wall (AWS WAF) -> load via headless browser
     url: https://www.immobilienscout24.de/Suche/de/niedersachsen/hannover-kreis/wohnung-bis-1000-euro-warm
 
   - name: Kleinanzeigen Barsinghausen 3 Zimmer
