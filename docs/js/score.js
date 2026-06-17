@@ -221,21 +221,21 @@
     var desc = (rooms ? rooms + '-Zimmer-Wohnung' : 'Wohnung') +
       (area ? ' (ca. ' + App.fmtArea(area) + ')' : '') +
       (town ? ' in ' + town : '') +
-      (price ? ' f\u00fcr ' + App.fmtEUR(price) : '');
+      (price ? ' für ' + App.fmtEUR(price) : '');
     var floorNote = isGroundFloor(listing) === true
       ? ' Auch die Erdgeschoss- bzw. Parterre-Lage passt sehr gut zu unserer Suche.'
       : '';
     var opener = variant(listing.id, [
-      'wir interessieren uns sehr f\u00fcr Ihre ' + desc + '.',
+      'wir interessieren uns sehr für Ihre ' + desc + '.',
       'Ihre ' + desc + ' hat unser Interesse geweckt.',
-      'mit gro\u00dfem Interesse haben wir Ihr Inserat zur ' + desc + ' gesehen.'
+      'mit großem Interesse haben wir Ihr Inserat zur ' + desc + ' gesehen.'
     ]);
     return 'Guten Tag,\n\n' + opener +
-      ' ' + whoSentence + ' eine langfristige, ruhige Wohnung im Raum Barsinghausen/Wennigsen, weil wir regelm\u00e4\u00dfig nach Hannover pendeln und eine gute Anbindung mit Bahn oder \u00d6PNV f\u00fcr uns wichtig ist.' +
+      ' ' + whoSentence + ' eine langfristige, ruhige Wohnung im Raum Barsinghausen/Wennigsen, weil wir regelmäßig nach Hannover pendeln und eine gute Anbindung mit Bahn oder ÖPNV für uns wichtig ist.' +
       floorNote + '\n\n' +
-      'Die Wohnung passt auf den ersten Blick sehr gut zu unseren Vorstellungen, besonders bei Lage, Gr\u00f6\u00dfe und Kostenrahmen. Wir sind zuverl\u00e4ssige und sorgsame Mieter und w\u00fcrden uns sehr \u00fcber die M\u00f6glichkeit einer Besichtigung freuen.\n\n' +
-      'Ist die Wohnung noch verf\u00fcgbar, und w\u00e4re in den n\u00e4chsten Tagen ein Besichtigungstermin m\u00f6glich? \u00dcber eine kurze R\u00fcckmeldung freuen wir uns sehr.\n\n' +
-      'Vielen Dank und freundliche Gr\u00fc\u00dfe' + closing;
+      'Die Wohnung passt auf den ersten Blick sehr gut zu unseren Vorstellungen, besonders bei Lage, Größe und Kostenrahmen. Wir sind zuverlässige und sorgsame Mieter und würden uns sehr über die Möglichkeit einer Besichtigung freuen.\n\n' +
+      'Ist die Wohnung noch verfügbar, und wäre in den nächsten Tagen ein Besichtigungstermin möglich? Über eine kurze Rückmeldung freuen wir uns sehr.\n\n' +
+      'Vielen Dank und freundliche Grüße' + closing;
   }
 
   window.Score = {
