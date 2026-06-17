@@ -3,7 +3,7 @@
    new apartments show up without a stale cache getting in the way. */
 'use strict';
 
-const CACHE = 'wohnungssuche-v5';
+const CACHE = 'wohnungssuche-v6';
 
 const PRECACHE = [
   './',

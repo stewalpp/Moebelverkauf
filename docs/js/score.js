@@ -214,19 +214,28 @@
     var price = num(listing.price_eur);
     var town = townLabel(listing);
     var who = (name1 && name2) ? (name1 + ' und ' + name2) : (name1 || 'wir');
+    var whoSentence = (name1 && name2)
+      ? 'Wir (' + who + ') suchen'
+      : (name1 ? 'Ich (' + who + ') suche' : 'Wir suchen');
+    var closing = (name1 || name2) ? ('\n' + who) : '';
     var desc = (rooms ? rooms + '-Zimmer-Wohnung' : 'Wohnung') +
       (area ? ' (ca. ' + App.fmtArea(area) + ')' : '') +
       (town ? ' in ' + town : '') +
-      (price ? ' für ' + App.fmtEUR(price) : '');
+      (price ? ' f\u00fcr ' + App.fmtEUR(price) : '');
+    var floorNote = isGroundFloor(listing) === true
+      ? ' Auch die Erdgeschoss- bzw. Parterre-Lage passt sehr gut zu unserer Suche.'
+      : '';
     var opener = variant(listing.id, [
-      'wir interessieren uns sehr für Ihre ' + desc + '.',
+      'wir interessieren uns sehr f\u00fcr Ihre ' + desc + '.',
       'Ihre ' + desc + ' hat unser Interesse geweckt.',
-      'mit großem Interesse haben wir Ihr Inserat zur ' + desc + ' gesehen.'
+      'mit gro\u00dfem Interesse haben wir Ihr Inserat zur ' + desc + ' gesehen.'
     ]);
     return 'Guten Tag,\n\n' + opener +
-      ' Wir (' + who + ') suchen gemeinsam eine Wohnung in der Region und würden sie uns gerne ansehen.\n\n' +
-      'Wäre in den nächsten Tagen eine Besichtigung möglich? Über eine kurze Rückmeldung freuen wir uns sehr.\n\n' +
-      'Vielen Dank und viele Grüße\n' + who;
+      ' ' + whoSentence + ' eine langfristige, ruhige Wohnung im Raum Barsinghausen/Wennigsen, weil wir regelm\u00e4\u00dfig nach Hannover pendeln und eine gute Anbindung mit Bahn oder \u00d6PNV f\u00fcr uns wichtig ist.' +
+      floorNote + '\n\n' +
+      'Die Wohnung passt auf den ersten Blick sehr gut zu unseren Vorstellungen, besonders bei Lage, Gr\u00f6\u00dfe und Kostenrahmen. Wir sind zuverl\u00e4ssige und sorgsame Mieter und w\u00fcrden uns sehr \u00fcber die M\u00f6glichkeit einer Besichtigung freuen.\n\n' +
+      'Ist die Wohnung noch verf\u00fcgbar, und w\u00e4re in den n\u00e4chsten Tagen ein Besichtigungstermin m\u00f6glich? \u00dcber eine kurze R\u00fcckmeldung freuen wir uns sehr.\n\n' +
+      'Vielen Dank und freundliche Gr\u00fc\u00dfe' + closing;
   }
 
   window.Score = {
