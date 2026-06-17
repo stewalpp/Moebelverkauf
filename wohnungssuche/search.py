@@ -78,7 +78,7 @@ def main(argv: list[str] | None = None) -> int:
             already_seen = is_seen(state, listing)
             if already_seen:
                 if result.accepted or should_include_floor_review(result, criteria):
-                    feed_candidates.append((listing, result))
+                    feed_candidates.append((listing, feed_result(result, criteria)))
                 continue
 
             if should_fetch_detail_page(result, criteria):
@@ -88,7 +88,7 @@ def main(argv: list[str] | None = None) -> int:
             # The app feed collects every eligible listing regardless of whether
             # it was already reported; the report below still only shows new ones.
             if result.accepted or should_include_floor_review(result, criteria):
-                feed_candidates.append((listing, result))
+                feed_candidates.append((listing, feed_result(result, criteria)))
 
             if result.accepted and not should_show_as_review_candidate(result, criteria):
                 all_matches.append((listing, result))
@@ -334,6 +334,12 @@ def dedupe_feed_candidates(
         if existing is None or (result.accepted and not existing[1].accepted):
             by_id[listing.id] = (listing, result)
     return list(by_id.values())
+
+
+def feed_result(result: MatchResult, criteria: dict) -> MatchResult:
+    if should_show_as_review_candidate(result, criteria):
+        return MatchResult(False, list(result.reasons), list(result.review_notes))
+    return result
 
 
 def should_include_floor_review(result: MatchResult, criteria: dict) -> bool:

@@ -9,6 +9,7 @@ from wohnungssuche.search import (
     dedupe_matches,
     dedupe_report_matches,
     fetch_url,
+    feed_result,
     format_listing,
     format_report,
     score_listing,
@@ -190,6 +191,7 @@ class SearchReportTests(unittest.TestCase):
                 {"include_floor_review_candidates": True},
             )
         )
+        self.assertFalse(feed_result(result, {"include_floor_review_candidates": True}).accepted)
 
     def test_fuzzy_duplicate_detection_merges_provider_duplicates(self):
         first = Listing(
