@@ -51,7 +51,10 @@ Weiter entfernte Orte bleiben sichtbar, aber mit niedrigerer Prioritaet.
 3. Die GitHub Action unter `.github/workflows/daily-search.yml` laeuft
    taeglich um 05:30, 10:30, 16:30 und 18:30 UTC. Das entspricht aktuell
    07:30, 12:30, 18:30 und 20:30 Uhr deutscher Sommerzeit. Sie kann
-   zusaetzlich manuell ueber `workflow_dispatch` gestartet werden.
+   zusaetzlich manuell ueber `workflow_dispatch` gestartet werden. Wenn
+   Suchcode oder `config/search.yml` geaendert werden, startet sie ebenfalls
+   automatisch nach dem Push. Reine Report-/State-Updates loesen keinen neuen
+   Suchlauf aus.
 
 ## Lokal testen
 

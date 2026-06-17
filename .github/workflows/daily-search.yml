@@ -3,6 +3,14 @@ name: Apartment search
 on:
   schedule:
     - cron: "30 5,10,16,18 * * *"
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/daily-search.yml"
+      - "config/search.yml"
+      - "requirements.txt"
+      - "wohnungssuche/**"
   workflow_dispatch:
 
 permissions:
