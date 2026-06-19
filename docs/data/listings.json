@@ -1,17 +1,115 @@
 {
   "schema": 1,
-  "generated_at": "2026-06-18T20:42:27+02:00",
+  "generated_at": "2026-06-19T11:59:15+02:00",
   "criteria": {
     "min_rooms": 3,
     "min_area_sqm": 70,
     "max_total_rent_eur": 1000
   },
   "counts": {
-    "total": 28,
+    "total": 31,
     "match": 2,
-    "review": 26
+    "review": 29
   },
   "listings": [
+    {
+      "id": "ef6652e52dcc9967",
+      "title": "Wohnung zur Miete, Tauschwohnung 3 Zimmer, 80 qm Mittelrode, Springe (31832) Es handelt es",
+      "url": "https://www.immowelt.de/expose/485420d4-7df3-453f-819f-df0b45f8e8e1",
+      "source": "Immowelt Wennigsen 3 Zimmer",
+      "portal": "immowelt",
+      "price_eur": 625.0,
+      "area_sqm": 80.0,
+      "rooms": 3.0,
+      "location": null,
+      "floor": null,
+      "image": "https://mms.immowelt.de/5/0/5/b/505b75f6-39e7-4fe6-bca2-f8686dd8327f.jpg?ci_seal=dd10d18ed33102b3a6e462ba99729e2e6283fa26&h=50",
+      "images": [
+        "https://mms.immowelt.de/5/0/5/b/505b75f6-39e7-4fe6-bca2-f8686dd8327f.jpg?ci_seal=dd10d18ed33102b3a6e462ba99729e2e6283fa26&h=50",
+        "https://mms.immowelt.de/f/3/c/0/f3c04c1b-87c4-4da9-b373-ebd9df34243a.webp?ci_seal=6526e5567ed51693379f0b9cd3cad824de072f0f&w=525&h=394",
+        "https://mms.immowelt.de/1/6/8/f/168f593a-e19d-4f21-a4ed-a1942343c569.webp?ci_seal=87393afbb44d134989e2269279d01856f74df0b1&w=525&h=394",
+        "https://mms.immowelt.de/6/9/2/d/692d29ef-c924-4388-bdd7-f25edf97e1a7.webp?ci_seal=43b8759ab21c83be276f6eb831e4f9f64c254852&w=525&h=394"
+      ],
+      "kaltmiete_eur": 625.0,
+      "nebenkosten_eur": null,
+      "heizkosten_eur": null,
+      "warmmiete_eur": null,
+      "status": "review",
+      "reasons": [
+        "3 Zimmer",
+        "80 qm",
+        "625 EUR kalt"
+      ],
+      "review_notes": [
+        "Etage pruefen",
+        "Ort im Inserat pruefen"
+      ],
+      "first_seen": "2026-06-19T09:59:15.693700+00:00",
+      "last_seen": "2026-06-19T09:59:15.698262+00:00"
+    },
+    {
+      "id": "cdf256a3539ff5b4",
+      "title": "Wohnung in Ronnenberg Weetzen",
+      "url": "https://www.immowelt.de/expose/082e54c7-1dc0-45ef-9fc7-1a017305e721",
+      "source": "Immobilo Ronnenberg 3 Zimmer",
+      "portal": "immowelt",
+      "price_eur": 395.0,
+      "area_sqm": null,
+      "rooms": 3.0,
+      "location": "30952 Ronnenberg",
+      "floor": null,
+      "image": null,
+      "images": [],
+      "kaltmiete_eur": 395.0,
+      "nebenkosten_eur": null,
+      "heizkosten_eur": null,
+      "warmmiete_eur": null,
+      "status": "review",
+      "reasons": [
+        "3 Zimmer",
+        "395 EUR kalt"
+      ],
+      "review_notes": [
+        "Etage pruefen",
+        "Wohnflaeche pruefen"
+      ],
+      "first_seen": "2026-06-19T09:59:15.693700+00:00",
+      "last_seen": "2026-06-19T09:59:15.698262+00:00"
+    },
+    {
+      "id": "47bd5c464260ab1d",
+      "title": "Wohnung zur Miete 3 Zimmer, 70,9 qm, 3. Geschoss",
+      "url": "https://www.immowelt.de/expose/0bfa6791-cc2a-4372-8ec6-130aa4ec34ed",
+      "source": "Immowelt Barsinghausen 3 Zimmer",
+      "portal": "immowelt",
+      "price_eur": 652.0,
+      "area_sqm": 70.9,
+      "rooms": 3.0,
+      "location": null,
+      "floor": "3. geschoss",
+      "image": "https://mms.immowelt.de/a/9/d/1/a9d1ea60-d0aa-4cd5-a9ed-c714b32c0a77.jpg?ci_seal=72128111f13b65a853d4638e292546e08473132c&h=50",
+      "images": [
+        "https://mms.immowelt.de/a/9/d/1/a9d1ea60-d0aa-4cd5-a9ed-c714b32c0a77.jpg?ci_seal=72128111f13b65a853d4638e292546e08473132c&h=50",
+        "https://mms.immowelt.de/1/f/b/4/1fb4e99e-ea44-4ed1-b394-5c986edeb4ad.jpg?ci_seal=3ef5d38726804921dd8da40f04d4d227d06948ce&w=626&h=470",
+        "https://mms.immowelt.de/5/7/0/3/5703818b-efc8-4fa3-95c0-10849dc6c5e1.jpg?ci_seal=1f749b56f16cfa3af10123cca899ec9c78038e5b&w=626&h=470",
+        "https://mms.immowelt.de/0/c/1/6/0c166f19-691e-4e21-8013-c25862568b66.jpg?ci_seal=c8eda2d328b85556de2babfcec4d0a3413280516&w=626&h=470",
+        "https://mms.immowelt.de/4/1/1/4/41143a5b-9e0a-4fab-bfc9-bc23ab63eb50.jpg?ci_seal=5f96213a7d190f92864386344862112c1becd73f&w=626&h=470",
+        "https://mms.immowelt.de/2/6/2/6/2626bd79-53a3-4de1-a006-889b6c3b7e64.jpg?ci_seal=b0e5b97b3741c1354a9b6d42f148aa34565b30cd&w=626&h=470"
+      ],
+      "kaltmiete_eur": 652.0,
+      "nebenkosten_eur": null,
+      "heizkosten_eur": null,
+      "warmmiete_eur": null,
+      "status": "review",
+      "reasons": [
+        "kein EG/Parterre: 3. geschoss"
+      ],
+      "review_notes": [
+        "Ort im Inserat pruefen"
+      ],
+      "first_seen": "2026-06-19T09:59:15.693700+00:00",
+      "last_seen": "2026-06-19T09:59:15.698262+00:00"
+    },
     {
       "id": "c08849e7ea98d79f",
       "title": "Wohnung zur Miete 3 Zimmer, 84 qm, 2. Geschoss Wunstorf (31515) Die 3-Zimmer-Wohnung liegt im 2",
@@ -42,7 +140,7 @@
         "Ort im Inserat pruefen"
       ],
       "first_seen": "2026-06-17T16:17:36.169707+00:00",
-      "last_seen": "2026-06-18T18:42:27.417478+00:00"
+      "last_seen": "2026-06-19T09:59:15.698262+00:00"
     },
     {
       "id": "91b65aff3f681a28",
@@ -74,7 +172,7 @@
         "Ort im Inserat pruefen"
       ],
       "first_seen": "2026-06-17T16:17:36.169707+00:00",
-      "last_seen": "2026-06-18T18:42:27.417478+00:00"
+      "last_seen": "2026-06-19T09:59:15.698262+00:00"
     },
     {
       "id": "84c9c57debaef65a",
@@ -109,7 +207,7 @@
         "Ort im Inserat pruefen"
       ],
       "first_seen": "2026-06-17T16:17:36.169707+00:00",
-      "last_seen": "2026-06-18T18:42:27.417478+00:00"
+      "last_seen": "2026-06-19T09:59:15.698262+00:00"
     },
     {
       "id": "136358c43cd12c85",
@@ -174,7 +272,7 @@
         "Etage pruefen"
       ],
       "first_seen": "2026-06-16T19:55:44.432689+00:00",
-      "last_seen": "2026-06-18T18:42:27.417478+00:00"
+      "last_seen": "2026-06-19T09:59:15.698262+00:00"
     },
     {
       "id": "f55db252a3513486",
@@ -203,7 +301,7 @@
         "Wohnflaeche pruefen"
       ],
       "first_seen": "2026-06-16T14:48:24.184659+00:00",
-      "last_seen": "2026-06-18T18:42:27.417478+00:00"
+      "last_seen": "2026-06-19T09:59:15.698262+00:00"
     },
     {
       "id": "e323ed49690006ce",
@@ -235,7 +333,7 @@
         "Miete und Nebenkosten pruefen"
       ],
       "first_seen": "2026-06-16T14:48:24.184659+00:00",
-      "last_seen": "2026-06-18T18:42:27.417478+00:00"
+      "last_seen": "2026-06-19T09:59:15.698262+00:00"
     },
     {
       "id": "a241235bb7d9431c",
@@ -293,7 +391,7 @@
         "Miete und Nebenkosten pruefen"
       ],
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
-      "last_seen": "2026-06-18T18:42:27.417478+00:00"
+      "last_seen": "2026-06-19T09:59:15.698262+00:00"
     },
     {
       "id": "54a481f254d70947",
@@ -325,7 +423,7 @@
         "Miete und Nebenkosten pruefen"
       ],
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
-      "last_seen": "2026-06-18T18:42:27.417478+00:00"
+      "last_seen": "2026-06-19T09:59:15.698262+00:00"
     },
     {
       "id": "52169aa9d0a96226",
@@ -419,7 +517,7 @@
         "nebenkosten pruefen"
       ],
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
-      "last_seen": "2026-06-18T18:42:27.417478+00:00"
+      "last_seen": "2026-06-19T09:59:15.698262+00:00"
     },
     {
       "id": "33d7ba59b15e47af",
@@ -451,7 +549,7 @@
         "Miete und Nebenkosten pruefen"
       ],
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
-      "last_seen": "2026-06-18T18:42:27.417478+00:00"
+      "last_seen": "2026-06-19T09:59:15.698262+00:00"
     },
     {
       "id": "215d89cabc477ebd",
@@ -483,7 +581,7 @@
         "Miete und Nebenkosten pruefen"
       ],
       "first_seen": "2026-06-16T14:22:06.114015+00:00",
-      "last_seen": "2026-06-18T18:42:27.417478+00:00"
+      "last_seen": "2026-06-19T09:59:15.698262+00:00"
     },
     {
       "id": "0c789e481a4c1229",
@@ -546,7 +644,7 @@
         "Miete und Nebenkosten pruefen"
       ],
       "first_seen": "2026-06-16T13:50:26.504416+00:00",
-      "last_seen": "2026-06-18T18:42:27.417478+00:00"
+      "last_seen": "2026-06-19T09:59:15.698262+00:00"
     },
     {
       "id": "bd6f99e0c74fd8a7",
@@ -578,7 +676,7 @@
         "Miete und Nebenkosten pruefen"
       ],
       "first_seen": "2026-06-16T13:50:26.504416+00:00",
-      "last_seen": "2026-06-18T18:42:27.417478+00:00"
+      "last_seen": "2026-06-19T09:59:15.698262+00:00"
     },
     {
       "id": "6b2a66fa75be9009",
@@ -607,7 +705,7 @@
         "Miete und Nebenkosten pruefen"
       ],
       "first_seen": "2026-06-16T13:50:26.504416+00:00",
-      "last_seen": "2026-06-18T18:42:27.417478+00:00"
+      "last_seen": "2026-06-19T09:59:15.698262+00:00"
     },
     {
       "id": "47392491b8de4c1a",
@@ -638,7 +736,7 @@
         "Etage pruefen"
       ],
       "first_seen": "2026-06-16T13:50:26.504416+00:00",
-      "last_seen": "2026-06-18T18:42:27.417478+00:00"
+      "last_seen": "2026-06-19T09:59:15.698262+00:00"
     },
     {
       "id": "40c7559281958119",
@@ -670,7 +768,7 @@
         "Etage pruefen"
       ],
       "first_seen": "2026-06-16T13:50:26.504416+00:00",
-      "last_seen": "2026-06-18T18:42:27.417478+00:00"
+      "last_seen": "2026-06-19T09:59:15.698262+00:00"
     },
     {
       "id": "bd780341c0d19730",
@@ -699,7 +797,7 @@
       ],
       "review_notes": [],
       "first_seen": "2026-06-16T07:37:14.605931+00:00",
-      "last_seen": "2026-06-18T18:42:27.417478+00:00"
+      "last_seen": "2026-06-19T09:59:15.698262+00:00"
     },
     {
       "id": "951a576440a61792",
@@ -729,7 +827,7 @@
       ],
       "review_notes": [],
       "first_seen": "2026-06-16T07:37:14.605931+00:00",
-      "last_seen": "2026-06-18T18:42:27.417478+00:00"
+      "last_seen": "2026-06-19T09:59:15.698262+00:00"
     },
     {
       "id": "7fe05dffb699b575",
@@ -762,7 +860,7 @@
         "Wohnflaeche pruefen"
       ],
       "first_seen": "2026-06-16T07:37:14.605931+00:00",
-      "last_seen": "2026-06-18T18:42:27.417478+00:00"
+      "last_seen": "2026-06-19T09:59:15.698262+00:00"
     },
     {
       "id": "5bf0e56ac407c37b",
@@ -792,7 +890,7 @@
       ],
       "review_notes": [],
       "first_seen": "2026-06-16T07:37:14.605931+00:00",
-      "last_seen": "2026-06-18T18:42:27.417478+00:00"
+      "last_seen": "2026-06-19T09:59:15.698262+00:00"
     },
     {
       "id": "4beac5d73d4b572d",
@@ -825,7 +923,7 @@
       "id": "16561d548ea5a165",
       "title": "Wohnung zur Miete 3 Zimmer, 117 qm, 1. Geschoss Empelde, Ronnenberg (30952) Empelde: Gepflegte",
       "url": "https://www.immowelt.de/expose/174c54e9-b985-4e04-8479-97a466a5da30",
-      "source": "Immowelt Gehrden 3 Zimmer",
+      "source": "Immowelt Barsinghausen 3 Zimmer",
       "portal": "immowelt",
       "price_eur": 910.0,
       "area_sqm": 117.0,
@@ -851,7 +949,7 @@
         "Miete und Nebenkosten pruefen"
       ],
       "first_seen": "2026-06-16T07:37:14.605931+00:00",
-      "last_seen": "2026-06-18T18:42:27.417478+00:00"
+      "last_seen": "2026-06-19T09:59:15.698262+00:00"
     },
     {
       "id": "836726824ec5c8aa",
@@ -886,7 +984,7 @@
         "Miete und Nebenkosten pruefen"
       ],
       "first_seen": "2026-06-16T07:18:23.368301+00:00",
-      "last_seen": "2026-06-18T18:42:27.417478+00:00"
+      "last_seen": "2026-06-19T09:59:15.698262+00:00"
     }
   ]
 }
