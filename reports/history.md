@@ -8,3 +8,4 @@
 | 2026-06-19 11:59 | 🟨 PRUEFEN | unklar | 63 | pruefen | 625 EUR | 80 qm | 3 | Immowelt Wennigsen 3 Zimmer | [Wohnung zur Miete, Tauschwohnung 3 Zimmer, 80 qm Mittelro...](https://www.immowelt.de/expose/485420d4-7df3-453f-819f-df0b45f8e8e1) |
 | 2026-06-19 11:59 | 🟨 PRUEFEN | weiter weg | 51 | 30952 Ronnenberg | 395 EUR | offen | 3 | Immobilo Ronnenberg 3 Zimmer | [Wohnung in Ronnenberg Weetzen](https://www.immowelt.de/expose/082e54c7-1dc0-45ef-9fc7-1a017305e721) |
 | 2026-06-19 11:59 | 🟨 PRUEFEN | unklar | 30 | pruefen | 652 EUR | 70.9 qm | 3 | Immowelt Barsinghausen 3 Zimmer | [Wohnung zur Miete 3 Zimmer, 70,9 qm, 3. Geschoss](https://www.immowelt.de/expose/0bfa6791-cc2a-4372-8ec6-130aa4ec34ed) |
+| 2026-06-19 15:55 | 🟨 PRUEFEN | weiter weg | 38 | pruefen | 570 EUR | 76 qm | 3 | Immowelt Barsinghausen 3 Zimmer | [Wohnung zur Miete 3 Zimmer, 76 qm, 1. Geschoss Auf dem Gi...](https://www.immowelt.de/expose/040c99e7-4406-4668-9f7c-ea113f3c58e3) |
