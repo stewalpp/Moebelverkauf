@@ -1,10 +1,9 @@
 /* ============================================================
-   Wohnungssuche — js/core.js
-   window.App: formatting helpers, element factory, inline icon set,
-   bottom sheet, confirm alert, toast, theme.
-   Classic script, loaded first. No modules, no external libs.
-   Sheet / confirm / toast / theme are ported from the "Unsere Finanzen"
-   app so the look & feel matches exactly.
+   Möbelverkauf — js/core.js
+   window.App: Formatierungs-Helfer, Element-Factory, Inline-Icons,
+   Bottom-Sheet, Bestätigungs-Alert, Toast, Theme.
+   Klassisches Script, zuerst geladen. Keine Module, keine externen Libs.
+   Sheet / Confirm / Toast / Theme stammen aus der iOS-Design-Basis.
    ============================================================ */
 (function () {
   'use strict';
@@ -18,11 +17,39 @@
   var NUM = new Intl.NumberFormat('de-DE', { maximumFractionDigits: 1 });
   var DATETIME = new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
-  // float EUR -> "715 €" (integers) or "559,47 €"
+  // float EUR -> "715 €" (ganze Zahl) oder "559,47 €"
   App.fmtEUR = function (eur) {
-    if (eur === null || eur === undefined || !isFinite(Number(eur))) return 'Miete offen';
+    if (eur === null || eur === undefined || !isFinite(Number(eur))) return '—';
     var n = Number(eur);
     return Math.round(n) === n ? EUR_INT.format(n) : EUR_DEC.format(n);
+  };
+
+  var DATE = new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  App.fmtDate = function (iso) {
+    var d = parseDate(iso);
+    return d ? DATE.format(d) : '';
+  };
+
+  // "1.200,50 €", "1200", "1.200" oder "12,5" -> Zahl (oder null).
+  // Versteht deutsche Tausenderpunkte und Dezimalkommas.
+  App.parseNum = function (raw) {
+    if (raw === null || raw === undefined) return null;
+    if (typeof raw === 'number') return isFinite(raw) ? raw : null;
+    var s = String(raw).trim();
+    if (!s) return null;
+    s = s.replace(/[€\s]/g, '');
+    var hasComma = s.indexOf(',') !== -1;
+    var hasDot = s.indexOf('.') !== -1;
+    if (hasComma && hasDot) {
+      // beides vorhanden -> Punkt = Tausender, Komma = Dezimal
+      s = s.replace(/\./g, '').replace(',', '.');
+    } else if (hasComma) {
+      s = s.replace(',', '.');
+    }
+    // verbleibende Nicht-Zahlzeichen entfernen (außer Punkt/Minus)
+    s = s.replace(/[^0-9.\-]/g, '');
+    var n = parseFloat(s);
+    return isFinite(n) && n >= 0 ? n : null;
   };
 
   App.fmtArea = function (sqm) {
@@ -115,7 +142,19 @@
     building: '<path d="M6 22V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v18"/><path d="M3 22h18"/><path d="M9 7h.01M15 7h.01M9 11h.01M15 11h.01M9 15h.01M15 15h.01"/>',
     cloud: '<path d="M17.5 19a4.5 4.5 0 0 0 .5-9 6 6 0 0 0-11.6-1.4A4 4 0 0 0 6.5 19z"/>',
     filter: '<path d="M3 5h18l-7 8v6l-4 2v-8z"/>',
-    chevron: '<path d="m9 6 6 6-6 6"/>'
+    chevron: '<path d="m9 6 6 6-6 6"/>',
+    plus: '<path d="M12 5v14M5 12h14"/>',
+    trash: '<path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M19 6l-1 14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1L5 6"/><path d="M10 11v6M14 11v6"/>',
+    camera: '<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>',
+    edit: '<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4z"/>',
+    tag: '<path d="M20.6 13.4 11 3.8a2 2 0 0 0-1.4-.6H4a1 1 0 0 0-1 1v5.6a2 2 0 0 0 .6 1.4l9.6 9.6a2 2 0 0 0 2.8 0l4.6-4.6a2 2 0 0 0 0-2.8z"/><path d="M7 7h.01"/>',
+    box: '<path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5"/><path d="M12 13v8"/>',
+    coins: '<circle cx="8" cy="8" r="5"/><path d="M14.8 4.6a5 5 0 1 1 0 14.8"/><path d="M8 6v4M6 8h4"/>',
+    handshake: '<path d="m11 17 2 2a1 1 0 0 0 1.4 0l3.6-3.6"/><path d="m14 13 2.5 2.5a1 1 0 0 0 1.4 0L21 12.6"/><path d="m3 12.6 3.5 3.5a1 1 0 0 0 1.4 0L11 13"/><path d="M3 7.6 6.5 4a1 1 0 0 1 1.4 0L12 8l-2.5 2.5"/><path d="M17.5 7.5 21 11"/>',
+    calendar: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+    user: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+    download: '<path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/>',
+    copy: '<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>'
   };
 
   // App.icon(name, size?) -> <svg> element (stroke uses currentColor)
@@ -136,11 +175,22 @@
     return svg;
   };
 
+  // Rundes Kategorie-Badge mit Emoji auf eingefärbtem Grund.
+  // cat = Catalog-Eintrag { emoji, color, label }.
+  App.catIcon = function (cat) {
+    var wrap = App.el('div', 'cat-icon');
+    if (cat && cat.color) {
+      wrap.style.background = 'color-mix(in srgb, ' + cat.color + ' 22%, transparent)';
+    }
+    wrap.appendChild(App.el('span', null, (cat && cat.emoji) || '📦'));
+    return wrap;
+  };
+
   /* ---------------- appearance (per device, not synced) ---------------- */
 
   App.getTheme = function () {
     try {
-      var t = localStorage.getItem('ws.theme');
+      var t = localStorage.getItem('mv.theme');
       return t === 'dark' || t === 'light' ? t : 'system';
     } catch (e) { return 'system'; }
   };
@@ -150,10 +200,10 @@
     html.classList.remove('theme-light', 'theme-dark');
     try {
       if (theme === 'light' || theme === 'dark') {
-        localStorage.setItem('ws.theme', theme);
+        localStorage.setItem('mv.theme', theme);
         html.classList.add('theme-' + theme);
       } else {
-        localStorage.removeItem('ws.theme');
+        localStorage.removeItem('mv.theme');
       }
     } catch (e) { /* storage unavailable */ }
   };

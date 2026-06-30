@@ -1,32 +1,34 @@
 /* ============================================================
-   Wohnungssuche — js/store.js
-   window.Store: offline-first store for the couple's per-listing
-   ratings, notes, favourites and hidden flags + member settings.
+   Möbelverkauf — js/store.js
+   window.Store: offline-first Speicher für eure Verkaufsobjekte
+   (Name, Kategorie, Wunschpreis, Erlös, Status, Käufer …) + die
+   Personen-Einstellungen.
 
-   Mode 'cloud': the shared Firebase project (Firestore, anonymous auth),
-   real-time synced between both phones. Mode 'local': localStorage only
-   (used when sync is turned off or Firebase is unreachable).
+   Modus 'cloud': gemeinsames Firebase-Projekt (Firestore, anonyme
+   Anmeldung), in Echtzeit zwischen beiden Handys synchronisiert.
+   Modus 'local': nur localStorage (wenn Sync aus ist oder Firebase
+   gerade nicht erreichbar ist).
 
-   Firestore layout:
-     households/{CODE}/ratings/{listingId}
+   Firestore-Aufbau:
+     households/{CODE}/items/{itemId}
      households/{CODE}/meta/settings
 
-   The only dynamic import() in this app lives here (Firebase JS SDK from
-   the gstatic CDN), loaded lazily on connect. Classic script otherwise.
+   Der einzige dynamische import() lebt hier (Firebase JS SDK vom
+   gstatic-CDN), lazy beim Verbinden. Sonst klassisches Script.
    ============================================================ */
 (function () {
   'use strict';
 
-  var LS_RATINGS = 'ws.ratings';
-  var LS_SETTINGS = 'ws.settings';
-  var LS_LOCAL_ONLY = 'ws.localOnly';
+  var LS_ITEMS = 'mv.items';
+  var LS_SETTINGS = 'mv.settings';
+  var LS_LOCAL_ONLY = 'mv.localOnly';
 
   var FB_BASE = 'https://www.gstatic.com/firebasejs/10.12.5/';
-  var FB_APP_NAME = 'wohnungssuche';
+  var FB_APP_NAME = 'moebelverkauf';
 
   // -------------------------------------------------------------------- state
 
-  var ratings = {};            // listingId -> rating object
+  var items = {};              // itemId -> item-Objekt
   var settings = defaultSettings();
 
   var mode = 'local';          // 'local' | 'cloud'
@@ -72,7 +74,7 @@
   // ------------------------------------------------------------- data shapes
 
   function defaultSettings() {
-    var members = (window.WS_CONFIG && WS_CONFIG.members) || [
+    var members = (window.MV_CONFIG && MV_CONFIG.members) || [
       { id: 'p1', name: 'Person 1', color: '#0A84FF' },
       { id: 'p2', name: 'Person 2', color: '#30D158' }
     ];
@@ -82,22 +84,43 @@
     };
   }
 
-  var VALID_RATINGS = { gut: 1, vielleicht: 1, schlecht: 1 };
-  var VALID_STATUS = { angefragt: 1, besichtigung: 1, zusage: 1, absage: 1 };
+  function num(v) {
+    if (v === null || v === undefined || v === '') return null;
+    var n = Number(v);
+    return isFinite(n) && n >= 0 ? n : null;
+  }
+  function str(v) { return typeof v === 'string' ? v : ''; }
 
-  function normalizeRating(raw) {
+  function validStatus(v) { return (window.Catalog && Catalog.isStatus(v)) ? v : 'offen'; }
+  function validCategory(v) { return (window.Catalog && Catalog.isCategory(v)) ? v : 'sonstiges'; }
+  function validPlatform(v) { return (window.Catalog && Catalog.isPlatform(v)) ? (v || '') : ''; }
+  function validOwner(v) { return (v === 'p1' || v === 'p2' || v === 'beide') ? v : ''; }
+
+  function normalizeItem(raw, id) {
     raw = raw && typeof raw === 'object' ? raw : {};
-    function pr(v) { return typeof v === 'string' && VALID_RATINGS[v] ? v : null; }
     return {
-      p1: pr(raw.p1),
-      p2: pr(raw.p2),
-      favorite: !!raw.favorite,
-      hidden: !!raw.hidden,
-      status: typeof raw.status === 'string' && VALID_STATUS[raw.status] ? raw.status : '',
-      note: typeof raw.note === 'string' ? raw.note : '',
-      updatedAt: typeof raw.updatedAt === 'string' ? raw.updatedAt : nowISO()
+      id: id || raw.id || App.uid(),
+      name: str(raw.name),
+      category: validCategory(raw.category),
+      askingPrice: num(raw.askingPrice),
+      soldPrice: num(raw.soldPrice),
+      status: validStatus(raw.status),
+      buyer: str(raw.buyer),
+      platform: validPlatform(raw.platform),
+      owner: validOwner(raw.owner),
+      note: str(raw.note),
+      photo: typeof raw.photo === 'string' ? raw.photo : '',
+      deleted: !!raw.deleted,
+      soldAt: typeof raw.soldAt === 'string' && raw.soldAt ? raw.soldAt : null,
+      createdAt: typeof raw.createdAt === 'string' && raw.createdAt ? raw.createdAt : nowISO(),
+      updatedAt: typeof raw.updatedAt === 'string' && raw.updatedAt ? raw.updatedAt : nowISO()
     };
   }
+
+  // Beim Einrichten der App wurde ein Test-Dokument angelegt, um die
+  // Firebase-Verbindung zu prüfen. Echtes Löschen ist per Regel gesperrt,
+  // deshalb wird diese eine ID dauerhaft ausgeblendet.
+  var IGNORED_IDS = { 'probe-claude-temp': 1 };
 
   function normalizeSettings(raw) {
     var def = defaultSettings();
@@ -115,12 +138,10 @@
     return out;
   }
 
-  function persistRatings() { writeJSON(LS_RATINGS, ratings); }
+  function persistItems() { writeJSON(LS_ITEMS, items); }
   function persistSettings() { writeJSON(LS_SETTINGS, settings); }
 
   // -------------------------------------------------------- cloud: SDK & app
-
-  function fail(message) { var e = new Error(message); e.german = true; throw e; }
 
   function loadFirebase() {
     if (fbMods) return Promise.resolve(fbMods);
@@ -177,8 +198,10 @@
         return ctx;
       });
     }).then(function (ctx) {
-      return mods.fs.setDoc(mods.fs.doc(ctx.db, 'households', code), { createdAt: nowISO() }, { merge: true }).then(function () { return ctx; });
-    }).then(function (ctx) {
+      // Bewusst KEIN Schreiben des übergeordneten households/{code}-Dokuments:
+      // die Firestore-Regeln geben nur die Unter-Sammlungen (items, meta,
+      // ratings) frei, nicht das Eltern-Dokument. Firestore legt
+      // Unter-Sammlungen auch ohne Eltern-Dokument an.
       cloud = { app: app, db: ctx.db, auth: ctx.auth, fs: mods.fs, code: code, projectId: config.projectId || null, unsubs: [] };
       wireSnapshots();
       mode = 'cloud';
@@ -196,42 +219,48 @@
     var onErr = function (label) { return function (err) { console.warn('Snapshot (' + label + ') fehlgeschlagen:', err); }; };
 
     cloud.unsubs.push(fs.onSnapshot(
-      fs.collection(db, 'households', code, 'ratings'),
+      fs.collection(db, 'households', code, 'items'),
       function (snap) {
-        // Offline cache delivers an empty snapshot before the real data arrives —
-        // never let it wipe ratings we already hold.
-        if (snap.metadata && snap.metadata.fromCache && snap.empty && Object.keys(ratings).length > 0) return;
+        // Der Offline-Cache liefert vor den echten Daten einen leeren Snapshot –
+        // niemals damit bereits vorhandene Objekte überschreiben.
+        if (snap.metadata && snap.metadata.fromCache && snap.empty && Object.keys(items).length > 0) return;
 
         var next = {};
-        snap.docs.forEach(function (d) { next[d.id] = normalizeRating(d.data()); });
+        snap.docs.forEach(function (d) { next[d.id] = normalizeItem(d.data(), d.id); });
 
-        // Protect locally-made ratings (e.g. created in local-only mode, or on a
-        // fresh device before the first connect) that the server doesn't have yet:
-        // keep them and push them up instead of letting the server view clear them.
-        var missing = Object.keys(ratings).filter(function (id) { return !(id in next); });
+        // Lokal angelegte Objekte schützen, die der Server noch nicht hat (z. B.
+        // im Local-Only-Modus oder auf einem frischen Gerät vor dem ersten
+        // Verbinden erstellt): behalten und hochschieben, statt sie durch die
+        // Server-Sicht löschen zu lassen.
+        var missing = Object.keys(items).filter(function (id) { return !(id in next); });
         missing.forEach(function (id) {
-          next[id] = ratings[id];
-          cloudSetRating(id, ratings[id]);
+          next[id] = items[id];
+          cloudSetItem(id, items[id]);
         });
 
-        ratings = next;
-        persistRatings();
+        // Lokale Soft-Deletes gewinnen: hat der Server noch eine veraltete,
+        // nicht gelöschte Version eines lokal gelöschten Objekts (z. B. wenn
+        // im Local-Only-Modus gelöscht und danach Sync wieder eingeschaltet
+        // wurde), gelöscht halten und erneut hochschieben. "deleted" ist
+        // monoton (es gibt kein Wiederherstellen), daher ist das sicher.
+        Object.keys(items).forEach(function (id) {
+          if (items[id] && items[id].deleted && next[id] && !next[id].deleted) {
+            next[id] = items[id];
+            cloudSetItem(id, { deleted: true, photo: '', updatedAt: items[id].updatedAt });
+          }
+        });
+
+        items = next;
+        persistItems();
         emit();
       },
-      onErr('Bewertungen')
+      onErr('Objekte')
     ));
 
     cloud.unsubs.push(fs.onSnapshot(
       fs.doc(db, 'households', code, 'meta', 'settings'),
       function (snap) {
         if (!snap.exists()) {
-          // Server has no settings doc yet (brand-new household). If THIS device
-          // has finished onboarding, seed it so the partner device doesn't sit on
-          // default names/colors forever. A non-onboarded device stays quiet so
-          // it can never clobber real names with defaults. Only seed on a
-          // SERVER-confirmed miss (never the offline cache's initial empty
-          // snapshot), otherwise we'd overwrite real server settings with this
-          // device's local copy on every cold start.
           if (settings.onboarded && !(snap.metadata && snap.metadata.fromCache)) cloudSetSettings();
           return;
         }
@@ -255,17 +284,16 @@
 
   // ----------------------------------------------------- cloud: doc plumbing
 
-  function ratingRef(id) { return cloud.fs.doc(cloud.db, 'households', cloud.code, 'ratings', id); }
+  function itemRef(id) { return cloud.fs.doc(cloud.db, 'households', cloud.code, 'items', id); }
   function settingsRef() { return cloud.fs.doc(cloud.db, 'households', cloud.code, 'meta', 'settings'); }
 
-  function cloudSetRating(id, data) {
+  function cloudSetItem(id, data) {
     if (mode !== 'cloud' || !cloud) return;
-    // Merge-write so we only touch the field(s) we actually changed. If both
-    // phones edit the same listing's rating doc inside the sync window, neither
-    // overwrites the other's field (p1/p2/note/status/favorite). `data` is the
-    // changed-fields patch from mutate(); on the snapshot bootstrap path it's a
-    // full rating object, which merge writes just as well.
-    cloud.fs.setDoc(ratingRef(id), clean(data), { merge: true }).catch(function (e) { console.warn('Cloud-Schreibvorgang (Bewertung) fehlgeschlagen:', e); });
+    // Merge-Write: nur die geänderten Felder anfassen. Wenn beide Handys
+    // dasselbe Objekt im Sync-Fenster bearbeiten, überschreibt keiner die
+    // Felder des anderen. Beim Snapshot-Bootstrap ist `data` ein volles
+    // Objekt, das der Merge genauso schreibt.
+    cloud.fs.setDoc(itemRef(id), clean(data), { merge: true }).catch(function (e) { console.warn('Cloud-Schreibvorgang (Objekt) fehlgeschlagen:', e); });
   }
   function cloudSetSettings() {
     if (mode !== 'cloud' || !cloud) return;
@@ -275,18 +303,18 @@
   // ----------------------------------------------------------------- the API
 
   function init() {
-    ratings = {};
-    var stored = readJSON(LS_RATINGS, {});
+    items = {};
+    var stored = readJSON(LS_ITEMS, {});
     if (stored && typeof stored === 'object') {
-      Object.keys(stored).forEach(function (id) { ratings[id] = normalizeRating(stored[id]); });
+      Object.keys(stored).forEach(function (id) { items[id] = normalizeItem(stored[id], id); });
     }
     settings = normalizeSettings(readJSON(LS_SETTINGS, null));
 
     var localOnly = false;
     try { localOnly = localStorage.getItem(LS_LOCAL_ONLY) === '1'; } catch (e) { /* ok */ }
 
-    var cfg = window.WS_CONFIG && WS_CONFIG.firebase;
-    var code = (window.WS_CONFIG && WS_CONFIG.household) || 'haushalt';
+    var cfg = window.MV_CONFIG && MV_CONFIG.firebase;
+    var code = (window.MV_CONFIG && MV_CONFIG.household) || 'haushalt';
     if (localOnly || !cfg || !cfg.apiKey) {
       mode = 'local';
       return Promise.resolve();
@@ -294,7 +322,7 @@
     return connect(cfg, code).catch(function (e) {
       connectError = e;
       console.warn('Cloud-Sync nicht erreichbar:', e);
-      // Stay usable with local data.
+      // Mit lokalen Daten benutzbar bleiben.
     });
   }
 
@@ -303,8 +331,8 @@
   function syncStatus() {
     return {
       connected: mode === 'cloud' && !!cloud,
-      household: cloud ? cloud.code : ((window.WS_CONFIG && WS_CONFIG.household) || null),
-      projectId: cloud ? cloud.projectId : ((window.WS_CONFIG && WS_CONFIG.firebase && WS_CONFIG.firebase.projectId) || null),
+      household: cloud ? cloud.code : ((window.MV_CONFIG && MV_CONFIG.household) || null),
+      projectId: cloud ? cloud.projectId : ((window.MV_CONFIG && MV_CONFIG.firebase && MV_CONFIG.firebase.projectId) || null),
       error: connectError ? (connectError.message || String(connectError)) : null
     };
   }
@@ -314,53 +342,85 @@
     return function () { var i = listeners.indexOf(fn); if (i !== -1) listeners.splice(i, 1); };
   }
 
-  function getRating(id) {
-    return normalizeRating(ratings[id] || {});
+  // -------- items
+
+  function isVisible(it) {
+    return it && !it.deleted && !IGNORED_IDS[it.id];
   }
 
-  function getAllRatings() {
-    var out = {};
-    Object.keys(ratings).forEach(function (id) { out[id] = normalizeRating(ratings[id]); });
-    return out;
+  function getItem(id) {
+    if (!items[id] || IGNORED_IDS[id]) return null;
+    var it = normalizeItem(items[id], id);
+    return it.deleted ? null : it;
   }
 
-  function mutate(id, patch) {
-    var current = normalizeRating(ratings[id] || {});
-    var stamped = Object.assign({}, patch, { updatedAt: nowISO() });
-    var next = normalizeRating(Object.assign({}, current, stamped));
-    ratings[id] = next;
-    persistRatings();
-    // Push only the changed fields (+updatedAt), merged — see cloudSetRating.
-    cloudSetRating(id, stamped);
+  // Nur sichtbare (nicht soft-gelöschte) Objekte.
+  function getItems() {
+    return Object.keys(items)
+      .map(function (id) { return normalizeItem(items[id], id); })
+      .filter(isVisible);
+  }
+
+  // Neues Objekt anlegen. `data` = Teilfelder; gibt das angelegte Objekt zurück.
+  function addItem(data) {
+    var id = App.uid();
+    var item = normalizeItem(Object.assign({}, data, { id: id, createdAt: nowISO(), updatedAt: nowISO() }), id);
+    if (item.status === 'verkauft' && !item.soldAt) item.soldAt = nowISO();
+    items[id] = item;
+    persistItems();
+    cloudSetItem(id, item);
+    emit();
+    return item;
+  }
+
+  // Bestehendes Objekt ändern. `patch` = nur geänderte Felder.
+  function updateItem(id, patch) {
+    if (!items[id]) return null;
+    var current = normalizeItem(items[id], id);
+    var merged = Object.assign({}, current, patch);
+    // Verkaufsdatum richtet sich nach dem Status: nur "verkauft" hat ein
+    // soldAt. Beim Wechsel weg von "verkauft" wird es wieder geleert.
+    if (merged.status === 'verkauft') {
+      if (!merged.soldAt) merged.soldAt = nowISO();
+    } else {
+      merged.soldAt = null;
+    }
+    merged.updatedAt = nowISO();
+    var next = normalizeItem(merged, id);
+    items[id] = next;
+    persistItems();
+    // nur die geänderten Felder (+ abgeleitete) hochschieben
+    var changed = Object.assign({}, patch, { updatedAt: next.updatedAt, soldAt: next.soldAt });
+    cloudSetItem(id, changed);
     emit();
     return next;
   }
 
-  function setPersonRating(id, personId, value) {
-    if (personId !== 'p1' && personId !== 'p2') return;
-    var v = VALID_RATINGS[value] ? value : null;
-    // toggle off if the same value is tapped again
-    var current = getRating(id);
-    if (current[personId] === v) v = null;
-    var patch = {}; patch[personId] = v;
-    return mutate(id, patch);
+  // Soft-Delete: echtes Löschen ist per Firestore-Regel gesperrt, deshalb wird
+  // das Objekt auf deleted=true gesetzt (Update, erlaubt) und überall
+  // ausgeblendet. Das Foto wird dabei entfernt, um Platz zu sparen.
+  function deleteItem(id) {
+    if (!items[id]) return;
+    var next = normalizeItem(Object.assign({}, items[id], { deleted: true, photo: '', updatedAt: nowISO() }), id);
+    items[id] = next;
+    persistItems();
+    cloudSetItem(id, { deleted: true, photo: '', updatedAt: next.updatedAt });
+    emit();
   }
 
-  function toggleFavorite(id) {
-    return mutate(id, { favorite: !getRating(id).favorite });
+  function clearAllItems() {
+    Object.keys(items).forEach(function (id) {
+      var cur = normalizeItem(items[id], id);
+      if (cur.deleted || IGNORED_IDS[id]) return;
+      var next = normalizeItem(Object.assign({}, cur, { deleted: true, photo: '', updatedAt: nowISO() }), id);
+      items[id] = next;
+      cloudSetItem(id, { deleted: true, photo: '', updatedAt: next.updatedAt });
+    });
+    persistItems();
+    emit();
   }
 
-  function setHidden(id, hidden) {
-    return mutate(id, { hidden: !!hidden });
-  }
-
-  function setNote(id, note) {
-    return mutate(id, { note: typeof note === 'string' ? note : '' });
-  }
-
-  function setStatus(id, value) {
-    return mutate(id, { status: VALID_STATUS[value] ? value : '' });
-  }
+  // -------- settings
 
   function getSettings() {
     return { onboarded: settings.onboarded, members: settings.members.map(function (m) { return Object.assign({}, m); }) };
@@ -395,8 +455,14 @@
     var m = settings.members.find(function (x) { return x.id === id; });
     return m ? m.color : '#8E8E93';
   }
+  // "Steffen", "Partnerin", "Beide" oder '' (niemand zugewiesen)
+  function ownerLabel(owner) {
+    if (owner === 'beide') return 'Beide';
+    if (owner === 'p1' || owner === 'p2') return memberName(owner);
+    return '';
+  }
 
-  // Turn sync on/off (per device).
+  // Sync pro Gerät an/aus.
   function setLocalOnly(on) {
     try { localStorage.setItem(LS_LOCAL_ONLY, on ? '1' : '0'); } catch (e) { /* ok */ }
     if (on) {
@@ -404,8 +470,8 @@
       emit();
       return Promise.resolve();
     }
-    var cfg = window.WS_CONFIG && WS_CONFIG.firebase;
-    var code = (window.WS_CONFIG && WS_CONFIG.household) || 'haushalt';
+    var cfg = window.MV_CONFIG && MV_CONFIG.firebase;
+    var code = (window.MV_CONFIG && MV_CONFIG.household) || 'haushalt';
     if (!cfg || !cfg.apiKey) {
       var err = new Error('Firebase ist nicht konfiguriert.'); err.german = true;
       connectError = err;
@@ -424,17 +490,17 @@
     getMode: getMode,
     syncStatus: syncStatus,
     onChange: onChange,
-    getRating: getRating,
-    getAllRatings: getAllRatings,
-    setPersonRating: setPersonRating,
-    toggleFavorite: toggleFavorite,
-    setHidden: setHidden,
-    setNote: setNote,
-    setStatus: setStatus,
+    getItem: getItem,
+    getItems: getItems,
+    addItem: addItem,
+    updateItem: updateItem,
+    deleteItem: deleteItem,
+    clearAllItems: clearAllItems,
     getSettings: getSettings,
     updateSettings: updateSettings,
     memberName: memberName,
     memberColor: memberColor,
+    ownerLabel: ownerLabel,
     setLocalOnly: setLocalOnly,
     isLocalOnly: isLocalOnly
   };

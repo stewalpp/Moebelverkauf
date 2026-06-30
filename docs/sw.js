@@ -1,9 +1,9 @@
-/* Service worker for "Wohnungssuche" — precache app shell, stale-while-revalidate.
-   The listings feed (data/listings.json) is always fetched from the network so
-   new apartments show up without a stale cache getting in the way. */
+/* Service Worker für "Möbelverkauf" — App-Shell vorab cachen, beim Online-Sein
+   immer die frischeste Version laden (network-first). Die Verkaufsdaten liegen
+   in Firestore und werden vom SDK selbst verwaltet — hier nichts zu cachen. */
 'use strict';
 
-const CACHE = 'wohnungssuche-v12';
+const CACHE = 'moebelverkauf-v1';
 
 const PRECACHE = [
   './',
@@ -12,13 +12,12 @@ const PRECACHE = [
   'manifest.json',
   'js/config.js',
   'js/core.js',
-  'js/feed.js',
+  'js/catalog.js',
+  'js/stats.js',
   'js/store.js',
-  'js/filters.js',
-  'js/score.js',
   'js/views/dashboard.js',
-  'js/views/listings.js',
-  'js/views/favorites.js',
+  'js/views/items.js',
+  'js/views/sold.js',
   'js/views/settings.js',
   'js/app.js',
   'icons/icon-192.png',
@@ -44,9 +43,9 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Network-first for the app shell (HTML/JS/CSS): always use the freshest version
-// when online so a code update never lands "one load behind"; fall back to the
-// cached copy (and finally the offline page) when the network is unavailable.
+// Network-first für die App-Shell (HTML/JS/CSS): online immer die frischeste
+// Version, damit ein Update nie "einen Ladevorgang hinterher" ist; offline der
+// gecachte Stand.
 function networkFirst(event, fallbackUrl) {
   const request = event.request;
   return caches.open(CACHE).then((cache) =>
@@ -69,7 +68,7 @@ function networkFirst(event, fallbackUrl) {
   );
 }
 
-function staleWhileRevalidate(event, fallbackUrl) {
+function staleWhileRevalidate(event) {
   const request = event.request;
   return caches.open(CACHE).then((cache) =>
     cache.match(request).then((cached) => {
@@ -83,17 +82,11 @@ function staleWhileRevalidate(event, fallbackUrl) {
         event.waitUntil(refresh.catch(() => undefined));
         return cached;
       }
-      return refresh.catch(() => {
-        if (fallbackUrl) return cache.match(fallbackUrl);
-        return undefined;
-      }).then((response) => {
-        if (response) return response;
-        return new Response('Offline', {
-          status: 503,
-          statusText: 'Service Unavailable',
-          headers: { 'Content-Type': 'text/plain; charset=utf-8' }
-        });
-      });
+      return refresh.catch(() => new Response('Offline', {
+        status: 503,
+        statusText: 'Service Unavailable',
+        headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+      }));
     })
   );
 }
@@ -104,11 +97,6 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(request.url);
 
-  // The listings feed must never be served stale — let the network handle it.
-  if (url.origin === self.location.origin && url.pathname.indexOf('data/listings.json') !== -1) {
-    return;
-  }
-
   if (url.origin === self.location.origin) {
     if (request.mode === 'navigate') {
       event.respondWith(networkFirst(event, 'index.html'));
@@ -118,10 +106,11 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Firebase SDK vom CDN: stale-while-revalidate.
   if (request.url.indexOf(FIREBASE_CDN_PREFIX) === 0) {
-    event.respondWith(staleWhileRevalidate(event, null));
+    event.respondWith(staleWhileRevalidate(event));
     return;
   }
 
-  // Everything else (Firestore listen channels, auth endpoints, …): don't intercept.
+  // Alles andere (Firestore-Listen-Kanäle, Auth-Endpunkte …): nicht abfangen.
 });

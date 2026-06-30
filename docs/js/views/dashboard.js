@@ -1,170 +1,167 @@
 /* ============================================================
-   Wohnungssuche — js/views/dashboard.js
-   Views.dashboard ("Übersicht"): a self-explanatory overview —
-   key numbers, top matches by score, "both like it", status
-   overview and the sorted-out bin. Reuses the listing card.
+   Möbelverkauf — js/views/dashboard.js
+   Views.dashboard ("Übersicht"): die wichtigsten Zahlen auf einen
+   Blick — eingenommen, erwartet, Fortschritt, Aufteilung nach Status,
+   Person und Kategorie.
    ============================================================ */
 (function () {
   'use strict';
 
   var Views = window.Views = window.Views || {};
 
-  // Open the listings tab showing exactly the set a dashboard tile counted.
-  // The tile counts are computed over the whole active set, so we clear the
-  // per-device advanced filters (price/area/rooms/ort/photo/zu-bewerten/query)
-  // first — otherwise a left-over filter would make the destination list show
-  // fewer items than the number on the tile.
-  function openList(patch) {
-    ListFilter.setState(Object.assign({
-      query: '', priceMin: null, priceMax: null, areaMin: null, areaMax: null,
-      roomsMin: null, roomsMax: null, ort: '', withImage: false, unratedOnly: false
-    }, patch));
-    App.switchTab('listings');
+  function openItems(scope) {
+    if (Views.items && Views.items.setScope) Views.items.setScope(scope);
+    App.switchTab('items');
   }
 
-  function statTile(value, label, tone, onClick) {
-    var t = App.el('div', 'stat' + (onClick ? ' tappable' : ''));
-    var v = App.el('div', 'stat-value' + (tone ? ' ' + tone : ''), value);
-    t.appendChild(v);
+  function statTile(value, label, tone, scope) {
+    var t = App.el('div', 'stat' + (scope ? ' tappable' : ''));
+    t.appendChild(App.el('div', 'stat-value' + (tone ? ' ' + tone : ''), value));
     t.appendChild(App.el('div', 'stat-label', label));
-    if (onClick) {
+    if (scope) {
       t.setAttribute('role', 'button');
-      t.addEventListener('click', onClick);
+      t.addEventListener('click', function () { openItems(scope); });
     }
     return t;
-  }
-
-  // Top bar: when the list was last refreshed + a prominent-but-subtle button
-  // to start a fresh search (via the Cloudflare trigger; falls back to the
-  // GitHub Actions page when no trigger proxy is configured).
-  function buildUpdateBar() {
-    var meta = Feed.getMeta();
-    var bar = App.el('div', 'dash-updatebar');
-
-    var info = App.el('div', 'dash-updated');
-    info.appendChild(App.icon('refresh', 14));
-    info.appendChild(App.el('span', null,
-      meta.generated_at ? 'Aktualisiert ' + App.fmtRelTime(meta.generated_at) : 'Noch nicht aktualisiert'));
-    bar.appendChild(info);
-
-    var btn = App.makeSearchTriggerButton({
-      className: 'btn btn-primary btn-small dash-update-btn',
-      label: 'Aktualisieren',
-      iconSize: 14
-    });
-    if (!btn) {
-      var repo = (window.WS_CONFIG && WS_CONFIG.issueRepo) || '';
-      if (repo) {
-        btn = App.el('a', 'btn btn-primary btn-small dash-update-btn');
-        btn.href = 'https://github.com/' + repo + '/actions/workflows/daily-search.yml';
-        btn.target = '_blank';
-        btn.rel = 'noopener noreferrer';
-        btn.appendChild(App.el('span', null, 'Aktualisieren'));
-        btn.appendChild(App.icon('external', 14));
-      }
-    }
-    if (btn) bar.appendChild(btn);
-    return bar;
   }
 
   function render(container) {
     container.innerHTML = '';
     var view = App.el('div', 'view');
 
-    view.appendChild(buildUpdateBar());
+    var items = Store.getItems();
 
-    var listings = Feed.getListings();
-    var ratings = Store.getAllRatings();
-    var newIds = Views.listings.newIdSet();
-
-    function bothBad(l) { var r = ratings[l.id] || {}; return r.p1 === 'schlecht' && r.p2 === 'schlecht'; }
-    function bothGood(l) { var r = ratings[l.id] || {}; return r.p1 === 'gut' && r.p2 === 'gut'; }
-    var active = listings.filter(function (l) { var r = ratings[l.id] || {}; return !bothBad(l) && !r.hidden; });
-
-    if (!listings.length) {
-      view.appendChild(Views.listings.emptyState(
-        'building',
-        'Noch keine Wohnungen',
-        'Die Suche läuft automatisch mehrmals täglich. Sobald passende Inserate gefunden werden, erscheinen sie hier.'
-      ));
+    if (!items.length) {
+      view.appendChild(Views.items.emptyState('box', 'Willkommen beim Möbelverkauf',
+        'Hier seht ihr später, was rein- und rauskommt. Legt mit „+" das erste Objekt an, das ihr verkaufen wollt.'));
+      var add = App.el('button', 'btn btn-primary');
+      add.type = 'button';
+      add.textContent = 'Erstes Objekt hinzufügen';
+      add.style.maxWidth = '320px';
+      add.style.margin = '4px auto 0';
+      add.addEventListener('click', function () { Views.items.openEditor(null); });
+      view.appendChild(add);
       container.appendChild(view);
       return;
     }
 
-    // key numbers
-    var newCount = App.newCount();
-    // Favoriten = starred and not both-rejected (hidden ones still count, matching
-    // the Favoriten tab and the 'favoriten' listing scope).
-    var favCount = listings.filter(function (l) { return (ratings[l.id] || {}).favorite && !bothBad(l); }).length;
-    var toRate = active.filter(function (l) { var r = ratings[l.id] || {}; return !(r.p1 && r.p2); }).length;
+    var s = Sales.summary(items);
 
-    var stats = App.el('div', 'stat-grid');
-    stats.appendChild(statTile(String(active.length), 'Wohnungen', null, function () {
-      openList({ scope: 'alle' });
-    }));
-    stats.appendChild(statTile(String(newCount), 'Neu', newCount > 0 ? 'pos' : null, function () {
-      openList({ scope: 'neu' });
-    }));
-    stats.appendChild(statTile(String(favCount), 'Favoriten', null, function () { App.switchTab('favorites'); }));
-    stats.appendChild(statTile(String(toRate), 'Zu bewerten', null, function () {
-      openList({ scope: 'alle', unratedOnly: true });
-    }));
-    view.appendChild(stats);
+    /* ---- Hero: eingenommen ---- */
+    var hero = App.el('div', 'card hero-card');
+    hero.appendChild(App.el('div', 'card-title', 'Bisher eingenommen'));
+    hero.appendChild(App.el('div', 'hero-amount', App.fmtEUR(s.earned)));
+    var heroSub = s.soldCount + (s.soldCount === 1 ? ' verkauftes Objekt' : ' verkaufte Objekte');
+    if (s.expected > 0) heroSub += ' · noch ' + App.fmtEUR(s.expected) + ' erwartet';
+    hero.appendChild(App.el('div', 'hero-sub', heroSub));
 
-    // top matches by score
-    var top = active.slice().sort(function (a, b) { return Score.score(b).total - Score.score(a).total; }).slice(0, 4);
-    if (top.length) {
-      view.appendChild(App.el('div', 'section-title', 'Eure Top-Treffer'));
-      top.forEach(function (l) { view.appendChild(Views.listings.card(l, newIds)); });
+    // Fortschritt: eingenommen vom Gesamtpotenzial
+    if (s.potential > 0) {
+      var prog = App.el('div', 'progress');
+      var fill = App.el('div', 'progress-fill');
+      fill.style.width = Math.max(2, Math.round(s.earned / s.potential * 100)) + '%';
+      prog.appendChild(fill);
+      hero.appendChild(prog);
+      var legend = App.el('div', 'hero-progress-legend');
+      legend.appendChild(App.el('span', null, App.fmtEUR(s.earned) + ' von ~' + App.fmtEUR(s.potential)));
+      legend.appendChild(App.el('span', null, Math.round(s.earned / s.potential * 100) + ' %'));
+      hero.appendChild(legend);
+    }
+    view.appendChild(hero);
+
+    /* ---- Kennzahlen ---- */
+    var grid = App.el('div', 'stat-grid');
+    grid.appendChild(statTile(String(s.openCount), 'Zu verkaufen', null, 'offen'));
+    grid.appendChild(statTile(String(s.reservedCount), 'Reserviert', s.reservedCount ? 'saving' : null, 'reserviert'));
+    grid.appendChild(statTile(String(s.soldCount), 'Verkauft', s.soldCount ? 'pos' : null, 'verkauft'));
+    grid.appendChild(statTile(String(s.total), 'Gesamt', null, 'alle'));
+    view.appendChild(grid);
+
+    /* ---- Erwartete Einnahmen ---- */
+    if (s.expected > 0) {
+      var expCard = App.el('div', 'card');
+      expCard.appendChild(App.el('div', 'card-title', 'Noch erwartet'));
+      var er = App.el('div', 'kv-row');
+      er.appendChild(App.el('span', null, 'Offen (Wunschpreise)'));
+      er.appendChild(App.el('span', 'kv-value', App.fmtEUR(s.openValue)));
+      expCard.appendChild(er);
+      if (s.reservedValue > 0) {
+        var rr = App.el('div', 'kv-row');
+        rr.appendChild(App.el('span', null, 'Reserviert'));
+        rr.appendChild(App.el('span', 'kv-value', App.fmtEUR(s.reservedValue)));
+        expCard.appendChild(rr);
+      }
+      if (s.withoutPrice > 0) {
+        expCard.appendChild(App.el('div', 'card-hint',
+          s.withoutPrice + (s.withoutPrice === 1 ? ' offenes Objekt hat' : ' offene Objekte haben') + ' noch keinen Wunschpreis.'));
+      }
+      view.appendChild(expCard);
     }
 
-    // both like it — same set as the Favoriten tab's "Beide mögen sie" section
-    // (both rated "Gut", not already a starred favourite), so the count here and
-    // the section it links to always agree.
-    var both = active.filter(function (l) { return bothGood(l) && !(ratings[l.id] || {}).favorite; });
-    if (both.length) {
-      var bg = App.el('div', 'card tappable');
-      var bgHead = App.el('div', 'dash-row');
-      var bgLeft = App.el('div', 'dash-row-main');
-      bgLeft.appendChild(App.el('div', 'dash-row-title', 'Beide mögen sie'));
-      bgLeft.appendChild(App.el('div', 'dash-row-sub', both.length + (both.length === 1 ? ' Wohnung – eure engere Auswahl' : ' Wohnungen – eure engere Auswahl')));
-      bgHead.appendChild(bgLeft);
-      var chev = App.icon('chevron', 20); chev.style.color = 'var(--text-3)';
-      bgHead.appendChild(chev);
-      bg.appendChild(bgHead);
-      bg.addEventListener('click', function () { App.switchTab('favorites'); });
-      view.appendChild(bg);
-    }
+    /* ---- Status-Aufteilung ---- */
+    var statusCard = App.el('div', 'card');
+    statusCard.appendChild(App.el('div', 'card-title', 'Status'));
+    var anyStatus = false;
+    Catalog.statuses.forEach(function (st) {
+      var count = s.counts[st.key] || 0;
+      if (!count) return;
+      anyStatus = true;
+      var row = App.el('div', 'kv-row');
+      var left = App.el('span', 'status-kv-left');
+      var dot = App.el('span', 'status-dot ' + st.cls);
+      left.appendChild(dot);
+      left.appendChild(App.el('span', null, st.label));
+      row.appendChild(left);
+      row.appendChild(App.el('span', 'kv-value', String(count)));
+      statusCard.appendChild(row);
+    });
+    if (anyStatus) view.appendChild(statusCard);
 
-    // status overview
-    var STATUS = [['angefragt', 'Angefragt'], ['besichtigung', 'Besichtigung'], ['zusage', 'Zusage'], ['absage', 'Absage']];
-    var counts = {};
-    active.forEach(function (l) { var s = (ratings[l.id] || {}).status; if (s) counts[s] = (counts[s] || 0) + 1; });
-    if (STATUS.some(function (o) { return counts[o[0]]; })) {
-      var sc = App.el('div', 'card');
-      sc.appendChild(App.el('div', 'card-title', 'Status der Inserate'));
-      STATUS.forEach(function (o) {
-        if (!counts[o[0]]) return;
+    /* ---- Aufteilung nach Person ---- */
+    var per = Sales.byPerson(items);
+    var members = Store.getSettings().members;
+    var personRows = [];
+    [['p1', members[0]], ['p2', members[1]], ['beide', { name: 'Beide' }]].forEach(function (pair) {
+      var key = pair[0], m = pair[1];
+      var d = per[key];
+      if (!d || d.total === 0) return;
+      personRows.push({ key: key, name: m ? m.name : key, data: d, color: (key === 'beide') ? 'var(--gray)' : Store.memberColor(key) });
+    });
+    if (personRows.length) {
+      var pc = App.el('div', 'card');
+      pc.appendChild(App.el('div', 'card-title', 'Wer kümmert sich'));
+      personRows.forEach(function (p) {
         var row = App.el('div', 'kv-row');
-        var left = App.el('span', null);
-        var dot = App.el('span', 'dot'); dot.style.cssText = 'display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;vertical-align:middle;';
-        dot.classList.add('status-' + o[0]);
-        left.appendChild(dot); left.appendChild(document.createTextNode(o[1]));
+        var left = App.el('span', 'status-kv-left');
+        var dot = App.el('span', 'person-dot'); dot.style.background = p.color;
+        left.appendChild(dot);
+        left.appendChild(App.el('span', null, p.name));
         row.appendChild(left);
-        row.appendChild(App.el('span', 'kv-value', String(counts[o[0]])));
-        sc.appendChild(row);
+        var val = p.data.sold ? (App.fmtEUR(p.data.earned) + ' · ' + p.data.total + ' Obj.') : (p.data.total + ' Obj.');
+        row.appendChild(App.el('span', 'kv-value', val));
+        pc.appendChild(row);
       });
-      view.appendChild(sc);
+      view.appendChild(pc);
     }
 
-    // sorted-out bin
-    var sortedOut = listings.filter(bothBad).length;
-    if (sortedOut) {
-      var so = App.el('button', 'link-row');
-      so.type = 'button';
-      so.textContent = sortedOut + (sortedOut === 1 ? ' aussortierte Wohnung ansehen' : ' aussortierte Wohnungen ansehen');
-      so.addEventListener('click', function () { openList({ scope: 'aussortiert' }); });
-      view.appendChild(so);
+    /* ---- Nach Kategorie ---- */
+    var cats = Sales.byCategory(items);
+    if (cats.length) {
+      var cc = App.el('div', 'card');
+      cc.appendChild(App.el('div', 'card-title', 'Nach Kategorie'));
+      cats.sort(function (a, b) { return b.count - a.count; });
+      cats.forEach(function (cat) {
+        var row = App.el('div', 'kv-row');
+        var left = App.el('span', 'status-kv-left');
+        left.appendChild(App.el('span', 'cat-emoji', cat.emoji));
+        left.appendChild(App.el('span', null, cat.label));
+        row.appendChild(left);
+        var label = cat.count + (cat.count === 1 ? ' Obj.' : ' Obj.');
+        if (cat.earned > 0) label = App.fmtEUR(cat.earned) + ' · ' + label;
+        row.appendChild(App.el('span', 'kv-value', label));
+        cc.appendChild(row);
+      });
+      view.appendChild(cc);
     }
 
     container.appendChild(view);

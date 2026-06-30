@@ -1,7 +1,7 @@
 {
-  "name": "Wohnungssuche",
-  "short_name": "Wohnungen",
-  "description": "Neue Mietwohnungen rund um Barsinghausen – gemeinsam bewerten.",
+  "name": "Möbelverkauf",
+  "short_name": "Verkauf",
+  "description": "Was wir beim Umzug verkaufen – Wunschpreis und tatsächlicher Erlös, gemeinsam im Blick.",
   "lang": "de",
   "start_url": ".",
   "scope": ".",

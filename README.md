@@ -1,174 +1,108 @@
-# Wohnungssuche Hannover - Barsinghausen
+# Möbelverkauf
 
-Diese Automation sucht viermal taeglich nach neuen Mietwohnungen in
-Barsinghausen, den Barsinghaeuser Ortsteilen und im nahen Suchgebiet Richtung
-Gehrden, Wennigsen, Ronnenberg/Empelde und Seelze/Letter. Bereits gemeldete
-Wohnungen werden in `data/seen_listings.json` gespeichert und beim naechsten
-Lauf nicht erneut ausgegeben.
+Eine kleine, private Smartphone-App (PWA) für unseren Umzug: Wir tragen ein,
+**was verkauft werden soll**, zu welchem **Wunschpreis**, und was am Ende
+**tatsächlich dabei rumgekommen ist**. Beide Handys sehen denselben Stand –
+in Echtzeit synchronisiert.
 
-## Smartphone-App (PWA)
+Diese App ist aus der früheren „Wohnungssuche" entstanden: Firebase-Projekt,
+PWA-Setup und das iOS-Design wurden übernommen, der Inhalt komplett auf
+„Verkaufen" umgebaut. Der frühere Wohnungs-Scraper (Python + GitHub Actions)
+wurde entfernt – diese App braucht keinen Server, nur Firebase.
 
-Im Ordner [`docs/`](docs/) liegt eine installierbare Smartphone-App im
-iOS-Design, mit der ihr die gefundenen Wohnungen durchseht, gemeinsam bewertet
-(Gut / Vielleicht / Schlecht pro Person), favorisiert und mit Notizen verseht.
+## Funktionen
 
-- **Datenquelle:** Der Suchlauf schreibt zusaetzlich `docs/data/listings.json`;
-  die App liest diese Datei. Keine kostenpflichtigen APIs.
-- **Geteilter Stand:** Beide oeffnen dieselbe Adresse und sehen dieselbe Liste.
-  Bewertungen/Notizen/Favoriten werden in Echtzeit ueber ein kostenloses
-  Firebase-Projekt synchronisiert.
-- **Aktivieren:** Repository → *Settings → Pages* → *Deploy from a branch* →
-  Branch `main`, Ordner `/docs`. Danach erreichbar unter
-  `https://stewalpp.github.io/Wohnungssuche/` (auf dem iPhone „Zum
-  Home-Bildschirm“ hinzufuegen).
-- Details, Architektur und Sicherheitshinweis: **[`docs/README.md`](docs/README.md)**.
+- **Objekte erfassen:** Name, Kategorie (Möbel, Küche, Elektronik …), Foto,
+  Wunschpreis, Notiz, „wer kümmert sich".
+- **Status-Ablauf:** Zu verkaufen → reserviert → verkauft → verschenkt /
+  entsorgt / behalten.
+- **Tatsächlicher Erlös:** Beim Verkauf den erzielten Preis eintragen.
+- **Übersicht:** bisher eingenommen, noch erwartet, Fortschritt, Aufteilung
+  nach Status, Person und Kategorie.
+- **Bilanz „Verkauft":** Gesamterlös, Vergleich zum Wunschpreis, Erlös pro
+  Person und die Liste aller Verkäufe; Zusammenfassung zum Kopieren.
+- **Foto vom Handy:** wird im Browser komprimiert und gratis in Firestore
+  gespeichert (kein zusätzliches Setup, kein Storage-Bucket nötig).
+- **Gemeinsam in Echtzeit:** beide Geräte teilen sich automatisch denselben
+  Stand. Sync kann pro Gerät abgeschaltet werden.
+- **Offline-fähig:** Daten bleiben lokal verfügbar, Änderungen syncen, sobald
+  wieder Verbindung besteht.
 
-## Kriterien
+## Aufbau
 
-- mindestens 3 Zimmer
-- mindestens 70 qm
-- maximal 1.000 EUR Gesamtmiete, soweit aus dem Inserat erkennbar
-- Erdgeschoss, Parterre oder Hochparterre bevorzugt
-- gute Verbindung Richtung Hannover
-- Hannover-Stadt ausgeschlossen
-- kein Altbau und keine offensichtlichen Energie-/Kosten-Red-Flags
+Reine statische PWA im Ordner [`docs/`](docs/) – HTML, CSS und klassisches
+JavaScript, keine Build-Tools, keine externen Abhängigkeiten außer dem
+Firebase-Web-SDK (lazy vom CDN geladen).
 
-Nebenkosten, Heizkosten und Energieausweis stehen auf Suchseiten oft nicht
-vollstaendig. Die Automation markiert solche Treffer deshalb mit
-`Bitte pruefen`, damit sie nicht faelschlich ausgeschlossen werden.
-Wohnungen, die bei Preis, Groesse, Zimmerzahl und Lage passen, aber nicht im
-Erdgeschoss/Parterre liegen, erscheinen getrennt als `Pruefkandidaten`.
-Barsinghausen, Egestorf, Wennigsen, Wennigser Mark und Kirchdorf bekommen
-eine hoehere Prioritaet und werden in der Uebersicht weiter oben einsortiert.
-Weiter entfernte Orte bleiben sichtbar, aber mit niedrigerer Prioritaet.
+```
+docs/
+  index.html            App-Shell (Header, Tab-Leiste, Roots)
+  manifest.json         PWA-Manifest
+  sw.js                 Service Worker (App-Shell-Cache)
+  css/style.css         iOS-Design-System
+  js/
+    config.js           Firebase-Config + household-Schlüssel
+    core.js             Helfer: Format, Icons, Sheet, Toast, Confirm, Theme
+    catalog.js          Stammdaten: Kategorien, Status, Plattformen
+    stats.js            Rechen-Helfer für Übersicht & Bilanz
+    store.js            Offline-first Speicher + Firestore-Sync (Objekte)
+    views/
+      dashboard.js      „Übersicht"
+      items.js          „Objekte" (Liste + Anlegen/Bearbeiten)
+      sold.js           „Verkauft" (Bilanz)
+      settings.js       „Mehr" (Sync, Namen, Darstellung, Export)
+    app.js              Boot: Tabs, „+"-Button, Onboarding, SW
+```
 
-## Einrichtung
+### Datenablage (Firestore)
 
-1. In `config/search.yml` die Suchquellen pruefen und bei Bedarf eigene
-   gespeicherte Such-URLs der Portale ergaenzen.
-2. Optional: Das GitHub-Repository beobachten, damit neue Issue-Kommentare
-   als Benachrichtigung ankommen.
-3. Die GitHub Action unter `.github/workflows/daily-search.yml` laeuft
-   taeglich um 05:30, 10:30, 16:30 und 18:30 UTC. Das entspricht aktuell
-   07:30, 12:30, 18:30 und 20:30 Uhr deutscher Sommerzeit. Sie kann
-   zusaetzlich manuell ueber `workflow_dispatch` gestartet werden. Wenn
-   Suchcode oder `config/search.yml` geaendert werden, startet sie ebenfalls
-   automatisch nach dem Push. Reine Report-/State-Updates loesen keinen neuen
-   Suchlauf aus.
+Gleiches Firebase-Projekt **und** derselbe Haushalt wie früher – das ist
+Absicht: Die bestehenden Firestore-Regeln geben nur den Pfad
+`households/stewalpp-gishaa/**` frei. Die Verkaufsobjekte liegen aber in einer
+eigenen Unter-Sammlung `items`, getrennt von den alten Wohnungs-Bewertungen
+unter `ratings`:
+
+```
+households/stewalpp-gishaa/items/{itemId}    # ein Verkaufsobjekt (NEU)
+households/stewalpp-gishaa/meta/settings      # Namen (geteilt)
+households/stewalpp-gishaa/ratings/…          # alte Wohnungsdaten (unberührt)
+```
+
+**Soft-Delete:** Die Regeln erlauben Anlegen/Ändern/Lesen, aber kein echtes
+Löschen. Beim Löschen setzt die App das Objekt deshalb auf `deleted: true`
+(ein Update) und blendet es überall aus. So braucht es keine Änderung an den
+Firestore-Regeln. Wer gelöschte Objekte später wirklich aus der Datenbank
+entfernen will, kann optional eine Lösch-Regel ergänzen – nötig ist das nicht.
+
+## Installieren
+
+Repository → **Settings → Pages** → *Deploy from a branch* → Branch `main`,
+Ordner `/docs`. Danach erreichbar unter
+`https://stewalpp.github.io/Wohnungssuche/` (auf dem iPhone in Safari öffnen →
+Teilen → „Zum Home-Bildschirm").
+
+> Hinweis: Der Repo-Name ist noch `Wohnungssuche`; die App heißt aber
+> „Möbelverkauf". Wer eine schönere Adresse möchte, kann das Repository in den
+> GitHub-Einstellungen umbenennen – dann ändert sich auch die Pages-Adresse und
+> das Icon muss neu zum Home-Bildschirm hinzugefügt werden.
 
 ## Lokal testen
 
+Einfach einen kleinen Static-Server im `docs/`-Ordner starten, z. B.:
+
 ```bash
-python -m venv .venv
-. .venv/Scripts/activate  # Windows PowerShell: .venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-python -m wohnungssuche.search --config config/search.yml --state data/seen_listings.json --report reports/latest.md
+cd docs
+python -m http.server 8080
+# dann http://localhost:8080 öffnen
 ```
 
-Der Report wird nur dann in `reports/latest.md` und `reports/archive/`
-geschrieben, wenn neue passende Inserate oder neue Pruefkandidaten gefunden
-wurden. Die aktuelle Ausgabe steht immer im Terminal und in GitHub Actions im
-Step Summary. Neue Treffer werden ausserdem in `reports/history.md` als
-laufender Verlauf gespeichert.
+(Service Worker und Firebase brauchen `http(s)://`, per `file://` läuft die App
+auch, aber ohne Service-Worker-Cache.)
 
-## Woechentlicher Verfuegbarkeitscheck
+## Sicherheit / Datenschutz
 
-Ein zweiter Workflow unter `.github/workflows/weekly-availability.yml`
-prueft einmal pro Woche, ob bereits gemeldete Inserate noch in den aktuellen
-Suchergebnissen auftauchen. Nicht mehr gefundene Inserate werden in
-`data/seen_listings.json` als `unavailable` markiert und in
-`reports/availability.md` zusammengefasst. Wenn sich ein Status relevant
-aendert, kommentiert die Automation im Issue `Neue Wohnungsangebote`. Der
-Check laeuft sonntags um 19:00 UTC, also aktuell 21:00 Uhr deutscher
-Sommerzeit.
-
-## Quellen anpassen
-
-Die Datei `config/search.yml` enthaelt Startquellen fuer Immowelt,
-ImmoScout24, Kleinanzeigen, immobilo und Wohnungsboerse. Am besten
-funktionieren gespeicherte Suchseiten, auf denen die Portalfilter schon
-gesetzt sind:
-
-- Miete bis 1.000 EUR
-- mindestens 3 Zimmer
-- mindestens 70 qm
-- Ort oder Suchradius in Barsinghausen und den Ortsteilen wie Bantorf,
-  Egestorf, Grossgoltern, Gross Munzel, Kirchdorf, Langreder und
-  Winninghausen, plus angrenzende Orte wie Gehrden, Wennigsen,
-  Ronnenberg/Empelde und Seelze/Letter
-
-Wichtig bei manuellen Suchlaeufen in GitHub Actions: `Run workflow` startet
-immer den aktuellen Stand von `main`. `Re-run jobs` startet dagegen den alten
-Code des bereits vorhandenen Laufs erneut und kann deshalb alte Uhrzeiten oder
-alte Suchquellen anzeigen.
-
-Wenn ein Portal RSS anbietet, setze `type: rss`. Fuer normale Suchseiten
-nutze `type: html`. Bereits gezeigte Inserate koennen durch Loeschen des
-jeweiligen Eintrags in `data/seen_listings.json` erneut angezeigt werden.
-Bei moeglichen Treffern laedt die Automation nach der Suchseite auch die
-Detailseite des Inserats nach. Dadurch werden Preis, Groesse, Etage und Ort
-haeufig genauer erkannt als nur aus der Kachelansicht.
-
-Aktiv durchsucht werden aktuell Immowelt, Kleinanzeigen, immobilo und
-Wohnungsboerse. ImmoScout24 ist vorbereitet, aber deaktiviert, weil direkte
-Abrufe dort zurzeit mit `401 Unauthorized` blockiert werden und sonst nur
-Fehlermeldungen erzeugen wuerden.
-
-## Benachrichtigung
-
-Die GitHub Action erstellt oder aktualisiert automatisch ein Issue mit dem
-Titel `Neue Wohnungsangebote`, wenn neue passende Treffer gefunden werden.
-Der Issue-Text ganz oben wird bei jedem Lauf aktualisiert, damit der neueste
-Suchlauf ohne Scrollen sichtbar ist. Im Issue gibt es ausserdem einen festen
-Kommentar `Letzter Suchlauf`, der bei jedem Lauf aktualisiert wird. So ist
-sichtbar, dass die Suche gelaufen ist, auch wenn es keine neuen Treffer gab.
-Neue Treffer-Kommentare erwaehnen `@stewalpp` und `@gishaa-create`, damit
-GitHub Mobile direkte Benachrichtigungen ausloesen kann. Jeder Treffer wird
-nur einmal kommentiert, weil seine ID im Seen-State gespeichert wird.
-
-GitHub verschickt fuer bearbeitete Issue-Texte oder aktualisierte Kommentare
-nicht immer eine Push-Benachrichtigung. Eine sichere Push-Benachrichtigung
-ohne neue Issue-Kommentare braucht deshalb E-Mail, SMS oder einen externen
-Push-Dienst.
-
-Jedes Inserat enthaelt ausserdem einen aufklappbaren Bereich
-`Bewertung anklicken`. Dort gibt es eine blaue Zeile fuer `stewalpp` und
-eine gruene Zeile fuer `gishaa-create`. Pro Person sollte genau ein Feld
-markiert werden: `Gut`, `Vielleicht` oder `Schlecht`. Zum Aendern einfach
-die alte Auswahl wieder abwaehlen.
-
-Neue Treffer sind in den Ueberschriften farbig markiert: Gruen `NEU` bedeutet
-passendes neues Inserat, Gelb `PRUEFEN` bedeutet neuer Pruefkandidat mit
-unklarer oder wahrscheinlich nicht passender Etage.
-Direkt unter der Ueberschrift steht eine `Schnelluebersicht` mit Prioritaet,
-Score, Ort, Preis, Groesse, Etage und Link. Die neuesten Suchlaeufe werden im
-Issue oben angezeigt, damit auf dem iPhone kein Scrollen bis ans Ende noetig
-ist.
-
-Optional kann der Suchlauf neue Treffer zusaetzlich per E-Mail oder SMS
-verschicken. Die Werte werden nicht im Code gespeichert, sondern als GitHub
-Actions Secrets hinterlegt.
-
-### E-Mail per SMTP
-
-Folgende Secrets aktivieren den E-Mail-Versand:
-
-- `NOTIFY_EMAIL_TO`: Empfaengeradresse
-- `SMTP_HOST`: SMTP-Server, zum Beispiel `smtp.gmail.com`
-- `SMTP_PORT`: SMTP-Port, meistens `587`
-- `SMTP_USERNAME`: SMTP-Benutzername
-- `SMTP_PASSWORD`: SMTP-Passwort oder App-Passwort
-- `SMTP_FROM`: Absenderadresse, optional
-- `SMTP_STARTTLS`: `true` oder `false`, optional; Standard ist `true`
-
-### SMS per Twilio
-
-Folgende Secrets aktivieren den SMS-Versand:
-
-- `SMS_TO_NUMBER`: Zielnummer im E.164-Format, zum Beispiel `+49157...`
-- `TWILIO_ACCOUNT_SID`: Twilio Account SID
-- `TWILIO_AUTH_TOKEN`: Twilio Auth Token
-- `TWILIO_FROM_NUMBER`: Twilio-Absendernummer im E.164-Format
-
-SMS enthalten nur eine kurze Zusammenfassung plus Link zum GitHub-Issue.
-E-Mails enthalten den vollstaendigen Suchreport.
+Die Firebase-Web-Config in `docs/js/config.js` ist kein Geheimnis – jeder
+Web-Client bekommt sie. Der Zugriff ist über die Firestore-Regel
+(`allow read, write: if request.auth != null;`) plus anonyme Anmeldung
+abgesichert. Für diese private Zwei-Personen-App sind die Daten (eure
+Verkaufsliste) unkritisch.

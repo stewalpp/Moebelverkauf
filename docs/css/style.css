@@ -3927,3 +3927,185 @@ body {
   color: var(--text-2);
   letter-spacing: 0.02em;
 }
+
+/* ==========================================================================
+   27. Möbelverkauf — Objekt-Liste, Status-Pills, Editor, Foto
+   ========================================================================== */
+
+.is-hidden { display: none !important; }
+
+/* Objekt-Liste */
+.item-list { margin-top: 2px; }
+
+.item-row .cat-icon {
+  width: 46px;
+  height: 46px;
+  font-size: 22px;
+}
+
+.item-thumb {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--bg-input);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.item-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.item-price {
+  font-size: 16px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.item-price-muted {
+  font-size: 14px;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+
+.row-diff {
+  font-size: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.row-diff.pos { color: var(--green); }
+.row-diff.neg { color: var(--red); }
+
+/* Status-Farben (Pills, Dots, Chips, Editor) */
+.s-offen      { --s-color: var(--gray); }
+.s-reserviert { --s-color: var(--orange); }
+.s-verkauft   { --s-color: var(--green); }
+.s-verschenkt { --s-color: var(--teal); }
+.s-entsorgt   { --s-color: var(--red); }
+.s-behalten   { --s-color: var(--purple); }
+
+.status-pill {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 100px;
+  white-space: nowrap;
+  color: var(--s-color, var(--gray));
+  background: color-mix(in srgb, var(--s-color, var(--gray)) 16%, transparent);
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--s-color, var(--gray));
+}
+
+.status-kv-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.status-kv-left > span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cat-emoji {
+  font-size: 18px;
+  line-height: 1;
+  width: 22px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* Status-Chips im Editor: aktiver Chip in Statusfarbe */
+.status-chip-opt.active {
+  background: var(--s-color, var(--tint));
+  color: #fff;
+}
+
+/* Statuszeile darf umbrechen statt scrollen */
+.chip-row-wrap {
+  flex-wrap: wrap;
+  overflow: visible;
+}
+
+/* Hero: Fortschritts-Legende */
+.hero-progress-legend {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 7px;
+  font-size: 12px;
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Editor */
+.editor .form-row > * { min-width: 0; }
+
+.photo-edit {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 14px;
+  background: var(--bg-input);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 1.5px dashed var(--sep);
+}
+
+.photo-edit-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.photo-edit-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-2);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.photo-edit-remove {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.photo-edit-remove:active { opacity: 0.7; }
+
+/* cat-icon Emoji optisch zentrieren */
+.cat-icon > span { line-height: 1; }

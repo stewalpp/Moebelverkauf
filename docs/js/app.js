@@ -1,8 +1,7 @@
 /* ============================================================
-   Wohnungssuche — js/app.js
-   Boot file, loaded last. Tab switching, header refresh action,
-   "new since last visit" tracking, auto-refresh, onboarding,
-   service-worker registration.
+   Möbelverkauf — js/app.js
+   Boot-Datei, zuletzt geladen. Tab-Wechsel, „+"-Aktion zum Anlegen,
+   einmaliges Onboarding (Namen), Service-Worker-Registrierung.
    ============================================================ */
 (function () {
   'use strict';
@@ -10,10 +9,9 @@
   var App = window.App = window.App || {};
 
   App.currentTab = 'dashboard';
-  App.lastSeen = null;   // high-water mark: newest first_seen the user acknowledged
 
-  var REFRESH_MS = 5 * 60 * 1000;
-  var refreshTimer = null;
+  // Tabs, auf denen der „+"-Button (FAB) sichtbar ist.
+  var FAB_TABS = { dashboard: 1, items: 1, sold: 1 };
 
   /* ---------------- tab switching ---------------- */
 
@@ -33,7 +31,7 @@
     var title = document.getElementById('page-title');
     if (title) title.textContent = view.title || '';
 
-    renderHeaderAction(view);
+    updateFab();
 
     var root = document.getElementById('view-root');
     if (root) view.render(root);
@@ -45,171 +43,38 @@
     if (!view || typeof view.render !== 'function') return;
     var root = document.getElementById('view-root');
     if (!root) return;
-    // Prefer a lightweight in-place update over a full teardown. A full
-    // view.render() rebuilds the search <input> from scratch, so a Firestore
-    // snapshot (e.g. the partner rating a flat) or an auto-refresh arriving
-    // while one of us is typing would steal focus and drop keystrokes. A view
-    // that exposes update() refreshes only its dynamic parts and returns true;
-    // otherwise we fall back to a full render.
-    if (typeof view.update === 'function' && view.update() === true) {
-      updateTabBadge();
-      return;
-    }
+    // Wenn die Ansicht eine update()-Funktion hat (z. B. die Objekte-Liste),
+    // nur den dynamischen Teil aktualisieren, damit ein Sync-Update während
+    // des Tippens nicht den Fokus aus dem Suchfeld klaut.
+    if (typeof view.update === 'function' && view.update() === true) return;
     view.render(root);
-    updateTabBadge();
   };
 
-  function renderHeaderAction(view) {
-    var actions = document.getElementById('header-actions');
-    if (!actions) return;
-    actions.innerHTML = '';
-    if (App.currentTab === 'dashboard' || App.currentTab === 'listings' || App.currentTab === 'favorites') {
-      var btn = App.el('button', 'icon-btn');
-      btn.type = 'button';
-      btn.setAttribute('aria-label', 'Wohnungsliste aktualisieren');
-      btn.title = 'Wohnungsliste aktualisieren';
-      btn.appendChild(App.icon('refresh', 20));
-      btn.addEventListener('click', function () {
-        btn.disabled = true;
-        btn.setAttribute('aria-busy', 'true');
-        btn.classList.add('spinning');
-        Feed.refresh().then(function (res) {
-          btn.classList.remove('spinning');
-          btn.disabled = false;
-          btn.removeAttribute('aria-busy');
-          App.rerender();
-          App.toast(refreshToastText(res));
-        });
-      });
-      actions.appendChild(btn);
-    }
-  }
+  /* ---------------- FAB (neues Objekt) ---------------- */
 
-  function refreshToastText(res) {
-    if (!res || !res.ok) return 'Keine Verbindung – gespeicherte Liste bleibt sichtbar';
-    if (res.changed) return 'Neue Daten geladen';
-    var meta = Feed.getMeta();
-    var stamp = meta.generated_at ? App.fmtDateTime(meta.generated_at) : (meta.lastFetched ? App.fmtDateTime(meta.lastFetched) : '');
-    return stamp ? 'Liste geprüft · Stand ' + stamp : 'Liste geprüft';
-  }
-
-  App.refreshToastText = refreshToastText;
-
-  App.refreshFeedNow = function () {
-    return Feed.refresh().then(function (res) {
-      App.rerender();
-      App.toast(refreshToastText(res));
-      return res;
+  var fab = null;
+  function ensureFab() {
+    if (fab) return fab;
+    fab = App.el('button', 'fab');
+    fab.type = 'button';
+    fab.setAttribute('aria-label', 'Neues Objekt hinzufügen');
+    fab.appendChild(App.icon('plus', 26));
+    fab.addEventListener('click', function () {
+      if (window.Views && Views.items && Views.items.openEditor) Views.items.openEditor(null);
     });
-  };
-
-  // Reusable "start a fresh search" button driven by the Cloudflare trigger
-  // proxy (WS_CONFIG.trigger). Returns a wired <button>, or null when no proxy
-  // URL is configured (callers then fall back to the GitHub Actions link). This
-  // starts a brand-new scrape on GitHub — distinct from the header's feed
-  // refresh, which only re-fetches the already-published list.
-  App.makeSearchTriggerButton = function (opts) {
-    opts = opts || {};
-    var cfg = (window.WS_CONFIG && WS_CONFIG.trigger) || {};
-    if (!cfg.url) return null;
-    var btn = App.el('button', opts.className || 'btn btn-primary');
-    btn.type = 'button';
-    btn.appendChild(App.el('span', null, opts.label || 'Neue Suche starten'));
-    if (opts.icon !== false) btn.appendChild(App.icon(opts.icon || 'refresh', opts.iconSize || 15));
-    btn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      if (btn.disabled) return;
-      btn.disabled = true;
-      btn.classList.add('is-busy');
-      var headers = { 'Content-Type': 'application/json' };
-      if (cfg.secret) headers['X-App-Secret'] = cfg.secret;
-      fetch(cfg.url, { method: 'POST', headers: headers, body: '{}' })
-        .then(function (res) {
-          App.toast(res.ok ? 'Suche gestartet ✓ – neue Treffer in 1–2 Min.'
-            : 'Start fehlgeschlagen (' + res.status + ')');
-        })
-        .catch(function () { App.toast('Keine Verbindung zum Trigger'); })
-        .then(function () {
-          // brief cool-down so the button can't be spam-tapped
-          setTimeout(function () { btn.disabled = false; btn.classList.remove('is-busy'); }, 8000);
-        });
-    });
-    return btn;
-  };
-
-  /* ---------------- "new since last visit" ---------------- */
-
-  function newestFirstSeen() {
-    var max = '';
-    Feed.getListings().forEach(function (l) {
-      if (l.first_seen && l.first_seen > max) max = l.first_seen;
-    });
-    return max;
+    document.body.appendChild(fab);
+    return fab;
+  }
+  function updateFab() {
+    ensureFab().classList.toggle('hidden', !FAB_TABS[App.currentTab]);
   }
 
-  // High-water mark of the newest first_seen the user has acknowledged. It is
-  // NOT advanced on every app open (that would make "NEU" vanish instantly) —
-  // only on the very first launch and when the user taps "Als gesehen markieren".
-  function initNew() {
-    var stored = null;
-    try { stored = localStorage.getItem('ws.lastSeen'); } catch (e) {}
-    if (stored) {
-      App.lastSeen = stored;
-    } else {
-      App.lastSeen = newestFirstSeen() || new Date().toISOString();
-      try { localStorage.setItem('ws.lastSeen', App.lastSeen); } catch (e) {}
-    }
-  }
-
-  App.isNew = function (listing) {
-    return !!(App.lastSeen && listing && listing.first_seen && listing.first_seen > App.lastSeen);
-  };
-
-  App.newCount = function () {
-    var ratings = Store.getAllRatings();
-    return Feed.getListings().filter(function (l) {
-      var r = ratings[l.id] || {};
-      if (r.hidden) return false;
-      // both-rated-"schlecht" listings live only in the aussortiert bin and are
-      // hidden from the 'neu' scope, so they must not inflate the NEU count/badge.
-      if (r.p1 === 'schlecht' && r.p2 === 'schlecht') return false;
-      return App.isNew(l);
-    }).length;
-  };
-
-  // Mark everything currently in the feed as seen (clears the NEU markers).
-  App.markAllSeen = function () {
-    var newest = newestFirstSeen();
-    if (newest) {
-      App.lastSeen = newest;
-      try { localStorage.setItem('ws.lastSeen', newest); } catch (e) {}
-    }
-    App.rerender();
-  };
-
-  function updateTabBadge() {
-    var tab = document.querySelector('.tab-item[data-tab="listings"]');
-    if (!tab) return;
-    var existing = tab.querySelector('.tab-badge');
-    var n = App.newCount();
-    if (n > 0) {
-      if (!existing) {
-        existing = App.el('span', 'tab-badge');
-        tab.appendChild(existing);
-      }
-      existing.textContent = n > 9 ? '9+' : String(n);
-    } else if (existing) {
-      existing.remove();
-    }
-  }
-
-  /* ---------------- onboarding (set names once) ---------------- */
+  /* ---------------- onboarding (Namen einmal setzen) ---------------- */
 
   function showOnboarding() {
     var content = App.el('div', '');
-    var intro = App.el('p', 'info-p',
-      'Schön, dass ihr gemeinsam sucht! Tragt kurz eure Namen ein – dann seht ihr bei jeder Wohnung, wer sie wie bewertet hat.');
-    content.appendChild(intro);
+    content.appendChild(App.el('p', 'info-p',
+      'Schön, dass ihr gemeinsam ausmistet! Tragt kurz eure Namen ein – dann könnt ihr bei jedem Objekt festhalten, wer sich darum kümmert.'));
 
     var members = Store.getSettings().members;
     var inputs = {};
@@ -266,33 +131,13 @@
     });
   }
 
-  function startAutoRefresh() {
-    if (refreshTimer) clearInterval(refreshTimer);
-    refreshTimer = setInterval(function () {
-      if (document.visibilityState === 'visible') Feed.refresh();
-    }, REFRESH_MS);
-    document.addEventListener('visibilitychange', function () {
-      if (document.visibilityState === 'visible') Feed.refresh();
-    });
-    // Re-fetch and re-render when connectivity returns (also updates the
-    // offline banner in the listings view).
-    window.addEventListener('online', function () { Feed.refresh().then(App.rerender); });
-    window.addEventListener('offline', App.rerender);
-  }
-
   /* ---------------- boot ---------------- */
 
   function start() {
-    Feed.init();
-    initNew();
     wireTabBar();
     Store.onChange(App.rerender);
-    Feed.onChange(App.rerender);
     if (!Store.getSettings().onboarded) showOnboarding();
     App.switchTab('dashboard');
-    updateTabBadge();
-    Feed.refresh();
-    startAutoRefresh();
     registerServiceWorker();
   }
 
