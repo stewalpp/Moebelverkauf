@@ -7,16 +7,16 @@
 (function () {
   'use strict';
 
-  // Kategorien: key, Label, Emoji, Farb-CSS-Variable
+  // Kategorien: key, Label, Icon, Farb-CSS-Variable
   var CATEGORIES = [
-    { key: 'moebel',     label: 'Möbel',      emoji: '🛋️', color: 'var(--indigo)' },
-    { key: 'kueche',     label: 'Küche',      emoji: '🍳', color: 'var(--orange)' },
-    { key: 'elektronik', label: 'Elektronik', emoji: '🔌', color: 'var(--tint)' },
-    { key: 'haushalt',   label: 'Haushalt',   emoji: '🧺', color: 'var(--teal)' },
-    { key: 'deko',       label: 'Deko',       emoji: '🖼️', color: 'var(--pink)' },
-    { key: 'garten',     label: 'Garten',     emoji: '🪴', color: 'var(--green)' },
-    { key: 'kleidung',   label: 'Kleidung',   emoji: '👕', color: 'var(--purple)' },
-    { key: 'sonstiges',  label: 'Sonstiges',  emoji: '📦', color: 'var(--gray)' }
+    { key: 'moebel',     label: 'Möbel',      icon: 'sofa',           color: 'var(--indigo)' },
+    { key: 'kueche',     label: 'Küche',      icon: 'utensils',       color: 'var(--orange)' },
+    { key: 'elektronik', label: 'Elektronik', icon: 'plug',           color: 'var(--tint)' },
+    { key: 'haushalt',   label: 'Haushalt',   icon: 'washingMachine', color: 'var(--teal)' },
+    { key: 'deko',       label: 'Deko',       icon: 'image',          color: 'var(--pink)' },
+    { key: 'garten',     label: 'Garten',     icon: 'sprout',         color: 'var(--green)' },
+    { key: 'kleidung',   label: 'Kleidung',   icon: 'shirt',          color: 'var(--purple)' },
+    { key: 'sonstiges',  label: 'Sonstiges',  icon: 'box',            color: 'var(--gray)' }
   ];
 
   // Status: key, Label, kurze Liste-Bezeichnung, CSS-Klasse (Farbe),

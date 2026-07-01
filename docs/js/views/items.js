@@ -93,16 +93,16 @@
     var wrap = App.el('div', 'price-stack');
 
     if (it.status === 'verkauft') {
-      var v = it.soldPrice != null ? it.soldPrice : it.wishPrice;
+      var v = it.soldPrice;
       if (v != null) wrap.appendChild(App.el('span', 'item-price amount-pos', App.fmtEUR(v)));
-      else wrap.appendChild(App.el('span', 'item-price-muted', 'Preis offen'));
+      else wrap.appendChild(App.el('span', 'item-price-muted', 'Erlös fehlt'));
 
       if (it.soldPrice != null && it.wishPrice != null && it.soldPrice !== it.wishPrice) {
         var diff = it.soldPrice - it.wishPrice;
         var note = (diff > 0 ? '+' : '−') + App.fmtEUR(Math.abs(diff)) + ' zum Wunsch';
         wrap.appendChild(App.el('span', 'price-note ' + (diff > 0 ? 'pos' : 'neg'), note));
       } else if (it.soldPrice == null && it.wishPrice != null) {
-        wrap.appendChild(App.el('span', 'price-note', 'Wunschpreis'));
+        wrap.appendChild(App.el('span', 'price-note', 'Wunsch ' + App.fmtEUR(it.wishPrice)));
       }
       return wrap;
     }
@@ -157,6 +157,14 @@
       sell.appendChild(App.icon('check', 18));
       sell.addEventListener('click', function (e) { e.stopPropagation(); sellQuick(it); });
       row.appendChild(sell);
+    } else if (it.status === 'verkauft' && filterState.scope === 'verkauft') {
+      var priceBtn = App.el('button', 'row-sale-price-btn' + (it.soldPrice == null ? ' needs-price' : ''));
+      priceBtn.type = 'button';
+      priceBtn.setAttribute('aria-label', it.soldPrice == null ? 'Verkaufspreis eintragen' : 'Verkaufspreis bearbeiten');
+      priceBtn.title = it.soldPrice == null ? 'Verkaufspreis eintragen' : 'Verkaufspreis bearbeiten';
+      priceBtn.appendChild(App.icon(it.soldPrice == null ? 'coins' : 'edit', 17));
+      priceBtn.addEventListener('click', function (e) { e.stopPropagation(); editSoldPrice(it); });
+      row.appendChild(priceBtn);
     }
 
     row.addEventListener('click', function () { openEditor(it); });
@@ -200,6 +208,61 @@
     }
 
     App.showSheet({ title: 'Verkauft eintragen', content: c });
+    setTimeout(function () { try { input.focus(); input.select(); } catch (e) {} }, 250);
+  }
+
+  function editSoldPrice(it) {
+    var c = App.el('div', 'sell-quick');
+    c.appendChild(App.el('p', 'info-p', 'Tatsächlicher Verkaufspreis für „' + (it.name || 'das Objekt') + '“.'));
+
+    var g = App.el('div', 'form-group');
+    g.appendChild(App.el('label', 'form-label', 'Verkaufspreis (€)'));
+    var input = document.createElement('input');
+    input.type = 'text'; input.inputMode = 'decimal'; input.className = 'input';
+    input.placeholder = 'z. B. ' + (it.wishPrice != null ? it.wishPrice : '50');
+    input.value = it.soldPrice != null ? String(it.soldPrice).replace('.', ',') : '';
+    g.appendChild(input);
+    c.appendChild(g);
+
+    var buyerGroup = App.el('div', 'form-group');
+    buyerGroup.appendChild(App.el('label', 'form-label', 'Käufer (optional)'));
+    var buyerInput = document.createElement('input');
+    buyerInput.type = 'text'; buyerInput.className = 'input';
+    buyerInput.placeholder = 'Name oder Notiz';
+    buyerInput.value = it.buyer || '';
+    buyerGroup.appendChild(buyerInput);
+    c.appendChild(buyerGroup);
+
+    var save = App.el('button', 'btn btn-primary', 'Erlös speichern');
+    save.type = 'button';
+    save.addEventListener('click', function () {
+      Store.updateItem(it.id, {
+        status: 'verkauft',
+        soldPrice: App.parseNum(input.value),
+        buyer: buyerInput.value.trim()
+      });
+      App.closeSheet();
+      App.toast('Erlös gespeichert ✓');
+    });
+    c.appendChild(save);
+
+    if (it.wishPrice != null) {
+      var wish = App.el('button', 'btn btn-secondary', 'Wunschpreis übernehmen (' + App.fmtEUR(it.wishPrice) + ')');
+      wish.type = 'button';
+      wish.style.marginTop = '10px';
+      wish.addEventListener('click', function () {
+        Store.updateItem(it.id, {
+          status: 'verkauft',
+          soldPrice: it.wishPrice,
+          buyer: buyerInput.value.trim()
+        });
+        App.closeSheet();
+        App.toast('Erlös gespeichert ✓');
+      });
+      c.appendChild(wish);
+    }
+
+    App.showSheet({ title: it.soldPrice == null ? 'Verkaufspreis eintragen' : 'Verkaufspreis bearbeiten', content: c });
     setTimeout(function () { try { input.focus(); input.select(); } catch (e) {} }, 250);
   }
 

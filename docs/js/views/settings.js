@@ -30,7 +30,13 @@
     items.slice().sort(function (a, b) { return (a.name || '').localeCompare(b.name || '', 'de'); }).forEach(function (it) {
       var price;
       if (it.status === 'verkauft') {
-        price = App.fmtEUR(it.soldPrice != null ? it.soldPrice : it.wishPrice) + ' (verkauft)';
+        if (it.soldPrice != null) {
+          price = App.fmtEUR(it.soldPrice) + ' (verkauft)';
+        } else if (it.wishPrice != null) {
+          price = 'Erlös fehlt (verkauft, Wunsch ' + App.fmtEUR(it.wishPrice) + ')';
+        } else {
+          price = 'Erlös fehlt (verkauft)';
+        }
       } else {
         var lo = it.minPrice, hi = it.wishPrice, p;
         if (lo != null && hi != null && lo !== hi) p = lo + '–' + hi + ' €';

@@ -71,9 +71,20 @@
 
   /* ---------------- wiring ---------------- */
 
+  function hydrateTabIcons() {
+    var tabBar = document.getElementById('tab-bar');
+    if (!tabBar) return;
+    var items = tabBar.querySelectorAll('.tab-item[data-icon]');
+    Array.prototype.forEach.call(items, function (btn) {
+      if (btn.querySelector('svg.icon')) return;
+      btn.insertBefore(App.icon(btn.getAttribute('data-icon'), 24), btn.firstChild);
+    });
+  }
+
   function wireTabBar() {
     var tabBar = document.getElementById('tab-bar');
     if (!tabBar) return;
+    hydrateTabIcons();
     tabBar.addEventListener('click', function (e) {
       var btn = e.target && e.target.closest ? e.target.closest('.tab-item') : null;
       if (!btn || !tabBar.contains(btn)) return;

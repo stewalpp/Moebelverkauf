@@ -2118,8 +2118,7 @@ html.theme-dark body::before {
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.24) inset;
 }
 
-.btn-primary,
-.chip.active {
+.btn-primary {
   border: 0;
   background:
     linear-gradient(135deg, color-mix(in srgb, #FFFFFF 28%, transparent), transparent 44%),
@@ -2127,6 +2126,13 @@ html.theme-dark body::before {
   box-shadow:
     0 12px 26px color-mix(in srgb, var(--tint) 26%, transparent),
     0 1px 0 rgba(255, 255, 255, 0.36) inset;
+}
+
+.chip.active {
+  border: 0;
+  background: #5F735F;
+  color: #fff;
+  box-shadow: 0 8px 18px color-mix(in srgb, #5F735F 20%, transparent);
 }
 
 .btn-secondary,
@@ -2303,7 +2309,7 @@ html.theme-dark body::before {
 /* --------------------------------------------------------------------------
    28. Lucide icon system (App.icon / App.catIcon)
    -------------------------------------------------------------------------- */
-.cat-icon { color: #fff; }
+.cat-icon { color: var(--text-2); }
 .cat-icon svg { display: block; }
 .cat-chip .icon { display: block; margin: 0 auto; }
 .empty-state .icon { display: block; margin: 0 auto 10px; color: var(--text-3); }
@@ -3363,9 +3369,9 @@ body {
 
 .chip.active {
   color: #fff;
-  background: linear-gradient(135deg, var(--home-blue), var(--home-blue-2));
+  background: #5F735F;
   border-color: transparent;
-  box-shadow: 0 7px 18px color-mix(in srgb, var(--home-blue-2) 28%, transparent);
+  box-shadow: 0 7px 16px color-mix(in srgb, #5F735F 18%, transparent);
 }
 
 .sort-select,
@@ -4103,14 +4109,6 @@ body {
   white-space: nowrap;
 }
 
-.cat-emoji {
-  font-size: 18px;
-  line-height: 1;
-  width: 22px;
-  text-align: center;
-  flex-shrink: 0;
-}
-
 /* Status-Chips im Editor: aktiver Chip in Statusfarbe */
 .status-chip-opt.active {
   background: var(--s-color, var(--tint));
@@ -4185,8 +4183,11 @@ body {
 }
 .photo-edit-remove:active { opacity: 0.7; }
 
-/* cat-icon Emoji optisch zentrieren */
-.cat-icon > span { line-height: 1; }
+/* Kategorie-Icons bleiben rein grafisch und gleichmaessig skaliert. */
+.cat-icon > .icon {
+  width: 21px;
+  height: 21px;
+}
 
 /* Ein-Tap-"verkauft"-Button in der Listenzeile */
 .row-sell-btn {
@@ -4203,6 +4204,27 @@ body {
   transition: transform 0.4s var(--spring), opacity 0.15s var(--ease-out);
 }
 .row-sell-btn:active { transform: scale(0.88); opacity: 0.7; }
+
+.row-sale-price-btn {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 6px;
+  background: color-mix(in srgb, var(--green) 14%, transparent);
+  color: var(--green);
+  transition: transform 0.4s var(--spring), opacity 0.15s var(--ease-out);
+}
+
+.row-sale-price-btn.needs-price {
+  background: color-mix(in srgb, var(--home-blue-2) 18%, transparent);
+  color: var(--home-blue-2);
+}
+
+.row-sale-price-btn:active { transform: scale(0.88); opacity: 0.7; }
 
 /* Listen-Kopfzeile (Hero) etwas kompakter */
 .list-hero { margin-bottom: 14px; }
