@@ -2368,7 +2368,7 @@ html.kb-open .fab {
 }
 
 /* --------------------------------------------------------------------------
-   31. Wohnungssuche — listing cards, ratings, detail, settings
+   31. Möbelverkauf — listing cards, ratings, detail, settings
    -------------------------------------------------------------------------- */
 
 .listing-list {
@@ -3213,7 +3213,7 @@ html.kb-open .fab {
 .card.tappable:active { transform: scale(0.99); }
 
 /* --------------------------------------------------------------------------
-   33. Wohnungssuche — visual polish layer
+   33. Möbelverkauf — visual polish layer
    -------------------------------------------------------------------------- */
 
 :root {

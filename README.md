@@ -78,13 +78,8 @@ entfernen will, kann optional eine Lösch-Regel ergänzen – nötig ist das nic
 
 Repository → **Settings → Pages** → *Deploy from a branch* → Branch `main`,
 Ordner `/docs`. Danach erreichbar unter
-`https://stewalpp.github.io/Wohnungssuche/` (auf dem iPhone in Safari öffnen →
+`https://stewalpp.github.io/Moebelverkauf/` (auf dem iPhone in Safari öffnen →
 Teilen → „Zum Home-Bildschirm").
-
-> Hinweis: Der Repo-Name ist noch `Wohnungssuche`; die App heißt aber
-> „Möbelverkauf". Wer eine schönere Adresse möchte, kann das Repository in den
-> GitHub-Einstellungen umbenennen – dann ändert sich auch die Pages-Adresse und
-> das Icon muss neu zum Home-Bildschirm hinzugefügt werden.
 
 ## Lokal testen
 
