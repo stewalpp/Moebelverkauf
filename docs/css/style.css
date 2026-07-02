@@ -974,6 +974,10 @@ textarea.input {
   font-weight: 600;
 }
 
+.object-cat-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
 .chip-row {
   display: flex;
   gap: 8px;

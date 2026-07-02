@@ -3,7 +3,7 @@
    in Firestore und werden vom SDK selbst verwaltet — hier nichts zu cachen. */
 'use strict';
 
-const CACHE = 'moebelverkauf-v9';
+const CACHE = 'moebelverkauf-v10';
 
 const PRECACHE = [
   './',

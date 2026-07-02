@@ -481,7 +481,8 @@
     var isEdit = !!existing;
     var draft = existing
       ? Object.assign({}, existing)
-      : { name: '', wishPrice: null, minPrice: null, soldPrice: null, status: 'offen', buyer: '', note: '', photo: '' };
+      : { name: '', category: 'sonstiges', wishPrice: null, minPrice: null, soldPrice: null, status: 'offen', buyer: '', note: '', photo: '' };
+    if (!Catalog.isCategory(draft.category)) draft.category = 'sonstiges';
 
     var c = App.el('div', 'editor');
 
@@ -496,6 +497,28 @@
     nameInput.addEventListener('input', function () { draft.name = nameInput.value; });
     nameGroup.appendChild(nameInput);
     c.appendChild(nameGroup);
+
+    /* Icon / Kategorie */
+    var catGroup = App.el('div', 'form-group');
+    catGroup.appendChild(App.el('label', 'form-label', 'Icon'));
+    var catGrid = App.el('div', 'cat-grid object-cat-grid');
+    var catButtons = [];
+    Catalog.categories.forEach(function (cat) {
+      var btn = App.el('button', 'cat-chip' + (draft.category === cat.key ? ' active' : ''));
+      btn.type = 'button';
+      btn.dataset.key = cat.key;
+      btn.setAttribute('aria-label', cat.label + ' auswählen');
+      btn.appendChild(App.catIcon(cat));
+      btn.appendChild(App.el('span', null, cat.label));
+      btn.addEventListener('click', function () {
+        draft.category = cat.key;
+        catButtons.forEach(function (b) { b.classList.toggle('active', b.dataset.key === cat.key); });
+      });
+      catButtons.push(btn);
+      catGrid.appendChild(btn);
+    });
+    catGroup.appendChild(catGrid);
+    c.appendChild(catGroup);
 
     /* Preise: Wunschpreis + optionale Untergrenze */
     var priceRow = App.el('div', 'form-row');
@@ -635,6 +658,7 @@
       if (!draft.name.trim()) { App.toast('Bitte einen Namen eingeben'); nameInput.focus(); return; }
       var data = {
         name: draft.name.trim(),
+        category: draft.category,
         wishPrice: draft.wishPrice,
         minPrice: draft.minPrice,
         soldPrice: draft.soldPrice,
